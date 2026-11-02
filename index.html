@@ -1,0 +1,138 @@
+
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Family Connect</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #eaf3ff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+.container {
+  background: white;
+  width: 100%;
+  max-width: 390px;
+  padding: 28px;
+  border-radius: 20px;
+  box-shadow: 0 5px 25px #0001;
+  text-align: center;
+}
+.logo {
+  font-size: 48px;
+  margin-bottom: 10px;
+}
+h2 { color: #1264c0; }
+p { color: #64748b; }
+input {
+  width: 100%;
+  padding: 14px;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  margin: 15px 0;
+  font-size: 16px;
+}
+button {
+  width: 100%;
+  padding: 14px;
+  background: #1264c0;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
+#message {
+  margin-top: 18px;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+  <div class="logo">👨‍👩‍👧‍👦</div>
+  <h2>Family Connect</h2>
+  <p>আপনার পরিবারের ব্যক্তিগত যোগাযোগ</p>
+
+  <input
+    type="email"
+    id="email"
+    placeholder="আপনার ইমেইল লিখুন"
+    autocomplete="email"
+  >
+
+  <button onclick="sendLink()">Send Login Link</button>
+
+  <div id="message"></div>
+
+  <p>Family Connect Private Family App</p>
+</div>
+
+<script>
+const SUPABASE_URL =
+"https://vtvwfyooiblpcoofzdav.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_Rb2tYhvPfhZIqhGV0gPCLA_SODQoFNg";
+
+const db = supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+async function sendLink() {
+  const email = document.getElementById("email").value.trim();
+  const message = document.getElementById("message");
+
+  if (!email) {
+    message.innerText = "আগে ইমেইল লিখুন।";
+    return;
+  }
+
+  message.innerText = "লগইন লিংক পাঠানো হচ্ছে...";
+
+  const { error } = await db.auth.signInWithOtp({
+    email: email,
+    options: {
+      emailRedirectTo: window.location.href
+    }
+  });
+
+  if (error) {
+    message.innerText = "সমস্যা: " + error.message;
+  } else {
+    message.innerText =
+      "আপনার ইমেইলে লগইন লিংক পাঠানো হয়েছে। Gmail চেক করুন।";
+  }
+}
+
+async function checkLogin() {
+  const { data, error } = await db.auth.getSession();
+
+  const message = document.getElementById("message");
+
+  if (error) {
+    message.innerText = error.message;
+  } else if (data.session) {
+    message.innerText =
+      "সফলভাবে লগইন হয়েছে! Family Connect-এ স্বাগতম।";
+  }
+}
+
+checkLogin();
+</script>
+</body>
+</html>
