@@ -4,82 +4,232 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Family Connect</title>
+<title>Family Connect V2</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 * { box-sizing: border-box; }
+
 body {
   margin: 0;
   font-family: Arial, sans-serif;
   background: #eaf3ff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  padding: 20px;
+  color: #1e293b;
 }
-.container {
-  background: white;
-  width: 100%;
-  max-width: 390px;
-  padding: 28px;
-  border-radius: 20px;
-  box-shadow: 0 5px 25px #0001;
+
+header {
+  background: #1264c0;
+  color: white;
+  padding: 18px;
   text-align: center;
 }
-.logo {
-  font-size: 48px;
-  margin-bottom: 10px;
+
+header h2 { margin: 0; }
+
+.container {
+  width: 94%;
+  max-width: 650px;
+  margin: 22px auto;
 }
-h2 { color: #1264c0; }
-p { color: #64748b; }
-input {
+
+.card {
+  background: white;
+  padding: 22px;
+  margin-bottom: 18px;
+  border-radius: 16px;
+  box-shadow: 0 4px 18px #0001;
+}
+
+input, textarea {
   width: 100%;
   padding: 14px;
   border: 1px solid #cbd5e1;
   border-radius: 10px;
-  margin: 15px 0;
+  margin: 10px 0;
   font-size: 16px;
 }
+
 button {
-  width: 100%;
-  padding: 14px;
+  border: none;
+  border-radius: 9px;
+  padding: 12px 16px;
   background: #1264c0;
   color: white;
-  border: none;
-  border-radius: 10px;
-  font-size: 16px;
+  font-size: 15px;
   cursor: pointer;
 }
-#message {
-  margin-top: 18px;
-  font-size: 14px;
+
+button:disabled {
+  opacity: .5;
+}
+
+.logout {
+  background: #64748b;
+}
+
+.reject {
+  background: #dc3545;
+}
+
+.approve {
+  background: #16834a;
+}
+
+.member {
+  padding: 13px;
+  border: 1px solid #dbeafe;
+  border-radius: 10px;
+  margin: 10px 0;
   overflow-wrap: anywhere;
+}
+
+.member button {
+  margin: 6px 5px 0 0;
+}
+
+#messages {
+  height: 300px;
+  overflow-y: auto;
+  border: 1px solid #dbeafe;
+  padding: 12px;
+  border-radius: 10px;
+  background: #f8fbff;
+}
+
+.msg {
+  background: #e0edff;
+  padding: 10px;
+  border-radius: 10px;
+  margin: 8px 0;
+  overflow-wrap: anywhere;
+}
+
+.msg.mine {
+  background: #d1fae5;
+}
+
+.small {
+  font-size: 12px;
+  color: #64748b;
+}
+
+.status {
+  padding: 10px;
+  background: #eff6ff;
+  border-radius: 8px;
+  margin-top: 12px;
+  overflow-wrap: anywhere;
+}
+
+.hidden { display: none; }
+
+h3 { color: #1264c0; }
+
+footer {
+  text-align: center;
+  color: #64748b;
+  padding: 20px;
+  font-size: 13px;
 }
 </style>
 </head>
 
 <body>
+
+<header>
+  <h2>👨‍👩‍👧‍👦 Family Connect</h2>
+  <p style="color:white;margin-bottom:0">
+    আপনার পরিবারের ব্যক্তিগত যোগাযোগ
+  </p>
+</header>
+
 <div class="container">
-  <div class="logo">👨‍👩‍👧‍👦</div>
-  <h2>Family Connect</h2>
-  <p>আপনার পরিবারের ব্যক্তিগত যোগাযোগ</p>
 
-  <input
-    type="email"
-    id="email"
-    placeholder="আপনার ইমেইল লিখুন"
-    autocomplete="email"
-  >
+  <!-- LOGIN -->
+  <section id="loginBox" class="card">
+    <h3>স্বাগতম</h3>
+    <p>আপনার ইমেইল দিয়ে লগইন করুন</p>
 
-  <button onclick="sendLink()">Send Login Link</button>
+    <input
+      type="email"
+      id="email"
+      placeholder="আপনার ইমেইল লিখুন"
+      autocomplete="email"
+    >
 
-  <div id="message"></div>
+    <button id="loginBtn" onclick="sendLink()">
+      Send Login Link
+    </button>
 
-  <p>Family Connect Private Family App</p>
+    <div id="loginMessage" class="status"></div>
+  </section>
+
+  <!-- USER INFORMATION -->
+  <section id="appBox" class="hidden">
+
+    <div class="card">
+      <h3>আপনার অ্যাকাউন্ট</h3>
+      <p id="userEmail"></p>
+      <p id="userRole"></p>
+      <button class="logout" onclick="logout()">Logout</button>
+    </div>
+
+    <!-- PENDING -->
+    <div id="pendingBox" class="card hidden">
+      <h3>অনুমোদনের অপেক্ষায়</h3>
+      <p>
+        আপনার অ্যাকাউন্ট Admin-এর অনুমোদনের অপেক্ষায় রয়েছে।
+        অনুমোদিত হলে Chat ব্যবহার করতে পারবেন।
+      </p>
+    </div>
+
+    <!-- REJECTED -->
+    <div id="rejectedBox" class="card hidden">
+      <h3>অনুমোদন পাওয়া যায়নি</h3>
+      <p>আপনার অ্যাকাউন্ট বর্তমানে অনুমোদিত নয়। Admin-এর সঙ্গে যোগাযোগ করুন।</p>
+    </div>
+
+    <!-- ADMIN DASHBOARD -->
+    <div id="adminBox" class="card hidden">
+      <h3>👑 Admin Dashboard</h3>
+      <p>পরিবারের সদস্যদের নিয়ন্ত্রণ করুন।</p>
+
+      <h3>সদস্য তালিকা</h3>
+      <button onclick="loadMembers()">Refresh Members</button>
+
+      <div id="memberList"></div>
+    </div>
+
+    <!-- CHAT -->
+    <div id="chatBox" class="card hidden">
+      <h3>💬 Family Chat</h3>
+
+      <div id="messages"></div>
+
+      <textarea
+        id="chatInput"
+        rows="3"
+        maxlength="3000"
+        placeholder="আপনার মেসেজ লিখুন..."
+      ></textarea>
+
+      <button id="sendBtn" onclick="sendMessage()">
+        মেসেজ পাঠান
+      </button>
+
+      <button class="logout" onclick="loadMessages()">
+        Refresh Chat
+      </button>
+    </div>
+
+  </section>
+
 </div>
+
+<footer>
+  Family Connect Private Family App
+</footer>
 
 <script>
 const SUPABASE_URL =
@@ -93,46 +243,383 @@ const db = supabase.createClient(
   SUPABASE_KEY
 );
 
+const ADMIN_EMAIL = "sagor516@gmail.com";
+
+let currentUser = null;
+let currentProfile = null;
+let refreshTimer = null;
+
+function show(id, visible) {
+  document.getElementById(id)
+    .classList.toggle("hidden", !visible);
+}
+
+function loginNotice(message) {
+  document.getElementById("loginMessage").textContent = message;
+}
+
+// LOGIN LINK
 async function sendLink() {
-  const email = document.getElementById("email").value.trim();
-  const message = document.getElementById("message");
+  const email = document.getElementById("email")
+    .value.trim();
+
+  const btn = document.getElementById("loginBtn");
 
   if (!email) {
-    message.innerText = "আগে ইমেইল লিখুন।";
+    loginNotice("আগে ইমেইল লিখুন।");
     return;
   }
 
-  message.innerText = "লগইন লিংক পাঠানো হচ্ছে...";
+  btn.disabled = true;
+  loginNotice("লগইন লিংক পাঠানো হচ্ছে...");
 
-  const { error } = await db.auth.signInWithOtp({
-    email: email,
-    options: {
-      emailRedirectTo: window.location.href
-    }
-  });
+  try {
+    const { error } = await db.auth.signInWithOtp({
+      email,
+      options: {
+        emailRedirectTo:
+          window.location.origin + window.location.pathname
+      }
+    });
 
-  if (error) {
-    message.innerText = "সমস্যা: " + error.message;
-  } else {
-    message.innerText =
-      "আপনার ইমেইলে লগইন লিংক পাঠানো হয়েছে। Gmail চেক করুন।";
+    if (error) throw error;
+
+    loginNotice("আপনার Gmail-এ Login Link পাঠানো হয়েছে।");
+  } catch (error) {
+    loginNotice("সমস্যা: " + error.message);
+  } finally {
+    btn.disabled = false;
   }
 }
 
+// CHECK LOGIN
 async function checkLogin() {
   const { data, error } = await db.auth.getSession();
 
-  const message = document.getElementById("message");
-
   if (error) {
-    message.innerText = error.message;
-  } else if (data.session) {
-    message.innerText =
-      "সফলভাবে লগইন হয়েছে! Family Connect-এ স্বাগতম।";
+    loginNotice(error.message);
+    return;
+  }
+
+  if (data.session) {
+    await loadApp(data.session.user);
   }
 }
 
+// LOAD PROFILE AND DASHBOARD
+async function loadApp(user) {
+  if (!user) return;
+
+  currentUser = user;
+
+  show("loginBox", false);
+  show("appBox", true);
+
+  document.getElementById("userEmail").textContent =
+    "ইমেইল: " + user.email;
+
+  const { data: profile, error } = await db
+    .from("profiles")
+    .select("user_id,email,display_name,role,approved,status")
+    .eq("user_id", user.id)
+    .maybeSingle();
+
+  if (error) {
+    alert("Profile সমস্যা: " + error.message);
+    return;
+  }
+
+  if (!profile) {
+    document.getElementById("userRole").textContent =
+      "Profile পাওয়া যায়নি। Admin-এর সাহায্য প্রয়োজন।";
+    return;
+  }
+
+  currentProfile = profile;
+
+  document.getElementById("userRole").textContent =
+    "Role: " + profile.role;
+
+  show("pendingBox", false);
+  show("rejectedBox", false);
+  show("adminBox", false);
+  show("chatBox", false);
+
+  if (
+    profile.role === "admin" &&
+    profile.email === ADMIN_EMAIL &&
+    profile.approved === true &&
+    profile.status === "approved"
+  ) {
+    show("adminBox", true);
+    show("chatBox", true);
+
+    await loadMembers();
+    await loadMessages();
+    startRefresh();
+
+  } else if (
+    profile.approved === true &&
+    profile.status === "approved"
+  ) {
+    show("chatBox", true);
+    await loadMessages();
+    startRefresh();
+
+  } else if (profile.status === "rejected") {
+    show("rejectedBox", true);
+
+  } else {
+    show("pendingBox", true);
+  }
+}
+
+// ADMIN: LOAD MEMBERS
+async function loadMembers() {
+  if (
+    !currentProfile ||
+    currentProfile.role !== "admin" ||
+    currentProfile.email !== ADMIN_EMAIL
+  ) return;
+
+  const list = document.getElementById("memberList");
+  list.textContent = "সদস্য তালিকা লোড হচ্ছে...";
+
+  const { data, error } = await db
+    .from("profiles")
+    .select("user_id,email,display_name,role,approved,status")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    list.textContent = "সমস্যা: " + error.message;
+    return;
+  }
+
+  list.replaceChildren();
+
+  if (!data || data.length === 0) {
+    list.textContent = "কোনো সদস্য পাওয়া যায়নি।";
+    return;
+  }
+
+  data.forEach(member => {
+    const card = document.createElement("div");
+    card.className = "member";
+
+    const name = document.createElement("strong");
+    name.textContent =
+      member.display_name || "নতুন সদস্য";
+
+    const email = document.createElement("p");
+    email.textContent =
+      member.email || "Email পাওয়া যায়নি";
+
+    const status = document.createElement("p");
+    status.textContent =
+      "Role: " + member.role +
+      " | Status: " + member.status;
+
+    card.append(name, email, status);
+
+    if (
+      member.role === "member" &&
+      member.user_id !== currentUser.id
+    ) {
+      const approveBtn = document.createElement("button");
+      approveBtn.className = "approve";
+      approveBtn.textContent = "Approve";
+
+      approveBtn.onclick = () =>
+        updateMember(member.user_id, true);
+
+      const rejectBtn = document.createElement("button");
+      rejectBtn.className = "reject";
+      rejectBtn.textContent = "Reject";
+
+      rejectBtn.onclick = () =>
+        updateMember(member.user_id, false);
+
+      card.append(approveBtn, rejectBtn);
+    }
+
+    list.appendChild(card);
+  });
+}
+
+// ADMIN: APPROVE OR REJECT
+async function updateMember(userId, approved) {
+  if (
+    !currentProfile ||
+    currentProfile.role !== "admin" ||
+    currentProfile.email !== ADMIN_EMAIL
+  ) {
+    alert("Admin অনুমতি প্রয়োজন।");
+    return;
+  }
+
+  const newStatus = approved ? "approved" : "rejected";
+
+  const { data, error } = await db
+    .from("profiles")
+    .update({
+      approved: approved,
+      status: newStatus
+    })
+    .eq("user_id", userId)
+    .eq("role", "member")
+    .select("user_id");
+
+  if (error) {
+    alert("সমস্যা: " + error.message);
+    return;
+  }
+
+  if (!data || data.length === 0) {
+    alert("পরিবর্তন হয়নি। Database Policy পরীক্ষা করতে হবে।");
+    return;
+  }
+
+  alert(
+    approved
+      ? "সদস্য অনুমোদিত হয়েছে।"
+      : "সদস্য Reject করা হয়েছে।"
+  );
+
+  await loadMembers();
+}
+
+// LOAD CHAT
+async function loadMessages() {
+  if (!currentProfile || !currentProfile.approved) return;
+
+  const box = document.getElementById("messages");
+
+  const { data, error } = await db
+    .from("messages")
+    .select("id,sender_id,content,created_at")
+    .order("created_at", { ascending: true })
+    .limit(100);
+
+  if (error) {
+    box.textContent = "Chat সমস্যা: " + error.message;
+    return;
+  }
+
+  box.replaceChildren();
+
+  if (!data || data.length === 0) {
+    box.textContent = "এখনো কোনো মেসেজ নেই।";
+    return;
+  }
+
+  data.forEach(message => {
+    const item = document.createElement("div");
+
+    item.className =
+      message.sender_id === currentUser.id
+        ? "msg mine"
+        : "msg";
+
+    const sender = document.createElement("strong");
+
+    sender.textContent =
+      message.sender_id === currentUser.id
+        ? "আপনি"
+        : "পরিবারের সদস্য";
+
+    const content = document.createElement("p");
+    content.textContent = message.content;
+
+    const time = document.createElement("div");
+    time.className = "small";
+    time.textContent =
+      new Date(message.created_at).toLocaleString("bn-BD");
+
+    item.append(sender, content, time);
+    box.appendChild(item);
+  });
+
+  box.scrollTop = box.scrollHeight;
+}
+
+// SEND CHAT MESSAGE
+async function sendMessage() {
+  if (!currentUser || !currentProfile ||
+      !currentProfile.approved ||
+      currentProfile.status !== "approved") {
+    alert("আপনার Chat অনুমোদিত নয়।");
+    return;
+  }
+
+  const input = document.getElementById("chatInput");
+  const btn = document.getElementById("sendBtn");
+
+  const content = input.value.trim();
+
+  if (!content) return;
+
+  btn.disabled = true;
+
+  const { error } = await db
+    .from("messages")
+    .insert({
+      sender_id: currentUser.id,
+      content: content
+    });
+
+  btn.disabled = false;
+
+  if (error) {
+    alert("মেসেজ পাঠানো যায়নি: " + error.message);
+    return;
+  }
+
+  input.value = "";
+  await loadMessages();
+}
+
+// AUTO REFRESH CHAT
+function startRefresh() {
+  if (refreshTimer) clearInterval(refreshTimer);
+
+  refreshTimer = setInterval(() => {
+    if (currentProfile &&
+        currentProfile.approved &&
+        currentProfile.status === "approved") {
+      loadMessages();
+    }
+  }, 5000);
+}
+
+// LOGOUT
+async function logout() {
+  if (refreshTimer) clearInterval(refreshTimer);
+
+  const { error } = await db.auth.signOut();
+
+  if (error) {
+    alert(error.message);
+    return;
+  }
+
+  currentUser = null;
+  currentProfile = null;
+
+  show("appBox", false);
+  show("loginBox", true);
+
+  loginNotice("আপনি সফলভাবে Logout করেছেন।");
+}
+
+// AUTH EVENTS
+db.auth.onAuthStateChange((event, session) => {
+  if (event === "SIGNED_IN" && session) {
+    setTimeout(() => loadApp(session.user), 0);
+  }
+});
+
 checkLogin();
 </script>
+
 </body>
 </html>
