@@ -62,7 +62,7 @@ h3{margin:0 0 15px;color:#174b9f}
 .msg-name{font-size:11px;font-weight:bold;color:#3865a5}
 .msg-content{font-size:14px;line-height:1.55;white-space:pre-wrap;word-break:break-word}
 .msg-time{font-size:10px;color:#8795a9;text-align:right;margin-top:7px}
-.msg-image{display:block;max-width:250px;max-height:300px;width:auto;height:auto;object-fit:contain;border-radius:12px;margin-top:5px}
+.msg-image{display:block;max-width:250px;max-height:300px;width:auto;height:auto;object-fit:contain;border-radius:12px;margin-top:5px;cursor:zoom-in}
 .receipt{font-size:10px;color:#2878f0;text-align:right;margin-top:5px}
 .compose{display:flex;align-items:flex-end;gap:8px;margin-top:12px}
 .compose textarea{min-height:48px;max-height:120px;margin:0;resize:vertical}
@@ -84,7 +84,75 @@ h3{margin:0 0 15px;color:#174b9f}
 .offline-dot{background:#a0aec0}
 #toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#17243b;color:white;padding:12px 18px;border-radius:12px;box-shadow:0 5px 20px #0003;z-index:999;max-width:90%;font-size:13px;display:none}
 footer{text-align:center;color:#8795a9;font-size:12px;padding:20px}
-@media(max-width:760px){.grid{grid-template-columns:1fr}.container{margin:14px auto;padding:0 11px}.card{padding:16px}#messages{height:55vh;min-height:320px}header{padding:16px}.msg{max-width:88%}}
+
+/* FULL SCREEN IMAGE VIEWER */
+#imageViewer{
+ position:fixed;
+ inset:0;
+ z-index:2000;
+ background:rgba(0,0,0,.96);
+ display:none;
+ align-items:center;
+ justify-content:center;
+ flex-direction:column;
+ padding:15px;
+}
+#imageViewer.active{display:flex}
+#viewerImage{
+ max-width:100%;
+ max-height:76vh;
+ object-fit:contain;
+ transform:scale(1);
+ transform-origin:center center;
+ transition:transform .15s;
+ touch-action:pan-x pan-y;
+}
+#viewerClose{
+ position:absolute;
+ top:15px;
+ right:15px;
+ width:45px;
+ height:45px;
+ padding:0;
+ border-radius:50%;
+ background:#ffffff25;
+ color:white;
+ font-size:27px;
+}
+.viewer-toolbar{
+ display:flex;
+ justify-content:center;
+ align-items:center;
+ flex-wrap:wrap;
+ gap:9px;
+ margin-top:18px;
+}
+.viewer-toolbar button{
+ min-width:46px;
+ padding:12px 14px;
+ border-radius:12px;
+}
+#viewerZoomLabel{
+ color:white;
+ font-size:13px;
+ min-width:48px;
+ text-align:center;
+}
+.viewer-help{
+ color:#ddd;
+ font-size:11px;
+ text-align:center;
+ margin-top:12px;
+}
+@media(max-width:760px){
+ .grid{grid-template-columns:1fr}
+ .container{margin:14px auto;padding:0 11px}
+ .card{padding:16px}
+ #messages{height:55vh;min-height:320px}
+ header{padding:16px}
+ .msg{max-width:88%}
+ #viewerImage{max-height:70vh}
+}
 </style>
 </head>
 <body>
@@ -188,7 +256,23 @@ footer{text-align:center;color:#8795a9;font-size:12px;padding:20px}
 </div>
 </section>
 </main>
+
 <div id="toast"></div>
+
+<!-- IMAGE VIEWER -->
+<div id="imageViewer" aria-label="ছবি দেখার পর্দা">
+ <button id="viewerClose" onclick="closeImageViewer()" aria-label="বন্ধ করুন">×</button>
+ <img id="viewerImage" src="" alt="Full size image">
+ <div class="viewer-toolbar">
+  <button onclick="zoomImage(-0.25)">−</button>
+  <span id="viewerZoomLabel">100%</span>
+  <button onclick="zoomImage(0.25)">＋</button>
+  <button class="gray" onclick="resetImageZoom()">Reset</button>
+  <button class="green" id="downloadImageBtn" onclick="downloadImage()">⬇ Download</button>
+ </div>
+ <div class="viewer-help">ছবি বড় বা ছোট করতে + / − চাপুন</div>
+</div>
+
 <footer>Family Connect · Private Family App</footer>
 
 <script>
@@ -606,6 +690,81 @@ async function getReceipts(conversationId){
  return map;
 }
 
+/* IMAGE ZOOM, VIEW AND DOWNLOAD */
+let viewerImageUrl="";
+let viewerZoom=1;
+
+function openImageViewer(url){
+ if(!url)return;
+ viewerImageUrl=url;
+ viewerZoom=1;
+ $("viewerImage").src=url;
+ $("viewerImage").style.transform="scale(1)";
+ $("viewerZoomLabel").textContent="100%";
+ $("imageViewer").classList.add("active");
+ document.body.style.overflow="hidden";
+}
+
+function closeImageViewer(){
+ $("imageViewer").classList.remove("active");
+ $("viewerImage").src="";
+ document.body.style.overflow="";
+ viewerImageUrl="";
+ viewerZoom=1;
+}
+
+function zoomImage(amount){
+ viewerZoom=Math.max(0.5,Math.min(4,viewerZoom+amount));
+ $("viewerImage").style.transform="scale("+viewerZoom+")";
+ $("viewerZoomLabel").textContent=Math.round(viewerZoom*100)+"%";
+}
+
+function resetImageZoom(){
+ viewerZoom=1;
+ $("viewerImage").style.transform="scale(1)";
+ $("viewerZoomLabel").textContent="100%";
+}
+
+async function downloadImage(){
+ if(!viewerImageUrl){toast("ছবিটি পাওয়া যায়নি।");return}
+ const btn=$("downloadImageBtn");
+ btn.disabled=true;
+ btn.textContent="ডাউনলোড হচ্ছে...";
+ try{
+  const response=await fetch(viewerImageUrl);
+  if(!response.ok)throw new Error("ছবি ডাউনলোড করা যায়নি।");
+  const blob=await response.blob();
+  const blobUrl=URL.createObjectURL(blob);
+  const link=document.createElement("a");
+  link.href=blobUrl;
+  link.download="Family-Connect-"+Date.now()+".jpg";
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  setTimeout(()=>URL.revokeObjectURL(blobUrl),10000);
+  toast("ছবি ডাউনলোড শুরু হয়েছে। Downloads ফোল্ডার দেখুন।");
+ }catch(error){
+  toast("ডাউনলোড ব্যর্থ। নতুন ট্যাবে ছবি খুলছি।");
+  window.open(viewerImageUrl,"_blank","noopener");
+ }finally{
+  btn.disabled=false;
+  btn.textContent="⬇ Download";
+ }
+
+}
+
+$("imageViewer").addEventListener("click",function(event){
+ if(event.target===this)closeImageViewer();
+});
+
+document.addEventListener("keydown",function(event){
+ if(event.key==="Escape")closeImageViewer();
+ if($("imageViewer").classList.contains("active")){
+  if(event.key==="+")zoomImage(0.25);
+  if(event.key==="-")zoomImage(-0.25);
+ }
+});
+
 /* LOAD MESSAGES */
 async function loadMessages(){
  if(!activeConversationId||!currentUser)return;
@@ -630,7 +789,6 @@ async function loadMessages(){
  const receipts=await getReceipts(conversationId);
  if(requestId!==messageRequest)return;
 
- /* FIX: Database accepts "photo", not "image" */
  const imagePaths=[...new Set(data.filter(m=>m.attachment_kind==="photo"&&m.attachment_url).map(m=>m.attachment_url))];
  const signedMap={};
  await Promise.all(imagePaths.map(async path=>{
@@ -655,16 +813,23 @@ async function loadMessages(){
    content.textContent=message.message_text;item.append(content);
   }
 
-  /* FIX: Display messages whose attachment_kind is "photo" */
   if(message.attachment_kind==="photo"&&message.attachment_url){
    if(signedMap[message.attachment_url]){
-    const img=document.createElement("img");img.className="msg-image";
-    img.src=signedMap[message.attachment_url];img.alt="Shared image";item.append(img);
+    const img=document.createElement("img");
+    img.className="msg-image";
+    img.src=signedMap[message.attachment_url];
+    img.alt="Shared image";
+    img.loading="lazy";
+    img.addEventListener("click",function(){
+     openImageViewer(signedMap[message.attachment_url]);
+    });
+    item.append(img);
    }else{
     const failed=document.createElement("div");failed.className="small";
     failed.textContent="ছবি লোড করা যায়নি।";item.append(failed);
    }
   }
+
   const time=document.createElement("div");time.className="msg-time";
   time.textContent=formatTime(message.created_at);item.append(time);
   if(mine){
@@ -719,7 +884,6 @@ $("imageFile").addEventListener("change",async function(){
    .upload(path,file,{contentType:file.type,upsert:false});
   if(uploadError)throw uploadError;
 
-  /* FIX: Use "photo" because it is allowed by the database constraint */
   const {error:messageError}=await db.from("messages").insert({
    conversation_id:conversationId,
    owner_id:currentUser.id,
