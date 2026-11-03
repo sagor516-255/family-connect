@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="bn">
 <head>
@@ -9,919 +8,156 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root{--blue:#1457d9;--blue2:#2878f0;--light:#edf4ff;--bg:#f4f7fc;--text:#17243b;--muted:#718096;--line:#e2eaf5;--green:#15966a;--red:#d9485f}
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;color:var(--text);background:linear-gradient(180deg,#eaf2ff,#f6f9ff);min-height:100vh}
-button,input,textarea{font:inherit}
-button{border:0;cursor:pointer;border-radius:12px;padding:12px 16px;background:var(--blue);color:white;font-weight:bold}
-button:disabled{opacity:.5;cursor:not-allowed}
-input,textarea{width:100%;padding:13px;border:1px solid var(--line);border-radius:12px;margin:7px 0;outline:none;background:#fbfdff}
-input:focus,textarea:focus{border-color:var(--blue2)}
-header{background:linear-gradient(120deg,#1049bd,#287cf1);color:white;padding:18px;box-shadow:0 6px 20px #1457d933}
-.header-inner{max-width:1100px;margin:auto;display:flex;align-items:center;justify-content:space-between}
-.brand{display:flex;align-items:center;gap:12px}
-.logo{width:46px;height:46px;display:grid;place-items:center;border-radius:15px;background:#ffffff25;font-size:25px}
-header h2{margin:0;font-size:21px}
-header p{margin:4px 0 0;font-size:12px}
-.container{max-width:1100px;margin:22px auto;padding:0 14px}
-.grid{display:grid;grid-template-columns:300px 1fr;gap:18px;align-items:start}
-.card{background:white;border:1px solid #e7eef9;border-radius:19px;padding:19px;margin-bottom:16px;box-shadow:0 10px 30px #193d700c}
-h3{margin:0 0 15px;color:#174b9f}
-.label{display:block;font-size:13px;font-weight:bold;margin-top:12px}
-.btn-block{width:100%;margin-top:10px}
-.green{background:var(--green)}
-.red{background:var(--red)}
-.gray{background:#64748b}
-.soft{background:#edf4ff;color:#1457d9}
-.hidden{display:none!important}
-.muted{font-size:13px;color:var(--muted);line-height:1.6}
-.profile-head{display:flex;align-items:center;gap:13px}
-.avatar{width:72px;height:72px;border-radius:50%;object-fit:cover;border:3px solid #e0ebff;background:#eaf2ff}
-.avatar-large{width:112px;height:112px}
-.profile-name{font-weight:bold;font-size:17px}
-.small{font-size:12px;color:var(--muted);overflow-wrap:anywhere}
-.role{background:#f1f6ff;padding:10px;border-radius:10px;font-size:12px;margin-top:14px}
-.preview{text-align:center;margin:12px 0}
-.preview img{display:block;margin:auto}
-.divider{height:1px;background:var(--line);margin:16px 0}
-#loginBox{max-width:460px;margin:40px auto}
-.login-icon{width:60px;height:60px;display:grid;place-items:center;background:var(--blue);border-radius:18px;color:white;font-size:28px;margin-bottom:14px}
-.status{padding:11px;background:#eff6ff;border-radius:10px;font-size:12px;margin-top:10px;overflow-wrap:anywhere}
-.chat-head{display:flex;justify-content:space-between;align-items:center;gap:10px;border-bottom:1px solid var(--line);padding-bottom:13px;margin-bottom:13px}
-.chat-head h3{margin:0}
-.chat-status{font-size:11px;color:var(--green);margin-top:5px}
-.chat-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
-.chat-tabs button{flex:1;min-width:125px}
-.chat-tabs .active{background:var(--blue);color:white}
-.chat-tabs .inactive{background:#edf4ff;color:#1457d9}
-#messages{height:480px;overflow-y:auto;padding:16px;background:#f1f5fc;border-radius:15px;display:flex;flex-direction:column;gap:12px;scroll-behavior:smooth}
-.empty-chat{margin:auto;text-align:center;color:var(--muted);font-size:13px;padding:20px}
-.msg{max-width:82%;width:fit-content;padding:10px 13px;background:white;border:1px solid var(--line);border-radius:16px 16px 16px 5px;overflow-wrap:anywhere;box-shadow:0 2px 6px #193d7009}
-.msg.mine{align-self:flex-end;background:#dceaff;border-color:#c9ddff;border-radius:16px 16px 5px 16px}
-.msg-header{display:flex;align-items:center;gap:8px;margin-bottom:7px}
-.msg-avatar{width:29px;height:29px;border-radius:50%;object-fit:cover;background:#eaf2ff;border:1px solid #dce8fa;flex-shrink:0}
-.msg-name{font-size:11px;font-weight:bold;color:#3865a5}
-.msg-content{font-size:14px;line-height:1.55;white-space:pre-wrap;word-break:break-word}
-.msg-time{font-size:10px;color:#8795a9;text-align:right;margin-top:7px}
-.msg-image{display:block;max-width:250px;max-height:300px;width:auto;height:auto;object-fit:contain;border-radius:12px;margin-top:5px;cursor:zoom-in}
-.receipt{font-size:10px;color:#2878f0;text-align:right;margin-top:5px}
-.compose{display:flex;align-items:flex-end;gap:8px;margin-top:12px}
-.compose textarea{min-height:48px;max-height:120px;margin:0;resize:vertical}
-.send{width:52px;height:48px;font-size:20px;flex-shrink:0;border-radius:14px}
-.image-btn{width:48px;height:48px;flex-shrink:0;padding:8px;background:#edf4ff;color:#1457d9;font-size:21px}
-.member{padding:13px;border:1px solid var(--line);border-radius:13px;margin:10px 0;background:#fbfdff}
-.member-head{display:flex;align-items:center;gap:10px}
-.member-avatar{width:44px;height:44px;border-radius:50%;object-fit:cover;background:#eaf2ff}
-.member-name{font-weight:bold;font-size:14px}
-.member-email{font-size:11px;color:var(--muted);overflow-wrap:anywhere}
-.member-status{font-size:12px;margin:9px 0}
-.member button{margin:4px 4px 0 0}
-.contact{display:flex;align-items:center;gap:10px;width:100%;padding:10px;margin:8px 0;text-align:left;background:#f7faff;color:var(--text);border:1px solid var(--line)}
-.contact img{width:42px;height:42px;border-radius:50%;object-fit:cover}
-.contact span{display:block;flex:1}
-.contact small{display:block;color:var(--muted);font-weight:normal;margin-top:3px}
-.online-dot,.offline-dot{width:10px;height:10px;border-radius:50%;display:inline-block;flex-shrink:0}
-.online-dot{background:#15966a}
-.offline-dot{background:#a0aec0}
-#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#17243b;color:white;padding:12px 18px;border-radius:12px;box-shadow:0 5px 20px #0003;z-index:999;max-width:90%;font-size:13px;display:none}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;color:var(--text);background:linear-gradient(180deg,#eaf2ff,#f6f9ff);min-height:100vh}
+button,input,textarea{font:inherit}button{border:0;cursor:pointer;border-radius:12px;padding:12px 16px;background:var(--blue);color:white;font-weight:bold}button:disabled{opacity:.5;cursor:not-allowed}
+input,textarea{width:100%;padding:13px;border:1px solid var(--line);border-radius:12px;margin:7px 0;outline:none;background:#fbfdff}input:focus,textarea:focus{border-color:var(--blue2);box-shadow:0 0 0 3px #2878f022}
+header{background:linear-gradient(120deg,#1049bd,#287cf1);color:white;padding:20px;box-shadow:0 6px 20px #1457d933}.header-inner{max-width:1050px;margin:auto;display:flex;align-items:center;justify-content:space-between}.brand{display:flex;align-items:center;gap:12px}.logo{width:46px;height:46px;display:grid;place-items:center;border-radius:15px;background:#ffffff25;font-size:25px}header h2{margin:0;font-size:21px}header p{margin:4px 0 0;font-size:12px}
+.container{max-width:1050px;margin:22px auto;padding:0 14px}.grid{display:grid;grid-template-columns:300px 1fr;gap:18px;align-items:start}.card{background:white;border:1px solid #e7eef9;border-radius:19px;padding:19px;margin-bottom:16px;box-shadow:0 10px 30px #193d700c}
+h3{margin:0 0 15px;color:#174b9f}.label{display:block;font-size:13px;font-weight:bold;margin-top:12px}.btn-block{width:100%;margin-top:10px}.blue{background:var(--blue)}.green{background:var(--green)}.red{background:var(--red)}.gray{background:#64748b}.soft{background:#edf4ff;color:#1457d9}.hidden{display:none!important}.muted{font-size:13px;color:var(--muted);line-height:1.6}
+.profile-head{display:flex;align-items:center;gap:13px}.avatar{width:72px;height:72px;border-radius:50%;object-fit:cover;border:3px solid #e0ebff;background:#eaf2ff}.avatar-large{width:112px;height:112px}.profile-name{font-weight:bold;font-size:17px}.small{font-size:12px;color:var(--muted);overflow-wrap:anywhere}.role{background:#f1f6ff;padding:10px;border-radius:10px;font-size:12px;margin-top:14px}.preview{text-align:center;margin:12px 0}.preview img{display:block;margin:auto}.divider{height:1px;background:var(--line);margin:16px 0}#loginBox{max-width:460px;margin:40px auto}.login-icon{width:60px;height:60px;display:grid;place-items:center;background:var(--blue);border-radius:18px;color:white;font-size:28px;margin-bottom:14px}.status{padding:11px;background:#eff6ff;border-radius:10px;font-size:12px;margin-top:10px;overflow-wrap:anywhere}
+#messages{height:450px;overflow-y:auto;padding:15px;background:#f5f8ff;border-radius:14px;display:flex;flex-direction:column;gap:12px}.msg{max-width:85%;padding:11px 13px;background:white;border:1px solid var(--line);border-radius:15px 15px 15px 5px;overflow-wrap:anywhere}.msg.mine{align-self:flex-end;background:#dceaff;border-color:#c9ddff;border-radius:15px 15px 5px 15px}.msg-header{display:flex;align-items:center;gap:8px;margin-bottom:7px}.msg-avatar{width:30px;height:30px;border-radius:50%;object-fit:cover;background:#eaf2ff;border:1px solid #dce8fa;flex-shrink:0}.msg-name{font-size:12px;font-weight:bold;color:#3865a5;margin:0}.msg-content{font-size:14px;line-height:1.5;white-space:pre-wrap}.msg-time{font-size:10px;color:#8795a9;text-align:right;margin-top:6px}
+.chat-head{display:flex;justify-content:space-between;align-items:center;gap:10px;border-bottom:1px solid var(--line);padding-bottom:13px;margin-bottom:13px}.chat-head h3{margin:0}.compose{display:flex;align-items:flex-end;gap:8px;margin-top:12px}.compose textarea{min-height:48px;max-height:120px;margin:0}.send{width:50px;height:48px;font-size:19px;flex-shrink:0}
+.member{padding:13px;border:1px solid var(--line);border-radius:13px;margin:10px 0;background:#fbfdff}.member-head{display:flex;align-items:center;gap:10px}.member-avatar{width:44px;height:44px;border-radius:50%;object-fit:cover;background:#eaf2ff}.member-name{font-weight:bold;font-size:14px}.member-email{font-size:11px;color:var(--muted);overflow-wrap:anywhere}.member-status{font-size:12px;margin:9px 0}.member button{margin:4px 4px 0 0}
+.contact{display:flex;align-items:center;gap:10px;width:100%;padding:10px;margin:8px 0;text-align:left;background:#f7faff;color:var(--text);border:1px solid var(--line)}.contact img{width:42px;height:42px;border-radius:50%;object-fit:cover}.contact span{display:block}.contact small{display:block;color:var(--muted);font-weight:normal;margin-top:3px}.chat-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.chat-tabs button{flex:1;min-width:125px}.chat-tabs .active{background:var(--blue);color:white}.chat-tabs .inactive{background:#edf4ff;color:#1457d9}
 footer{text-align:center;color:#8795a9;font-size:12px;padding:20px}
+@media(max-width:760px){.grid{grid-template-columns:1fr}.container{margin:14px auto;padding:0 11px}.card{padding:16px}#messages{height:55vh;min-height:300px}header{padding:16px}}
 
-/* FULL SCREEN IMAGE VIEWER */
-#imageViewer{
- position:fixed;
- inset:0;
- z-index:2000;
- background:rgba(0,0,0,.96);
- display:none;
- align-items:center;
- justify-content:center;
- flex-direction:column;
- padding:15px;
-}
-#imageViewer.active{display:flex}
-#viewerImage{
- max-width:100%;
- max-height:76vh;
- object-fit:contain;
- transform:scale(1);
- transform-origin:center center;
- transition:transform .15s;
- touch-action:pan-x pan-y;
-}
-#viewerClose{
- position:absolute;
- top:15px;
- right:15px;
- width:45px;
- height:45px;
- padding:0;
- border-radius:50%;
- background:#ffffff25;
- color:white;
- font-size:27px;
-}
-.viewer-toolbar{
- display:flex;
- justify-content:center;
- align-items:center;
- flex-wrap:wrap;
- gap:9px;
- margin-top:18px;
-}
-.viewer-toolbar button{
- min-width:46px;
- padding:12px 14px;
- border-radius:12px;
-}
-#viewerZoomLabel{
- color:white;
- font-size:13px;
- min-width:48px;
- text-align:center;
-}
-.viewer-help{
- color:#ddd;
- font-size:11px;
- text-align:center;
- margin-top:12px;
-}
-@media(max-width:760px){
- .grid{grid-template-columns:1fr}
- .container{margin:14px auto;padding:0 11px}
- .card{padding:16px}
- #messages{height:55vh;min-height:320px}
- header{padding:16px}
- .msg{max-width:88%}
- #viewerImage{max-height:70vh}
-}
+/* Family Connect media, emoji and calling upgrade */
+.chat-tools{display:flex;gap:7px;flex-wrap:wrap;margin:10px 0}.chat-tools button{padding:9px 11px;font-size:13px}.emoji-panel{display:flex;flex-wrap:wrap;gap:5px;padding:9px;background:#f3f7ff;border-radius:12px;margin:7px 0}.emoji-panel button{padding:7px 9px;background:white;color:#173b76;border:1px solid #dce8fa;font-size:20px}.msg-media{display:block;max-width:min(100%,360px);max-height:360px;border-radius:12px;margin-top:8px}.msg-video{width:min(100%,360px);background:#111}.reaction-row{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}.reaction-btn{padding:5px 8px!important;background:#fff!important;color:#174b9f!important;border:1px solid #cbdcf6!important;font-size:13px!important}.call-panel{background:#eff6ff;border:1px solid #cfe0fa;border-radius:14px;padding:12px;margin:10px 0}.call-panel video{width:100%;max-height:240px;background:#111;border-radius:12px;margin:5px 0;object-fit:cover}.call-actions{display:flex;gap:7px;flex-wrap:wrap}.call-actions button{padding:9px 12px}.call-status{font-size:13px;margin:7px 0;color:#174b9f}.incoming-call{border:1px solid #e5b84b;background:#fff9e8;padding:12px;border-radius:12px;margin:10px 0}.compose{flex-wrap:wrap}.compose textarea{flex:1;min-width:150px}
+
 </style>
 </head>
 <body>
-<header>
- <div class="header-inner">
-  <div class="brand">
-   <div class="logo">👨‍👩‍👧‍👦</div>
-   <div><h2>Family Connect</h2><p>আপনার পরিবারের ব্যক্তিগত যোগাযোগ</p></div>
-  </div>
-  <span style="font-size:11px">PRIVATE SPACE</span>
- </div>
-</header>
-
+<header><div class="header-inner"><div class="brand"><div class="logo">👨‍👩‍👧‍👦</div><div><h2>Family Connect</h2><p>আপনার পরিবারের ব্যক্তিগত যোগাযোগ</p></div></div><span style="font-size:11px">PRIVATE SPACE</span></div></header>
 <main class="container">
-<section id="loginBox" class="card hidden">
- <div class="login-icon">💬</div>
- <h2>স্বাগতম</h2>
- <p class="muted">আপনার ইমেইল দিয়ে নিরাপদে লগইন করুন।</p>
- <label class="label">ইমেইল ঠিকানা</label>
- <input type="email" id="email" placeholder="আপনার ইমেইল লিখুন">
- <button id="loginBtn" class="btn-block" onclick="sendLink()">লগইন লিংক পাঠান</button>
- <div id="loginMessage" class="status"></div>
-</section>
-
-<section id="appBox" class="hidden">
-<div class="grid">
-<aside>
- <div class="card">
-  <h3>👤 আপনার অ্যাকাউন্ট</h3>
-  <div class="profile-head">
-   <img id="topAvatar" class="avatar" src="https://placehold.co/120x120?text=FC">
-   <div><div id="topName" class="profile-name">পরিবারের সদস্য</div><div id="userEmail" class="small"></div></div>
-  </div>
-  <div id="userRole" class="role"></div>
-  <button class="gray btn-block" onclick="logout()">Logout</button>
- </div>
-
- <div id="profileBox" class="card">
-  <h3>⚙️ Profile Settings</h3>
-  <div class="preview">
-   <img id="avatarPreview" class="avatar avatar-large" src="https://placehold.co/120x120?text=FC">
-   <p class="muted">আপনার প্রোফাইল ছবি</p>
-  </div>
-  <label class="label">প্রোফাইল ছবি নির্বাচন</label>
-  <input type="file" id="avatarFile" accept="image/jpeg,image/png,image/webp">
-  <label class="label">আপনার নাম</label>
-  <input type="text" id="displayName" maxlength="60" placeholder="আপনার নাম লিখুন">
-  <button id="saveProfileBtn" class="btn-block" onclick="saveProfile()">✓ প্রোফাইল সেভ করুন</button>
-  <div id="profileMessage" class="status">আপনার নাম ও ছবি পরিবর্তন করতে পারবেন।</div>
-  <div class="divider"></div>
-  <p class="muted">JPG, PNG, WEBP · সর্বোচ্চ ৫ MB</p>
- </div>
-
- <div class="card">
-  <h3>🔔 Notification</h3>
-  <p class="muted">নতুন মেসেজের ব্রাউজার নোটিফিকেশন চালু করুন।</p>
-  <button class="soft btn-block" onclick="enableNotifications()">Notification চালু করুন</button>
-  <div id="notificationStatus" class="small"></div>
- </div>
- <div id="pendingBox" class="card hidden"><h3>⏳ অনুমোদনের অপেক্ষায়</h3><p class="muted">Admin অনুমোদন দিলে আপনি চ্যাট ব্যবহার করতে পারবেন।</p></div>
- <div id="rejectedBox" class="card hidden"><h3>⚠️ অনুমোদন পাওয়া যায়নি</h3><p class="muted">Admin-এর সঙ্গে যোগাযোগ করুন।</p></div>
-</aside>
-
-<div>
- <div id="adminBox" class="card hidden">
-  <h3>👑 Admin Dashboard</h3>
-  <p class="muted">পরিবারের সদস্যদের অনুমোদন ও নিয়ন্ত্রণ করুন।</p>
-  <button class="soft" onclick="loadMembers()">↻ Refresh Members</button>
-  <div id="memberList"></div>
- </div>
-
- <div id="chatBox" class="card hidden">
-  <div class="chat-head">
-   <div>
-    <h3 id="chatTitle">💬 Family Chat</h3>
-    <div id="chatSubtitle" class="small">🟢 পরিবারের ব্যক্তিগত গ্রুপ</div>
-    <div id="connectionStatus" class="chat-status">● সংযোগ পরীক্ষা হচ্ছে...</div>
-   </div>
-   <button class="soft" onclick="loadMessages()">↻ Refresh</button>
-  </div>
-  <div class="chat-tabs">
-   <button id="familyTab" class="active" onclick="openFamilyChat()">👨‍👩‍👧‍👦 Family Chat</button>
-   <button id="privateTab" class="inactive" onclick="showContacts()">✉️ ব্যক্তিগত Chat</button>
-  </div>
-  <div id="contactsBox" class="hidden">
-   <p class="muted">অনুমোদিত পরিবারের সদস্যকে নির্বাচন করে ব্যক্তিগত চ্যাট শুরু করুন।</p>
-   <button class="soft" onclick="loadContacts()">↻ সদস্য তালিকা Refresh</button>
-   <div id="contactList"></div>
-  </div>
-  <div id="messages"><div class="empty-chat">চ্যাট চালু হচ্ছে...</div></div>
-  <div class="compose">
-   <button class="image-btn" title="ছবি পাঠান" onclick="$('imageFile').click()">＋</button>
-   <input type="file" id="imageFile" class="hidden" accept="image/jpeg,image/png,image/webp">
-   <textarea id="chatInput" rows="1" maxlength="3000" placeholder="আপনার মেসেজ লিখুন..."></textarea>
-   <button id="sendBtn" class="send" onclick="sendMessage()">➤</button>
-  </div>
-  <div id="imageStatus" class="small"></div>
-  <p class="small">Enter চাপলে মেসেজ যাবে। Shift + Enter নতুন লাইন। ছবি পাঠাতে ＋ চাপুন।</p>
- </div>
+<section id="loginBox" class="card hidden"><div class="login-icon">💬</div><h2>স্বাগতম</h2><p class="muted">আপনার ইমেইল দিয়ে নিরাপদে লগইন করুন।</p><label class="label">ইমেইল ঠিকানা</label><input type="email" id="email" placeholder="আপনার ইমেইল লিখুন"><button id="loginBtn" class="btn-block" onclick="sendLink()">লগইন লিংক পাঠান</button><div id="loginMessage" class="status"></div></section>
+<section id="appBox" class="hidden"><div class="grid"><aside>
+<div class="card"><h3>👤 আপনার অ্যাকাউন্ট</h3><div class="profile-head"><img id="topAvatar" class="avatar" src="https://placehold.co/120x120?text=FC"><div><div id="topName" class="profile-name">পরিবারের সদস্য</div><div id="userEmail" class="small"></div></div></div><div id="userRole" class="role"></div><button class="gray btn-block" onclick="logout()">Logout</button></div>
+<div id="profileBox" class="card"><h3>⚙️ Profile Settings</h3><div class="preview"><img id="avatarPreview" class="avatar avatar-large" src="https://placehold.co/120x120?text=FC"><p class="muted">আপনার প্রোফাইল ছবি</p></div><label class="label">প্রোফাইল ছবি নির্বাচন</label><input type="file" id="avatarFile" accept="image/jpeg,image/png,image/webp"><label class="label">আপনার নাম</label><input type="text" id="displayName" maxlength="60" placeholder="আপনার নাম লিখুন"><button id="saveProfileBtn" class="btn-block" onclick="saveProfile()">✓ প্রোফাইল সেভ করুন</button><div id="profileMessage" class="status">আপনার নাম ও ছবি পরিবর্তন করতে পারবেন।</div><div class="divider"></div><p class="muted">JPG, PNG, WEBP · সর্বোচ্চ ৫ MB</p></div>
+<div id="pendingBox" class="card hidden"><h3>⏳ অনুমোদনের অপেক্ষায়</h3><p class="muted">Admin অনুমোদন দিলে আপনি চ্যাট ব্যবহার করতে পারবেন।</p></div>
+<div id="rejectedBox" class="card hidden"><h3>⚠️ অনুমোদন পাওয়া যায়নি</h3><p class="muted">Admin-এর সঙ্গে যোগাযোগ করুন।</p></div>
+</aside><div>
+<div id="adminBox" class="card hidden"><h3>👑 Admin Dashboard</h3><p class="muted">পরিবারের সদস্যদের অনুমোদন ও নিয়ন্ত্রণ করুন।</p><button class="soft" onclick="loadMembers()">↻ Refresh Members</button><div id="memberList"></div></div>
+<div id="chatBox" class="card hidden"><div class="chat-head"><div><h3 id="chatTitle">💬 Family Chat</h3><div id="chatSubtitle" class="small">🟢 পরিবারের ব্যক্তিগত গ্রুপ</div></div><button class="soft" onclick="loadMessages()">↻ Refresh</button></div>
+<div class="chat-tabs"><button id="familyTab" class="active" onclick="openFamilyChat()">👨‍👩‍👧‍👦 Family Chat</button><button id="privateTab" class="inactive" onclick="showContacts()">✉️ ব্যক্তিগত Chat</button></div>
+<div id="contactsBox" class="hidden"><p class="muted">অনুমোদিত পরিবারের সদস্যকে নির্বাচন করে ব্যক্তিগত চ্যাট শুরু করুন।</p><button class="soft" onclick="loadContacts()">↻ সদস্য তালিকা Refresh</button><div id="contactList"></div></div>
+<div class="chat-tools">
+<button class="soft" onclick="startCall(false)">📞 Audio Call</button>
+<button class="soft" onclick="startCall(true)">🎥 Video Call</button>
+<button class="soft" onclick="document.getElementById('chatPhoto').click()">🖼️ ছবি</button>
+<button class="soft" onclick="document.getElementById('chatVideo').click()">🎬 ভিডিও</button>
+<button class="soft" onclick="toggleEmojiPanel()">😀 ইমোজি</button>
 </div>
-</div>
-</section>
-</main>
-
-<div id="toast"></div>
-
-<!-- IMAGE VIEWER -->
-<div id="imageViewer" aria-label="ছবি দেখার পর্দা">
- <button id="viewerClose" onclick="closeImageViewer()" aria-label="বন্ধ করুন">×</button>
- <img id="viewerImage" src="" alt="Full size image">
- <div class="viewer-toolbar">
-  <button onclick="zoomImage(-0.25)">−</button>
-  <span id="viewerZoomLabel">100%</span>
-  <button onclick="zoomImage(0.25)">＋</button>
-  <button class="gray" onclick="resetImageZoom()">Reset</button>
-  <button class="green" id="downloadImageBtn" onclick="downloadImage()">⬇ Download</button>
- </div>
- <div class="viewer-help">ছবি বড় বা ছোট করতে + / − চাপুন</div>
-</div>
-
-<footer>Family Connect · Private Family App</footer>
-
+<input id="chatPhoto" type="file" accept="image/jpeg,image/png,image/webp,image/gif" hidden>
+<input id="chatVideo" type="file" accept="video/mp4,video/webm,video/quicktime" hidden>
+<div id="emojiPanel" class="emoji-panel hidden"></div>
+<div id="incomingCallBox"></div><div id="callPanel" class="call-panel hidden"><div id="callStatus" class="call-status">কল প্রস্তুত হচ্ছে...</div><video id="localVideo" autoplay muted playsinline></video><div id="remoteVideos" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px"></div><div class="call-actions"><button class="soft" onclick="toggleMic()">🎙️ Mic</button><button class="soft" onclick="toggleCamera()">📷 Camera</button><button class="red" onclick="endCall()">📴 কল শেষ</button></div></div>
+<div id="messages">চ্যাট চালু হচ্ছে...</div><div class="compose"><textarea id="chatInput" rows="1" maxlength="3000" placeholder="আপনার মেসেজ লিখুন..."></textarea><button id="sendBtn" class="send" onclick="sendMessage()">➤</button></div><p class="small">Enter চাপলে মেসেজ যাবে। Shift + Enter নতুন লাইন।</p></div>
+</div></div></section>
+</main><footer>Family Connect · Private Family App</footer>
 <script>
 "use strict";
-
-/* SUPABASE CONFIG */
 const SUPABASE_URL="https://vtvwfyooiblpcoofzdav.supabase.co";
 const SUPABASE_KEY="sb_publishable_Rb2tYhvPfhZIqhGV0gPCLA_SODQoFNg";
 const AVATAR_BUCKET="familly-avatars";
-const CHAT_IMAGE_BUCKET="family-chat-images";
 const ADMIN_EMAIL="sagor516@gmail.com";
 const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
-
-let currentUser=null,currentProfile=null;
-let familyConversationId=null,activeConversationId=null;
-let activeChatType="family",activePrivateName="";
-let activePrivateUserId=null;
-let refreshTimer=null,messageChannel=null,presenceChannel=null;
-let realtimeStatus="CLOSED",messageRequest=0;
-let onlineUsers=new Set(),toastTimer=null;
-
+let currentUser=null,currentProfile=null,familyConversationId=null,activeConversationId=null,activeChatType="family",activePrivateName="",refreshTimer=null,messageChannel=null;
 const $=id=>document.getElementById(id);
 const placeholder="https://placehold.co/120x120?text=FC";
-
 function show(id,visible){$(id).classList.toggle("hidden",!visible)}
 function notice(id,message){$(id).textContent=message}
-function toast(message){
- const box=$("toast");box.textContent=message;box.style.display="block";
- clearTimeout(toastTimer);toastTimer=setTimeout(()=>box.style.display="none",3000);
-}
-function setChatTab(type){
- $("familyTab").className=type==="family"?"active":"inactive";
- $("privateTab").className=type==="private"?"active":"inactive";
- show("contactsBox",type==="private");
-}
-function setConnection(text,color){
- $("connectionStatus").textContent="● "+text;
- $("connectionStatus").style.color=color;
-}
-function isAdmin(){
- return !!currentProfile&&currentProfile.role==="admin"&&
- (currentUser?.email||"").toLowerCase()===ADMIN_EMAIL.toLowerCase();
-}
-function isApproved(){
- return !!currentProfile&&currentProfile.approved===true&&currentProfile.status==="approved";
-}
-function formatTime(value){
- return new Date(value).toLocaleString("bn-BD",{hour:"2-digit",minute:"2-digit",day:"numeric",month:"short"});
-}
+function setChatTab(type){$("familyTab").className=type==="family"?"active":"inactive";$("privateTab").className=type==="private"?"active":"inactive";show("contactsBox",type==="private")}
+async function sendLink(){const email=$("email").value.trim(),btn=$("loginBtn");if(!email){notice("loginMessage","আগে ইমেইল লিখুন।");return}btn.disabled=true;btn.textContent="পাঠানো হচ্ছে...";try{const {error}=await db.auth.signInWithOtp({email,options:{emailRedirectTo:window.location.origin+window.location.pathname}});if(error)throw error;notice("loginMessage","আপনার ইমেইলে Login Link পাঠানো হয়েছে।")}catch(error){notice("loginMessage","সমস্যা: "+error.message)}finally{btn.disabled=false;btn.textContent="লগইন লিংক পাঠান"}}
+async function checkLogin(){const {data,error}=await db.auth.getSession();if(error){show("loginBox",true);notice("loginMessage",error.message);return}if(data.session){await loadApp(data.session.user)}else{show("loginBox",true)}}
+db.auth.onAuthStateChange((event,session)=>{if(event==="SIGNED_IN"&&session){setTimeout(()=>loadApp(session.user),0)}if(event==="SIGNED_OUT"){clearApp();show("appBox",false);show("loginBox",true)}});
+async function loadApp(user){if(!user)return;if(currentUser?.id===user.id&&currentProfile)return;currentUser=user;show("loginBox",false);show("appBox",true);$("userEmail").textContent=user.email||"";const {data:profile,error}=await db.from("profiles").select("user_id,email,display_name,role,approved,status,avatar_url").eq("user_id",user.id).maybeSingle();if(error){$("userRole").textContent="Profile সমস্যা: "+error.message;return}if(!profile){$("userRole").textContent="Profile পাওয়া যায়নি। Admin-এর সাহায্য প্রয়োজন।";return}currentProfile=profile;$("userRole").textContent="Role: "+profile.role+" | Status: "+profile.status;$("displayName").value=profile.display_name||"";updateProfile(profile);show("pendingBox",false);show("rejectedBox",false);show("adminBox",false);show("chatBox",false);if(isAdmin()&&isApproved()){show("adminBox",true);show("chatBox",true);await loadMembers();await openFamilyChat();startRefresh()}else if(isApproved()){show("chatBox",true);await openFamilyChat();startRefresh()}else if(profile.status==="rejected"){show("rejectedBox",true)}else{show("pendingBox",true)}}
+function isAdmin(){return !!currentProfile&&currentProfile.role==="admin"&&(currentUser?.email||"").toLowerCase()===ADMIN_EMAIL.toLowerCase()}
+function isApproved(){return !!currentProfile&&currentProfile.approved===true&&currentProfile.status==="approved"}
+function updateProfile(profile){const name=profile.display_name||"পরিবারের সদস্য",image=profile.avatar_url||placeholder;$("topName").textContent=name;$("topAvatar").src=image;$("avatarPreview").src=image}
+$("avatarFile").addEventListener("change",function(){const file=this.files[0];if(!file)return;const allowed=["image/jpeg","image/png","image/webp"];if(!allowed.includes(file.type)){notice("profileMessage","শুধু JPG, PNG অথবা WEBP ছবি দিন।");this.value="";return}if(file.size>5*1024*1024){notice("profileMessage","ছবি ৫ MB-এর কম হতে হবে।");this.value="";return}$("avatarPreview").src=URL.createObjectURL(file);notice("profileMessage","ছবি নির্বাচন হয়েছে। Save Profile চাপুন।")});
+async function saveProfile(){if(!currentUser||!currentProfile){notice("profileMessage","আগে Login করুন।");return}const btn=$("saveProfileBtn"),name=$("displayName").value.trim(),file=$("avatarFile").files[0];if(!name){notice("profileMessage","আপনার নাম লিখুন।");return}btn.disabled=true;btn.textContent="সেভ হচ্ছে...";try{let avatarUrl=currentProfile.avatar_url||null;if(file){if(!["image/jpeg","image/png","image/webp"].includes(file.type))throw new Error("ছবির ফরম্যাট সঠিক নয়।");if(file.size>5*1024*1024)throw new Error("ছবি ৫ MB-এর কম হতে হবে।");const ext=file.type==="image/png"?"png":file.type==="image/webp"?"webp":"jpg",path=currentUser.id+"/"+Date.now()+"."+ext;const {error:uploadError}=await db.storage.from(AVATAR_BUCKET).upload(path,file,{contentType:file.type,upsert:false});if(uploadError)throw uploadError;const {data:urlData}=db.storage.from(AVATAR_BUCKET).getPublicUrl(path);avatarUrl=urlData.publicUrl}const {data,error}=await db.from("profiles").update({display_name:name,avatar_url:avatarUrl}).eq("user_id",currentUser.id).select("user_id,display_name,avatar_url");if(error)throw error;if(!data||data.length===0)throw new Error("Profile update হয়নি। Database Policy পরীক্ষা করুন।");currentProfile.display_name=name;currentProfile.avatar_url=avatarUrl;updateProfile(currentProfile);$("avatarFile").value="";notice("profileMessage","✅ আপনার প্রোফাইল সফলভাবে আপডেট হয়েছে।")}catch(error){notice("profileMessage","সমস্যা: "+error.message)}finally{btn.disabled=false;btn.textContent="✓ প্রোফাইল সেভ করুন"}}
+async function loadMembers(){if(!isAdmin()||!isApproved())return;const list=$("memberList");list.textContent="সদস্য তালিকা লোড হচ্ছে...";const {data,error}=await db.from("profiles").select("user_id,email,display_name,role,approved,status,avatar_url").order("created_at",{ascending:false});if(error){list.textContent="সমস্যা: "+error.message;return}list.replaceChildren();if(!data||data.length===0){list.textContent="কোনো সদস্য পাওয়া যায়নি।";return}data.forEach(member=>{const card=document.createElement("div");card.className="member";const head=document.createElement("div");head.className="member-head";const avatar=document.createElement("img");avatar.className="member-avatar";avatar.src=member.avatar_url||placeholder;avatar.onerror=()=>avatar.src=placeholder;const info=document.createElement("div"),name=document.createElement("div"),email=document.createElement("div");name.className="member-name";name.textContent=member.display_name||"নতুন সদস্য";email.className="member-email";email.textContent=member.email||"ইমেইল পাওয়া যায়নি";info.append(name,email);head.append(avatar,info);const status=document.createElement("div");status.className="member-status";status.textContent="Role: "+member.role+" | Status: "+member.status;card.append(head,status);if(member.role==="member"&&member.user_id!==currentUser.id){const approve=document.createElement("button");approve.className="green";approve.textContent="Approve";approve.onclick=()=>updateMember(member.user_id,true);const reject=document.createElement("button");reject.className="red";reject.textContent="Reject";reject.onclick=()=>updateMember(member.user_id,false);card.append(approve,reject)}list.append(card)})}
+async function updateMember(userId,approved){if(!isAdmin()||!isApproved()){alert("Admin অনুমতি প্রয়োজন।");return}if(!userId)return;const action=approved?"Approve":"Reject";if(!confirm("আপনি কি সদস্যকে "+action+" করতে চান?"))return;try{const {error}=await db.rpc("admin_set_member_approval",{p_user_id:userId,p_approved:approved});if(error)throw error;alert(approved?"সদস্য অনুমোদিত হয়েছে।":"সদস্য Reject করা হয়েছে।");await loadMembers()}catch(error){alert("সমস্যা: "+error.message)}}
+async function openFamilyChat(){if(!isApproved())return;activeChatType="family";activePrivateName="";setChatTab("family");$("chatTitle").textContent="💬 Family Chat";$("chatSubtitle").textContent="🟢 পরিবারের ব্যক্তিগত গ্রুপ";$("messages").textContent="Chat চালু হচ্ছে...";const {data,error}=await db.rpc("get_family_conversation");if(error){familyConversationId=null;activeConversationId=null;$("messages").textContent="Chat চালু হয়নি: "+error.message;return}familyConversationId=data;activeConversationId=data;await loadMessages();subscribeMessages()}
+async function showContacts(){if(!isApproved())return;activeChatType="private";setChatTab("private");$("chatTitle").textContent="✉️ ব্যক্তিগত Chat";$("chatSubtitle").textContent="একজন সদস্যের সঙ্গে ব্যক্তিগত কথোপকথন";$("messages").textContent="চ্যাট শুরু করতে একজন সদস্য নির্বাচন করুন।";await loadContacts()}
+async function loadContacts(){if(!isApproved())return;const list=$("contactList");list.textContent="সদস্য তালিকা লোড হচ্ছে...";const {data,error}=await db.from("profiles").select("user_id,email,display_name,avatar_url").eq("approved",true).eq("status","approved").order("display_name");if(error){list.textContent="সদস্য তালিকা লোড হয়নি: "+error.message;return}list.replaceChildren();const contacts=(data||[]).filter(p=>p.user_id!==currentUser.id);if(!contacts.length){list.textContent="অন্য কোনো অনুমোদিত সদস্য পাওয়া যায়নি।";return}contacts.forEach(person=>{const btn=document.createElement("button");btn.className="contact";const img=document.createElement("img");img.src=person.avatar_url||placeholder;img.onerror=()=>img.src=placeholder;const label=document.createElement("span"),nm=document.createElement("b"),em=document.createElement("small");nm.textContent=person.display_name||"পরিবারের সদস্য";em.textContent=person.email||"";label.append(nm,em);btn.append(img,label);btn.onclick=()=>openPrivateChat(person.user_id,person.display_name||"পরিবারের সদস্য");list.append(btn)})}
+async function openPrivateChat(otherUserId,otherName){if(!isApproved())return;if(!otherUserId||otherUserId===currentUser.id)return;activeChatType="private";activePrivateName=otherName;setChatTab("private");$("chatTitle").textContent="✉️ "+otherName;$("chatSubtitle").textContent="ব্যক্তিগত কথোপকথন";$("messages").textContent="Private Chat চালু হচ্ছে...";const {data,error}=await db.rpc("get_or_create_private_conversation",{p_other_user_id:otherUserId});if(error){activeConversationId=null;$("messages").textContent="Private Chat চালু হয়নি: "+error.message;return}activeConversationId=data;await loadMessages();subscribeMessages()}
+async function loadMessages(){if(!activeConversationId||!currentUser)return;const conversationId=activeConversationId;const {data,error}=await db.from("messages").select("id,owner_id,message_text,created_at").eq("conversation_id",conversationId).order("created_at",{ascending:true}).limit(100);if(error){$("messages").textContent="Chat সমস্যা: "+error.message;return}const box=$("messages"),nearBottom=box.scrollHeight-box.scrollTop-box.clientHeight<100;box.replaceChildren();if(!data||data.length===0){box.textContent="এখনো কোনো মেসেজ নেই।";return}const userIds=[...new Set(data.map(m=>m.owner_id))];const {data:profiles,error:profileError}=await db.from("profiles").select("user_id,display_name,avatar_url").in("user_id",userIds);if(profileError)console.error("Profile loading error:",profileError);const profileMap={};(profiles||[]).forEach(p=>profileMap[p.user_id]=p);data.forEach(message=>{const profile=profileMap[message.owner_id]||{},item=document.createElement("div");item.className=message.owner_id===currentUser.id?"msg mine":"msg";const header=document.createElement("div");header.className="msg-header";const avatar=document.createElement("img");avatar.className="msg-avatar";avatar.src=profile.avatar_url||placeholder;avatar.alt="Profile";avatar.onerror=()=>avatar.src=placeholder;const sender=document.createElement("div");sender.className="msg-name";const senderName=profile.display_name||"পরিবারের সদস্য";sender.textContent=message.owner_id===currentUser.id?"আপনি ("+senderName+")":senderName;header.append(avatar,sender);const content=document.createElement("div");content.className="msg-content";content.textContent=message.message_text||"";const time=document.createElement("div");time.className="msg-time";time.textContent=new Date(message.created_at).toLocaleString("bn-BD");item.append(header,content,time);box.append(item)});if(nearBottom)box.scrollTop=box.scrollHeight}
+function subscribeMessages(){if(messageChannel){db.removeChannel(messageChannel);messageChannel=null}if(!activeConversationId)return;const conversationId=activeConversationId;messageChannel=db.channel("chat-"+conversationId).on("postgres_changes",{event:"*",schema:"public",table:"messages",filter:"conversation_id=eq."+conversationId},()=>{if(activeConversationId===conversationId)loadMessages()}).subscribe()}
+async function sendMessage(){if(!currentUser||!isApproved()||!activeConversationId){alert("আগে একটি অনুমোদিত Chat খুলুন।");return}const input=$("chatInput"),btn=$("sendBtn"),content=input.value.trim();if(!content)return;btn.disabled=true;try{const {error}=await db.from("messages").insert({conversation_id:activeConversationId,owner_id:currentUser.id,message_text:content});if(error)throw error;input.value="";await loadMessages()}catch(error){alert("মেসেজ পাঠানো যায়নি: "+error.message)}finally{btn.disabled=false;input.focus()}}
+$("chatInput").addEventListener("keydown",function(event){if(event.key==="Enter"&&!event.shiftKey){event.preventDefault();sendMessage()}});
+function startRefresh(){if(refreshTimer)clearInterval(refreshTimer);refreshTimer=setInterval(()=>{if(isApproved()&&activeConversationId)loadMessages()},5000)}
+function clearApp(){if(refreshTimer){clearInterval(refreshTimer);refreshTimer=null}if(messageChannel){db.removeChannel(messageChannel);messageChannel=null}currentUser=null;currentProfile=null;familyConversationId=null;activeConversationId=null;activeChatType="family"}
+async function logout(){const {error}=await db.auth.signOut();if(error){alert(error.message);return}clearApp();show("appBox",false);show("loginBox",true);notice("loginMessage","আপনি Logout করেছেন।")}
 
-/* LOGIN */
-async function sendLink(){
- const email=$("email").value.trim(),btn=$("loginBtn");
- if(!email){notice("loginMessage","আগে ইমেইল লিখুন।");return}
- btn.disabled=true;btn.textContent="পাঠানো হচ্ছে...";
+/* ===== Family Connect: emoji, reactions, media and WebRTC calls ===== */
+const CHAT_IMAGE_BUCKET="family-chat-images";
+const CHAT_VIDEO_BUCKET="family-chat-media";
+const EMOJIS=["😀","😁","😂","🤣","😊","😍","🥰","😘","😎","😭","😢","😡","👍","👎","❤️","💕","🔥","🎉","🙏","👏","🤝","🤔","😮","🥳"];
+let callChannel=null,activeCallId=null,localCallStream=null,peerConnections=new Map(),pendingCallOffer=null,pendingIceSignals=[],callAccepted=false,callIsVideo=false,callMicOn=true,callCameraOn=true;
+const emojiPanel=$('emojiPanel');
+function toggleEmojiPanel(){emojiPanel.classList.toggle('hidden')}
+EMOJIS.forEach(e=>{const b=document.createElement('button');b.type='button';b.textContent=e;b.onclick=()=>{$('chatInput').value+=e;$('chatInput').focus()};emojiPanel.append(b)});
+function uuid(){return crypto.randomUUID?crypto.randomUUID():Date.now().toString(36)+Math.random().toString(36).slice(2)}
+function safeText(el,value){el.textContent=value||''}
+function callStatus(t){safeText($('callStatus'),t)}
+function setCallUI(on){$('callPanel').classList.toggle('hidden',!on)}
+function makeMediaPath(file){const ext=(file.name.split('.').pop()||'bin').replace(/[^a-z0-9]/gi,'').toLowerCase();return activeConversationId+'/'+currentUser.id+'/'+Date.now()+'-'+uuid()+'.'+ext}
+async function sendMedia(file,kind){
+ if(!file||!activeConversationId||!isApproved())return;
+ const isVideo=kind==='video',max=isVideo?50*1024*1024:5*1024*1024;
+ if(file.size>max){alert(isVideo?'ভিডিও সর্বোচ্চ ৫০ MB হতে পারবে।':'ছবি সর্বোচ্চ ৫ MB হতে পারবে।');return}
+ const allowed=isVideo?['video/mp4','video/webm','video/quicktime']:['image/jpeg','image/png','image/webp','image/gif'];
+ if(!allowed.includes(file.type)){alert('এই ফাইল ফরম্যাট সমর্থিত নয়।');return}
+ const bucket=isVideo?CHAT_VIDEO_BUCKET:CHAT_IMAGE_BUCKET,path=makeMediaPath(file);
  try{
-  const {error}=await db.auth.signInWithOtp({
-   email,
-   options:{emailRedirectTo:window.location.origin+window.location.pathname}
-  });
-  if(error)throw error;
-  notice("loginMessage","আপনার ইমেইলে Login Link পাঠানো হয়েছে।");
- }catch(error){notice("loginMessage","সমস্যা: "+error.message)}
- finally{btn.disabled=false;btn.textContent="লগইন লিংক পাঠান"}
+  const {error:upErr}=await db.storage.from(bucket).upload(path,file,{contentType:file.type,upsert:false});if(upErr)throw upErr;
+  const {data:ins,error:insErr}=await db.from('messages').insert({conversation_id:activeConversationId,owner_id:currentUser.id,message_text:'',attachment_url:path,attachment_kind:kind==='video'?'video':'photo'}).select('id').single();
+  if(insErr){await db.storage.from(bucket).remove([path]);throw insErr}
+  await loadMessages();
+ }catch(e){alert('ফাইল পাঠানো যায়নি: '+e.message)}
 }
-
-async function checkLogin(){
- try{
-  const {data,error}=await db.auth.getSession();
-  if(error)throw error;
-  if(data.session)await loadApp(data.session.user);
-  else show("loginBox",true);
- }catch(error){
-  show("loginBox",true);
-  notice("loginMessage","লগইন পরীক্ষা করা যায়নি: "+error.message);
- }
-}
-
-db.auth.onAuthStateChange((event,session)=>{
- if(event==="SIGNED_IN"&&session)setTimeout(()=>loadApp(session.user),0);
- if(event==="SIGNED_OUT"){
-  clearApp();show("appBox",false);show("loginBox",true);
- }
-});
-
-/* APP */
-async function loadApp(user){
- if(!user)return;
- if(currentUser?.id===user.id&&currentProfile)return;
- currentUser=user;
- show("loginBox",false);show("appBox",true);
- $("userEmail").textContent=user.email||"";
-
- const {data:profile,error}=await db.from("profiles")
-  .select("user_id,email,display_name,role,approved,status,avatar_url")
-  .eq("user_id",user.id).maybeSingle();
-
- if(error){$("userRole").textContent="Profile সমস্যা: "+error.message;return}
- if(!profile){$("userRole").textContent="Profile পাওয়া যায়নি। Admin-এর সাহায্য প্রয়োজন।";return}
-
- currentProfile=profile;
- $("userRole").textContent="Role: "+profile.role+" | Status: "+profile.status;
- $("displayName").value=profile.display_name||"";
- updateProfile(profile);
-
- show("pendingBox",false);show("rejectedBox",false);
- show("adminBox",false);show("chatBox",false);
-
- if(isAdmin()&&isApproved()){
-  show("adminBox",true);show("chatBox",true);
-  await loadMembers();await openFamilyChat();
- }else if(isApproved()){
-  show("chatBox",true);await openFamilyChat();
- }else if(profile.status==="rejected"){
-  show("rejectedBox",true);
- }else{show("pendingBox",true)}
-
- if(isApproved())startPresence();
-}
-
-function updateProfile(profile){
- const name=profile.display_name||"পরিবারের সদস্য";
- const image=profile.avatar_url||placeholder;
- $("topName").textContent=name;
- $("topAvatar").src=image;
- $("avatarPreview").src=image;
-}
-
-/* PROFILE */
-$("avatarFile").addEventListener("change",function(){
- const file=this.files[0];if(!file)return;
- if(!["image/jpeg","image/png","image/webp"].includes(file.type)){
-  notice("profileMessage","শুধু JPG, PNG অথবা WEBP ছবি দিন।");this.value="";return;
- }
- if(file.size>5*1024*1024){
-  notice("profileMessage","ছবি ৫ MB-এর কম হতে হবে।");this.value="";return;
- }
- $("avatarPreview").src=URL.createObjectURL(file);
- notice("profileMessage","ছবি নির্বাচন হয়েছে। Save Profile চাপুন।");
-});
-
-async function saveProfile(){
- if(!currentUser||!currentProfile){notice("profileMessage","আগে Login করুন।");return}
- const btn=$("saveProfileBtn"),name=$("displayName").value.trim(),file=$("avatarFile").files[0];
- if(!name){notice("profileMessage","আপনার নাম লিখুন।");return}
- btn.disabled=true;btn.textContent="সেভ হচ্ছে...";
- try{
-  let avatarUrl=currentProfile.avatar_url||null;
-  if(file){
-   const ext=file.type==="image/png"?"png":file.type==="image/webp"?"webp":"jpg";
-   const path=currentUser.id+"/"+Date.now()+"."+ext;
-   const {error:uploadError}=await db.storage.from(AVATAR_BUCKET)
-    .upload(path,file,{contentType:file.type,upsert:false});
-   if(uploadError)throw uploadError;
-   const {data:urlData}=db.storage.from(AVATAR_BUCKET).getPublicUrl(path);
-   avatarUrl=urlData.publicUrl;
-  }
-  const {data,error}=await db.from("profiles").update({
-   display_name:name,avatar_url:avatarUrl
-  }).eq("user_id",currentUser.id).select("user_id,display_name,avatar_url");
-  if(error)throw error;
-  if(!data||!data.length)throw new Error("Profile update হয়নি। Database Policy পরীক্ষা করুন।");
-  currentProfile.display_name=name;currentProfile.avatar_url=avatarUrl;
-  updateProfile(currentProfile);$("avatarFile").value="";
-  notice("profileMessage","✅ আপনার প্রোফাইল সফলভাবে আপডেট হয়েছে।");
-  if(presenceChannel)trackPresence();
- }catch(error){notice("profileMessage","সমস্যা: "+error.message)}
- finally{btn.disabled=false;btn.textContent="✓ প্রোফাইল সেভ করুন"}
-}
-
-/* ADMIN */
-async function loadMembers(){
- if(!isAdmin()||!isApproved())return;
- const list=$("memberList");list.textContent="সদস্য তালিকা লোড হচ্ছে...";
- const {data,error}=await db.from("profiles")
-  .select("user_id,email,display_name,role,approved,status,avatar_url")
-  .order("created_at",{ascending:false});
- if(error){list.textContent="সমস্যা: "+error.message;return}
- list.replaceChildren();
- if(!data||!data.length){list.textContent="কোনো সদস্য পাওয়া যায়নি।";return}
- data.forEach(member=>{
-  const card=document.createElement("div");card.className="member";
-  const head=document.createElement("div");head.className="member-head";
-  const avatar=document.createElement("img");avatar.className="member-avatar";
-  avatar.src=member.avatar_url||placeholder;avatar.onerror=()=>avatar.src=placeholder;
-  const info=document.createElement("div");
-  const name=document.createElement("div");name.className="member-name";
-  name.textContent=member.display_name||"নতুন সদস্য";
-  const email=document.createElement("div");email.className="member-email";
-  email.textContent=member.email||"ইমেইল পাওয়া যায়নি";
-  info.append(name,email);head.append(avatar,info);
-  const status=document.createElement("div");status.className="member-status";
-  status.textContent="Role: "+member.role+" | Status: "+member.status;
-  card.append(head,status);
-  if(member.role==="member"&&member.user_id!==currentUser.id){
-   const approve=document.createElement("button");approve.className="green";
-   approve.textContent="Approve";approve.onclick=()=>updateMember(member.user_id,true);
-   const reject=document.createElement("button");reject.className="red";
-   reject.textContent="Reject";reject.onclick=()=>updateMember(member.user_id,false);
-   card.append(approve,reject);
-  }
-  list.append(card);
- });
-}
-
-async function updateMember(userId,approved){
- if(!isAdmin()||!isApproved()){alert("Admin অনুমতি প্রয়োজন।");return}
- if(!confirm(approved?"সদস্যকে Approve করবেন?":"সদস্যকে Reject করবেন?"))return;
- try{
-  const {error}=await db.rpc("admin_set_member_approval",{p_user_id:userId,p_approved:approved});
-  if(error)throw error;
-  alert(approved?"সদস্য অনুমোদিত হয়েছে।":"সদস্য Reject করা হয়েছে।");
-  await loadMembers();
- }catch(error){alert("সমস্যা: "+error.message)}
-}
-
-/* ONLINE / OFFLINE */
-function startPresence(){
- if(!currentUser||!isApproved()||presenceChannel)return;
- presenceChannel=db.channel("family-presence",{config:{presence:{key:currentUser.id}}});
- presenceChannel.on("presence",{event:"sync"},()=>{
-  const state=presenceChannel.presenceState();
-  onlineUsers=new Set(Object.keys(state));
-  if(activeChatType==="private"&&$("contactsBox").classList.contains("hidden")===false)loadContacts();
-  if(activeChatType==="private")updateChatPresence();
- });
- presenceChannel.subscribe(async status=>{
-  if(status==="SUBSCRIBED")await trackPresence();
- });
-}
-async function trackPresence(){
- if(!presenceChannel||!currentUser)return;
- try{
-  await presenceChannel.track({
-   user_id:currentUser.id,
-   name:currentProfile?.display_name||"পরিবারের সদস্য",
-   online_at:new Date().toISOString()
-  });
- }catch(error){console.warn("Presence:",error.message)}
-}
-function updateChatPresence(){
- if(activeChatType!=="private")return;
- const online=onlineUsers.has(activePrivateUserId);
- $("chatSubtitle").textContent=online?"🟢 Online":"⚪ Offline";
-}
-
-/* NOTIFICATIONS */
-async function enableNotifications(){
- if(!("Notification" in window)){
-  notice("notificationStatus","এই ব্রাউজারে Notification সমর্থিত নয়।");return;
- }
- try{
-  const permission=await Notification.requestPermission();
-  notice("notificationStatus",permission==="granted"?"✅ Notification চালু হয়েছে।":"Notification অনুমতি দেওয়া হয়নি।");
- }catch(error){notice("notificationStatus","Notification চালু করা যায়নি।")}
-}
-
-function notifyMessage(message){
- if(!message||message.owner_id===currentUser?.id)return;
- const sender=message.senderName||"পরিবারের সদস্য";
- const body=message.message_text||"আপনাকে একটি ছবি পাঠিয়েছেন।";
- toast(sender+": "+body);
- if("Notification" in window&&Notification.permission==="granted"&&document.hidden){
-  try{
-   new Notification("Family Connect",{
-    body:sender+": "+body,
-    icon:placeholder
-   });
-  }catch(error){console.warn("Notification error:",error)}
- }
-}
-
-/* CHAT REALTIME */
-function stopRealtime(){
- if(messageChannel){db.removeChannel(messageChannel);messageChannel=null}
- realtimeStatus="CLOSED";
- if(refreshTimer){clearInterval(refreshTimer);refreshTimer=null}
-}
-function stopPresence(){
- if(presenceChannel){db.removeChannel(presenceChannel);presenceChannel=null}
- onlineUsers.clear();
-}
-function startRefresh(){
- if(refreshTimer)clearInterval(refreshTimer);
- if(realtimeStatus==="SUBSCRIBED")return;
- refreshTimer=setInterval(()=>{
-  if(realtimeStatus!=="SUBSCRIBED"&&isApproved()&&activeConversationId)loadMessages();
- },12000);
-}
-function subscribeMessages(){
- stopRealtime();
- if(!activeConversationId)return;
- const conversationId=activeConversationId;
- setConnection("Realtime সংযোগ হচ্ছে...","#d97706");
- messageChannel=db.channel("chat-"+conversationId+"-"+currentUser.id)
- .on("postgres_changes",{
-  event:"INSERT",schema:"public",table:"messages",
-  filter:"conversation_id=eq."+conversationId
- },async payload=>{
-  if(activeConversationId!==conversationId)return;
-  const message=payload.new;
-  if(message.owner_id!==currentUser.id){
-   const {data:sender}=await db.from("profiles")
-    .select("display_name").eq("user_id",message.owner_id).maybeSingle();
-   message.senderName=sender?.display_name||"পরিবারের সদস্য";
-   notifyMessage(message);
-  }
-  loadMessages();
- })
- .subscribe((status,error)=>{
-  realtimeStatus=status;
-  if(status==="SUBSCRIBED"){
-   if(refreshTimer){clearInterval(refreshTimer);refreshTimer=null}
-   setConnection("Live · Instant Chat","#15966a");loadMessages();
-  }else{
-   setConnection("Reconnecting...","#d97706");startRefresh();
-   if(error)console.error("Realtime error:",error);
-  }
- });
-}
-
-/* FAMILY CHAT */
-async function openFamilyChat(){
- if(!isApproved())return;
- stopRealtime();messageRequest++;
- activeChatType="family";activePrivateName="";activePrivateUserId=null;
- setChatTab("family");
- $("chatTitle").textContent="💬 Family Chat";
- $("chatSubtitle").textContent="🟢 পরিবারের ব্যক্তিগত গ্রুপ";
- $("messages").innerHTML='<div class="empty-chat">Chat চালু হচ্ছে...</div>';
- const {data,error}=await db.rpc("get_family_conversation");
- if(error){
-  activeConversationId=null;familyConversationId=null;
-  $("messages").textContent="Chat চালু হয়নি: "+error.message;return;
- }
- familyConversationId=data;activeConversationId=data;
- await loadMessages();subscribeMessages();
-}
-
-/* PRIVATE CONTACTS */
-async function showContacts(){
- if(!isApproved())return;
- stopRealtime();messageRequest++;
- activeConversationId=null;activeChatType="private";setChatTab("private");
- $("chatTitle").textContent="✉️ ব্যক্তিগত Chat";
- $("chatSubtitle").textContent="একজন সদস্যের সঙ্গে ব্যক্তিগত কথোপকথন";
- $("messages").innerHTML='<div class="empty-chat">চ্যাট শুরু করতে একজন সদস্য নির্বাচন করুন।</div>';
- await loadContacts();
-}
-async function loadContacts(){
- if(!isApproved())return;
- const list=$("contactList");list.textContent="সদস্য তালিকা লোড হচ্ছে...";
- const {data,error}=await db.from("profiles")
-  .select("user_id,email,display_name,avatar_url")
-  .eq("approved",true).eq("status","approved").order("display_name");
- if(error){list.textContent="সদস্য তালিকা লোড হয়নি: "+error.message;return}
- list.replaceChildren();
- const contacts=(data||[]).filter(p=>p.user_id!==currentUser.id);
- if(!contacts.length){list.textContent="অন্য কোনো অনুমোদিত সদস্য পাওয়া যায়নি।";return}
- contacts.forEach(person=>{
-  const btn=document.createElement("button");btn.className="contact";
-  const img=document.createElement("img");img.src=person.avatar_url||placeholder;
-  img.onerror=()=>img.src=placeholder;
-  const label=document.createElement("span");
-  const nm=document.createElement("b");const em=document.createElement("small");
-  nm.textContent=person.display_name||"পরিবারের সদস্য";em.textContent=person.email||"";
-  label.append(nm,em);
-  const dot=document.createElement("i");
-  dot.className=onlineUsers.has(person.user_id)?"online-dot":"offline-dot";
-  btn.append(img,label,dot);
-  btn.onclick=()=>openPrivateChat(person.user_id,person.display_name||"পরিবারের সদস্য");
-  list.append(btn);
- });
-}
-async function openPrivateChat(otherUserId,otherName){
- if(!isApproved()||!otherUserId||otherUserId===currentUser.id)return;
- stopRealtime();messageRequest++;
- activeConversationId=null;activeChatType="private";
- activePrivateName=otherName;activePrivateUserId=otherUserId;
- setChatTab("private");
- $("chatTitle").textContent="✉️ "+otherName;updateChatPresence();
- $("messages").innerHTML='<div class="empty-chat">Private Chat চালু হচ্ছে...</div>';
- const {data,error}=await db.rpc("get_or_create_private_conversation",{p_other_user_id:otherUserId});
- if(error){$("messages").textContent="Private Chat চালু হয়নি: "+error.message;return}
- activeConversationId=data;await loadMessages();subscribeMessages();
-}
-
-/* SEEN RECEIPTS */
-async function markMessagesSeen(messages){
- const incoming=messages.filter(m=>m.owner_id!==currentUser.id);
- if(!incoming.length)return;
- const conversationId=activeConversationId;
- const {data:existing,error}=await db.from("message_receipts")
-  .select("message_id").eq("user_id",currentUser.id)
-  .eq("conversation_id",conversationId);
- if(error){console.warn("Seen receipts read:",error.message);return}
- const seen=new Set((existing||[]).map(r=>r.message_id));
- const rows=incoming.filter(m=>!seen.has(m.id)).map(m=>({
-  message_id:m.id,conversation_id:conversationId,user_id:currentUser.id
- }));
- if(rows.length){
-  const {error:insertError}=await db.from("message_receipts").insert(rows);
-  if(insertError)console.warn("Seen receipt insert:",insertError.message);
- }
-}
-async function getReceipts(conversationId){
- const {data,error}=await db.from("message_receipts")
-  .select("message_id,user_id,seen_at").eq("conversation_id",conversationId);
- if(error){console.warn("Receipt loading:",error.message);return {}}
- const map={};
- (data||[]).forEach(r=>{
-  if(!map[r.message_id])map[r.message_id]=[];
-  map[r.message_id].push(r);
- });
- return map;
-}
-
-/* IMAGE ZOOM, VIEW AND DOWNLOAD */
-let viewerImageUrl="";
-let viewerZoom=1;
-
-function openImageViewer(url){
- if(!url)return;
- viewerImageUrl=url;
- viewerZoom=1;
- $("viewerImage").src=url;
- $("viewerImage").style.transform="scale(1)";
- $("viewerZoomLabel").textContent="100%";
- $("imageViewer").classList.add("active");
- document.body.style.overflow="hidden";
-}
-
-function closeImageViewer(){
- $("imageViewer").classList.remove("active");
- $("viewerImage").src="";
- document.body.style.overflow="";
- viewerImageUrl="";
- viewerZoom=1;
-}
-
-function zoomImage(amount){
- viewerZoom=Math.max(0.5,Math.min(4,viewerZoom+amount));
- $("viewerImage").style.transform="scale("+viewerZoom+")";
- $("viewerZoomLabel").textContent=Math.round(viewerZoom*100)+"%";
-}
-
-function resetImageZoom(){
- viewerZoom=1;
- $("viewerImage").style.transform="scale(1)";
- $("viewerZoomLabel").textContent="100%";
-}
-
-async function downloadImage(){
- if(!viewerImageUrl){toast("ছবিটি পাওয়া যায়নি।");return}
- const btn=$("downloadImageBtn");
- btn.disabled=true;
- btn.textContent="ডাউনলোড হচ্ছে...";
- try{
-  const response=await fetch(viewerImageUrl);
-  if(!response.ok)throw new Error("ছবি ডাউনলোড করা যায়নি।");
-  const blob=await response.blob();
-  const blobUrl=URL.createObjectURL(blob);
-  const link=document.createElement("a");
-  link.href=blobUrl;
-  link.download="Family-Connect-"+Date.now()+".jpg";
-  document.body.appendChild(link);
-  link.click();
-  link.remove();
-  setTimeout(()=>URL.revokeObjectURL(blobUrl),10000);
-  toast("ছবি ডাউনলোড শুরু হয়েছে। Downloads ফোল্ডার দেখুন।");
- }catch(error){
-  toast("ডাউনলোড ব্যর্থ। নতুন ট্যাবে ছবি খুলছি।");
-  window.open(viewerImageUrl,"_blank","noopener");
- }finally{
-  btn.disabled=false;
-  btn.textContent="⬇ Download";
- }
-
-}
-
-$("imageViewer").addEventListener("click",function(event){
- if(event.target===this)closeImageViewer();
-});
-
-document.addEventListener("keydown",function(event){
- if(event.key==="Escape")closeImageViewer();
- if($("imageViewer").classList.contains("active")){
-  if(event.key==="+")zoomImage(0.25);
-  if(event.key==="-")zoomImage(-0.25);
- }
-});
-
-/* LOAD MESSAGES */
+$('chatPhoto').addEventListener('change',e=>{const f=e.target.files[0];e.target.value='';if(f)sendMedia(f,'photo')});
+$('chatVideo').addEventListener('change',e=>{const f=e.target.files[0];e.target.value='';if(f)sendMedia(f,'video')});
+async function signedMedia(message){if(!message.attachment_url)return null;const bucket=message.attachment_kind==='video'?CHAT_VIDEO_BUCKET:CHAT_IMAGE_BUCKET;const {data,error}=await db.storage.from(bucket).createSignedUrl(message.attachment_url,3600);if(error){console.warn('Media URL:',error.message);return null}return data.signedUrl}
 async function loadMessages(){
- if(!activeConversationId||!currentUser)return;
- const conversationId=activeConversationId;
- const requestId=++messageRequest,box=$("messages");
- const nearBottom=box.scrollHeight-box.scrollTop-box.clientHeight<130;
- const {data,error}=await db.from("messages")
-  .select("id,owner_id,message_text,created_at,attachment_url,attachment_kind")
-  .eq("conversation_id",conversationId).order("created_at",{ascending:true}).limit(100);
- if(requestId!==messageRequest)return;
- if(error){box.textContent="Chat সমস্যা: "+error.message;return}
- if(!data||!data.length){
-  box.innerHTML='<div class="empty-chat">💬 এখনো কোনো মেসেজ নেই।<br>পরিবারের সঙ্গে কথা শুরু করুন।</div>';return;
+ if(!activeConversationId||!currentUser)return;const conversationId=activeConversationId;
+ const {data,error}=await db.from('messages').select('id,owner_id,message_text,created_at,attachment_url,attachment_kind').eq('conversation_id',conversationId).order('created_at',{ascending:true}).limit(100);
+ if(error){$('messages').textContent='Chat সমস্যা: '+error.message;return}
+ const box=$('messages'),nearBottom=box.scrollHeight-box.scrollTop-box.clientHeight<130;box.replaceChildren();
+ if(!data?.length){box.textContent='এখনো কোনো মেসেজ নেই।';return}
+ const userIds=[...new Set(data.map(m=>m.owner_id))];const {data:profiles}=await db.from('profiles').select('user_id,display_name,avatar_url').in('user_id',userIds);const pm={};(profiles||[]).forEach(p=>pm[p.user_id]=p);
+ for(const m of data){
+  const profile=pm[m.owner_id]||{},item=document.createElement('div');item.className=m.owner_id===currentUser.id?'msg mine':'msg';
+  const h=document.createElement('div');h.className='msg-header';const av=document.createElement('img');av.className='msg-avatar';av.src=profile.avatar_url||placeholder;av.onerror=()=>av.src=placeholder;const nm=document.createElement('div');nm.className='msg-name';nm.textContent=m.owner_id===currentUser.id?'আপনি ('+(profile.display_name||'সদস্য')+')':(profile.display_name||'পরিবারের সদস্য');h.append(av,nm);item.append(h);
+  if(m.message_text){const c=document.createElement('div');c.className='msg-content';c.textContent=m.message_text;item.append(c)}
+  if(m.attachment_url){const url=await signedMedia(m);if(url){if(m.attachment_kind==='video'){const v=document.createElement('video');v.className='msg-media msg-video';v.src=url;v.controls=true;v.playsInline=true;v.preload='metadata';item.append(v)}else{const im=document.createElement('img');im.className='msg-media';im.src=url;im.alt='Shared photo';im.loading='lazy';im.onclick=()=>window.open(url,'_blank','noopener');item.append(im)}const a=document.createElement('a');a.href=url;a.download='';a.target='_blank';a.rel='noopener';a.textContent='⬇️ ডাউনলোড';a.style.display='inline-block';a.style.marginTop='6px';item.append(a)}else{const er=document.createElement('small');er.textContent='মিডিয়া লোড হয়নি (Storage policy/bucket পরীক্ষা করুন)';item.append(er)}}
+  const tm=document.createElement('div');tm.className='msg-time';tm.textContent=new Date(m.created_at).toLocaleString('bn-BD');item.append(tm);
+  const rr=document.createElement('div');rr.className='reaction-row';['❤️','😂','👍','😮','🙏'].forEach(emo=>{const b=document.createElement('button');b.className='reaction-btn';b.textContent=emo;b.onclick=()=>addReaction(m.id,emo);rr.append(b)});item.append(rr);
+  try{const {data:rs}=await db.from('message_reactions').select('emoji,user_id').eq('message_id',m.id);if(rs?.length){const counts={};rs.forEach(r=>counts[r.emoji]=(counts[r.emoji]||0)+1);Object.entries(counts).forEach(([em,n])=>{const tag=document.createElement('span');tag.className='small';tag.textContent=em+' '+n;rr.append(tag)})}}catch(e){console.debug('Reaction table not set up yet')}
+  box.append(item);
  }
- await markMessagesSeen(data);
- if(requestId!==messageRequest)return;
- const userIds=[...new Set(data.map(m=>m.owner_id))];
- const {data:profiles}=await db.from("profiles")
-  .select("user_id,display_name,avatar_url").in("user_id",userIds);
- if(requestId!==messageRequest)return;
- const profileMap={};(profiles||[]).forEach(p=>profileMap[p.user_id]=p);
- const receipts=await getReceipts(conversationId);
- if(requestId!==messageRequest)return;
-
- const imagePaths=[...new Set(data.filter(m=>m.attachment_kind==="photo"&&m.attachment_url).map(m=>m.attachment_url))];
- const signedMap={};
- await Promise.all(imagePaths.map(async path=>{
-  const {data:result,error:signedError}=await db.storage.from(CHAT_IMAGE_BUCKET).createSignedUrl(path,3600);
-  if(!signedError&&result?.signedUrl)signedMap[path]=result.signedUrl;
- }));
- if(requestId!==messageRequest)return;
- const fragment=document.createDocumentFragment();
- data.forEach(message=>{
-  const profile=profileMap[message.owner_id]||{};
-  const mine=message.owner_id===currentUser.id;
-  const item=document.createElement("div");item.className=mine?"msg mine":"msg";
-  const header=document.createElement("div");header.className="msg-header";
-  const avatar=document.createElement("img");avatar.className="msg-avatar";
-  avatar.src=profile.avatar_url||placeholder;avatar.onerror=()=>avatar.src=placeholder;
-  const sender=document.createElement("div");sender.className="msg-name";
-  const senderName=profile.display_name||"পরিবারের সদস্য";
-  sender.textContent=mine?"আপনি ("+senderName+")":senderName;
-  header.append(avatar,sender);item.append(header);
-  if(message.message_text){
-   const content=document.createElement("div");content.className="msg-content";
-   content.textContent=message.message_text;item.append(content);
-  }
-
-  if(message.attachment_kind==="photo"&&message.attachment_url){
-   if(signedMap[message.attachment_url]){
-    const img=document.createElement("img");
-    img.className="msg-image";
-    img.src=signedMap[message.attachment_url];
-    img.alt="Shared image";
-    img.loading="lazy";
-    img.addEventListener("click",function(){
-     openImageViewer(signedMap[message.attachment_url]);
-    });
-    item.append(img);
-   }else{
-    const failed=document.createElement("div");failed.className="small";
-    failed.textContent="ছবি লোড করা যায়নি।";item.append(failed);
-   }
-  }
-
-  const time=document.createElement("div");time.className="msg-time";
-  time.textContent=formatTime(message.created_at);item.append(time);
-  if(mine){
-   const list=receipts[message.id]||[];
-   const readers=list.filter(r=>r.user_id!==currentUser.id);
-   const receipt=document.createElement("div");receipt.className="receipt";
-   if(readers.length){
-    const latest=readers.reduce((a,b)=>new Date(a.seen_at)>new Date(b.seen_at)?a:b);
-    receipt.textContent=activeChatType==="private"?"✓✓ Seen · "+formatTime(latest.seen_at):"✓✓ Seen by "+readers.length+" · "+formatTime(latest.seen_at);
-   }else{receipt.textContent="✓ Sent"}
-   item.append(receipt);
-  }
-  fragment.append(item);
- });
- box.replaceChildren(fragment);
  if(nearBottom)box.scrollTop=box.scrollHeight;
 }
+async function addReaction(messageId,emoji){try{const {error}=await db.from('message_reactions').upsert({message_id:messageId,user_id:currentUser.id,emoji},{onConflict:'message_id,user_id'});if(error)throw error;await loadMessages()}catch(e){alert('রিঅ্যাকশন চালু করতে SQL সেটআপ করুন: '+e.message)}}
+async function sendMessage(){if(!currentUser||!isApproved()||!activeConversationId){alert('আগে একটি অনুমোদিত Chat খুলুন।');return}const input=$('chatInput'),btn=$('sendBtn'),content=input.value.trim();if(!content)return;btn.disabled=true;try{const {error}=await db.from('messages').insert({conversation_id:activeConversationId,owner_id:currentUser.id,message_text:content});if(error)throw error;input.value='';await loadMessages()}catch(e){alert('মেসেজ পাঠানো যায়নি: '+e.message)}finally{btn.disabled=false;input.focus()}}
+function subscribeMessages(){if(messageChannel){db.removeChannel(messageChannel);messageChannel=null}if(!activeConversationId)return;const cid=activeConversationId;messageChannel=db.channel('chat-'+cid).on('postgres_changes',{event:'*',schema:'public',table:'messages',filter:'conversation_id=eq.'+cid},()=>{if(activeConversationId===cid)loadMessages()}).subscribe();subscribeCallSignals(cid)}
+function subscribeCallSignals(cid){if(callChannel){db.removeChannel(callChannel);callChannel=null}callChannel=db.channel('calls-'+cid).on('postgres_changes',{event:'INSERT',schema:'public',table:'call_signals',filter:'conversation_id=eq.'+cid},payload=>handleCallSignal(payload.new)).subscribe()}
+async function sendSignal(callId,type,payload={},targetId=null){const {error}=await db.from('call_signals').insert({conversation_id:activeConversationId,call_id:callId,sender_id:currentUser.id,target_id:targetId,signal_type:type,payload});if(error)throw error}
+async function getCallMembers(){const {data,error}=await db.from('conversation_members').select('owner_id').eq('conversation_id',activeConversationId);if(error)throw error;return [...new Set((data||[]).map(x=>x.owner_id).filter(x=>x!==currentUser.id))].slice(0,3)}
+function createPeer(peerId){if(peerConnections.has(peerId))return peerConnections.get(peerId);const pc=new RTCPeerConnection({iceServers:[{urls:'stun:stun.l.google.com:19302'},{urls:'stun:stun1.l.google.com:19302'}]});localCallStream?.getTracks().forEach(t=>pc.addTrack(t,localCallStream));pc.onicecandidate=e=>{if(e.candidate&&activeCallId)sendSignal(activeCallId,'ice',{candidate:e.candidate.toJSON()},peerId).catch(console.error)};pc.ontrack=e=>{let v=document.getElementById('remote-'+peerId);if(!v){v=document.createElement('video');v.id='remote-'+peerId;v.autoplay=true;v.playsInline=true;v.controls=true;$('remoteVideos').append(v)}v.srcObject=e.streams[0]};pc.onconnectionstatechange=()=>{if(['failed','disconnected','closed'].includes(pc.connectionState))console.log('Peer',peerId,pc.connectionState)};peerConnections.set(peerId,pc);return pc}
+async function startCall(video){if(!activeConversationId||!isApproved())return alert('আগে একটি চ্যাট খুলুন।');if(!navigator.mediaDevices?.getUserMedia)return alert('এই ব্রাউজারে অডিও/ভিডিও কল সমর্থিত নয়। HTTPS প্রয়োজন।');if(peerConnections.size)return alert('একটি কল ইতিমধ্যে চলছে।');try{const members=await getCallMembers();if(!members.length)return alert('এই চ্যাটে অন্য সদস্য নেই।');const targets=members.slice(0,3);activeCallId=uuid();callIsVideo=!!video;callAccepted=true;localCallStream=await navigator.mediaDevices.getUserMedia({audio:true,video:callIsVideo});$('localVideo').srcObject=localCallStream;$('localVideo').style.display=callIsVideo?'block':'none';$('remoteVideos').replaceChildren();setCallUI(true);callStatus('কল করা হচ্ছে... সর্বোচ্চ ৪ জন (আপনিসহ)।');for(const id of targets){const pc=createPeer(id),offer=await pc.createOffer();await pc.setLocalDescription(offer);await sendSignal(activeCallId,'offer',{description:pc.localDescription.toJSON(),video:callIsVideo},id)}}catch(e){await endCall(false);alert('কল শুরু হয়নি: '+e.message)}}
+async function handleCallSignal(s){if(!s||s.sender_id===currentUser?.id|| (s.target_id&&s.target_id!==currentUser?.id))return;if(s.signal_type==='ice' && ((!activeCallId && pendingCallOffer?.call_id===s.call_id) || activeCallId===s.call_id)){pendingIceSignals.push(s);const existing=peerConnections.get(s.sender_id);if(existing?.remoteDescription&&s.payload?.candidate){try{await existing.addIceCandidate(s.payload.candidate);pendingIceSignals=pendingIceSignals.filter(x=>x.id!==s.id)}catch(e){console.warn(e)}}return}if(s.signal_type==='offer'){if(peerConnections.size||pendingCallOffer)return;pendingCallOffer=s;$('incomingCallBox').innerHTML='';const box=document.createElement('div');box.className='incoming-call';const t=document.createElement('b');t.textContent=(s.payload?.video?'🎥 ভিডিও':'📞 অডিও')+' কল আসছে';const accept=document.createElement('button');accept.textContent='গ্রহণ';accept.onclick=()=>acceptCall();const reject=document.createElement('button');reject.className='red';reject.textContent='প্রত্যাখ্যান';reject.onclick=()=>rejectCall();box.append(t,document.createElement('br'),accept,reject);$('incomingCallBox').append(box);return}if(!activeCallId||s.call_id!==activeCallId)return;const pc=peerConnections.get(s.sender_id);if(s.signal_type==='answer'&&pc){await pc.setRemoteDescription(s.payload.description);for(const ice of pendingIceSignals.filter(x=>x.call_id===s.call_id&&x.sender_id===s.sender_id)){try{await pc.addIceCandidate(ice.payload.candidate)}catch(e){console.warn(e)}}pendingIceSignals=pendingIceSignals.filter(x=>!(x.call_id===s.call_id&&x.sender_id===s.sender_id));callStatus('কল সংযুক্ত হচ্ছে...')}else if(s.signal_type==='ice'&&pc&&s.payload?.candidate){try{await pc.addIceCandidate(s.payload.candidate)}catch(e){console.warn(e)}}else if(s.signal_type==='end'||s.signal_type==='reject'){closePeer(s.sender_id);if(!peerConnections.size)await endCall(false)}}
+async function acceptCall(){const s=pendingCallOffer;if(!s)return;try{pendingCallOffer=null;activeCallId=s.call_id;callIsVideo=!!s.payload.video;callAccepted=true;localCallStream=await navigator.mediaDevices.getUserMedia({audio:true,video:callIsVideo});$('localVideo').srcObject=localCallStream;$('localVideo').style.display=callIsVideo?'block':'none';$('remoteVideos').replaceChildren();setCallUI(true);const pc=createPeer(s.sender_id);await pc.setRemoteDescription(s.payload.description);for(const ice of pendingIceSignals.filter(x=>x.call_id===s.call_id&&x.sender_id===s.sender_id)){try{await pc.addIceCandidate(ice.payload.candidate)}catch(e){console.warn(e)}}pendingIceSignals=pendingIceSignals.filter(x=>!(x.call_id===s.call_id&&x.sender_id===s.sender_id));const answer=await pc.createAnswer();await pc.setLocalDescription(answer);await sendSignal(activeCallId,'answer',{description:pc.localDescription.toJSON()},s.sender_id);$('incomingCallBox').replaceChildren();callStatus('কল সংযুক্ত হচ্ছে...')}catch(e){alert('কল গ্রহণ করা যায়নি: '+e.message);await endCall(false)}}
+async function rejectCall(){const s=pendingCallOffer;if(s){try{await sendSignal(s.call_id,'reject',{},s.sender_id)}catch(e){console.warn(e)}}pendingCallOffer=null;$('incomingCallBox').replaceChildren()}
+function closePeer(id){const pc=peerConnections.get(id);if(pc){pc.close();peerConnections.delete(id)}const v=document.getElementById('remote-'+id);if(v)v.remove()}
+async function endCall(send=true){const id=activeCallId;if(send&&id){for(const peer of peerConnections.keys()){try{await sendSignal(id,'end',{},peer)}catch(e){console.warn(e)}}}peerConnections.forEach(pc=>pc.close());peerConnections.clear();if(localCallStream)localCallStream.getTracks().forEach(t=>t.stop());localCallStream=null;activeCallId=null;pendingIceSignals=[];pendingCallOffer=null;callAccepted=false;$('localVideo').srcObject=null;$('remoteVideos').replaceChildren();$('incomingCallBox').replaceChildren();setCallUI(false)}
+function toggleMic(){if(!localCallStream)return;callMicOn=!callMicOn;localCallStream.getAudioTracks().forEach(t=>t.enabled=callMicOn);callStatus(callMicOn?'মাইক্রোফোন চালু':'মাইক্রোফোন বন্ধ')}
+function toggleCamera(){if(!localCallStream)return;callCameraOn=!callCameraOn;localCallStream.getVideoTracks().forEach(t=>t.enabled=callCameraOn);callStatus(callCameraOn?'ক্যামেরা চালু':'ক্যামেরা বন্ধ')}
+// Keep the call listener and media resources tidy when switching account.
+const oldClearApp=clearApp;clearApp=function(){endCall(false);if(callChannel){db.removeChannel(callChannel);callChannel=null}oldClearApp()};
 
-/* SEND TEXT */
-async function sendMessage(){
- if(!currentUser||!isApproved()||!activeConversationId){alert("আগে একটি অনুমোদিত Chat খুলুন।");return}
- const input=$("chatInput"),btn=$("sendBtn"),content=input.value.trim();
- if(!content)return;
- const conversationId=activeConversationId;
- btn.disabled=true;input.disabled=true;
- try{
-  const {error}=await db.from("messages").insert({
-   conversation_id:conversationId,owner_id:currentUser.id,message_text:content
-  });
-  if(error)throw error;
-  input.value="";
-  if(activeConversationId===conversationId){
-   await loadMessages();$("messages").scrollTop=$("messages").scrollHeight;
-  }
- }catch(error){alert("মেসেজ পাঠানো যায়নি: "+error.message)}
- finally{btn.disabled=false;input.disabled=false;input.focus()}
-}
-
-/* SEND IMAGE */
-$("imageFile").addEventListener("change",async function(){
- const file=this.files[0];if(!file)return;
- const input=this,status=$("imageStatus");
- if(!activeConversationId||!isApproved()){toast("আগে একটি Chat খুলুন।");input.value="";return}
- if(!["image/jpeg","image/png","image/webp"].includes(file.type)){toast("শুধু JPG, PNG অথবা WEBP ছবি পাঠানো যাবে।");input.value="";return}
- if(file.size>5*1024*1024){toast("ছবি সর্বোচ্চ ৫ MB হতে হবে।");input.value="";return}
- const conversationId=activeConversationId;
- status.textContent="ছবি আপলোড হচ্ছে...";$("sendBtn").disabled=true;
- try{
-  const ext=file.type==="image/png"?"png":file.type==="image/webp"?"webp":"jpg";
-  const path=conversationId+"/"+currentUser.id+"/"+Date.now()+"."+ext;
-  const {error:uploadError}=await db.storage.from(CHAT_IMAGE_BUCKET)
-   .upload(path,file,{contentType:file.type,upsert:false});
-  if(uploadError)throw uploadError;
-
-  const {error:messageError}=await db.from("messages").insert({
-   conversation_id:conversationId,
-   owner_id:currentUser.id,
-   message_text:"",
-   attachment_url:path,
-   attachment_kind:"photo"
-  });
-  if(messageError)throw messageError;
-  status.textContent="ছবি পাঠানো হয়েছে।";
-  if(activeConversationId===conversationId){
-   await loadMessages();$("messages").scrollTop=$("messages").scrollHeight;
-  }
- }catch(error){status.textContent="ছবি পাঠানো যায়নি: "+error.message}
- finally{$("sendBtn").disabled=false;input.value=""}
-});
-
-$("chatInput").addEventListener("keydown",function(event){
- if(event.key==="Enter"&&!event.shiftKey){event.preventDefault();sendMessage()}
-});
-
-/* LOGOUT */
-function clearApp(){
- stopRealtime();stopPresence();messageRequest++;
- currentUser=null;currentProfile=null;familyConversationId=null;
- activeConversationId=null;activeChatType="family";
- activePrivateName="";activePrivateUserId=null;
-}
-async function logout(){
- const {error}=await db.auth.signOut();
- if(error){alert(error.message);return}
- clearApp();show("appBox",false);show("loginBox",true);
- notice("loginMessage","আপনি Logout করেছেন।");
-}
-window.addEventListener("beforeunload",()=>{
- stopRealtime();stopPresence();
-});
-
-/* START APP */
 checkLogin();
 </script>
 </body>
