@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="bn">
 <head>
@@ -37,7 +38,7 @@ background:var(--blue);
 color:white;
 font-weight:bold;
 }
-button:disabled{opacity:.5}
+button:disabled{opacity:.5;cursor:not-allowed}
 input,textarea{
 width:100%;
 padding:13px;
@@ -120,11 +121,13 @@ object-fit:cover;
 border:3px solid #e0ebff;
 background:#eaf2ff;
 }
-.avatar-large{
-width:112px;height:112px;
-}
+.avatar-large{width:112px;height:112px}
 .profile-name{font-weight:bold;font-size:17px}
-.small{font-size:12px;color:var(--muted);overflow-wrap:anywhere}
+.small{
+font-size:12px;
+color:var(--muted);
+overflow-wrap:anywhere;
+}
 .role{
 background:#f1f6ff;
 padding:10px;
@@ -134,10 +137,7 @@ margin-top:14px;
 }
 .preview{text-align:center;margin:12px 0}
 .preview img{display:block;margin:auto}
-.divider{
-height:1px;background:var(--line);
-margin:16px 0;
-}
+.divider{height:1px;background:var(--line);margin:16px 0}
 #loginBox{max-width:460px;margin:40px auto}
 .login-icon{
 width:60px;height:60px;
@@ -163,7 +163,7 @@ background:#f5f8ff;
 border-radius:14px;
 display:flex;
 flex-direction:column;
-gap:10px;
+gap:12px;
 }
 .msg{
 max-width:85%;
@@ -179,11 +179,26 @@ background:#dceaff;
 border-color:#c9ddff;
 border-radius:15px 15px 5px 15px;
 }
+.msg-header{
+display:flex;
+align-items:center;
+gap:8px;
+margin-bottom:7px;
+}
+.msg-avatar{
+width:30px;
+height:30px;
+border-radius:50%;
+object-fit:cover;
+background:#eaf2ff;
+border:1px solid #dce8fa;
+flex-shrink:0;
+}
 .msg-name{
-font-size:11px;
+font-size:12px;
 font-weight:bold;
 color:#3865a5;
-margin-bottom:5px;
+margin:0;
 }
 .msg-content{
 font-size:14px;
@@ -242,8 +257,13 @@ object-fit:cover;
 background:#eaf2ff;
 }
 .member-name{font-weight:bold;font-size:14px}
-.member-email{font-size:11px;color:var(--muted);overflow-wrap:anywhere}
+.member-email{
+font-size:11px;
+color:var(--muted);
+overflow-wrap:anywhere;
+}
 .member-status{font-size:12px;margin:9px 0}
+.member button{margin:4px 4px 0 0}
 footer{
 text-align:center;
 color:#8795a9;
@@ -290,7 +310,6 @@ header{padding:16px}
 </section>
 
 <section id="appBox" class="hidden">
-
 <div class="grid">
 
 <aside>
@@ -357,7 +376,6 @@ onclick="saveProfile()">✓ প্রোফাইল সেভ করুন</but
 </div>
 
 <div id="chatBox" class="card hidden">
-
 <div class="chat-head">
 <div>
 <h3>💬 Family Chat</h3>
@@ -366,9 +384,7 @@ onclick="saveProfile()">✓ প্রোফাইল সেভ করুন</but
 <button class="soft" onclick="loadMessages()">↻ Refresh</button>
 </div>
 
-<div id="messages">
-চ্যাট চালু হচ্ছে...
-</div>
+<div id="messages">চ্যাট চালু হচ্ছে...</div>
 
 <div class="compose">
 <textarea id="chatInput" rows="1" maxlength="3000"
@@ -377,7 +393,6 @@ placeholder="আপনার মেসেজ লিখুন..."></textarea>
 onclick="sendMessage()">➤</button>
 </div>
 <p class="small">Enter চাপলে মেসেজ যাবে। Shift + Enter নতুন লাইন।</p>
-
 </div>
 
 </div>
@@ -391,7 +406,6 @@ onclick="sendMessage()">➤</button>
 <script>
 "use strict";
 
-// SUPABASE SETTINGS
 const SUPABASE_URL =
 "https://vtvwfyooiblpcoofzdav.supabase.co";
 
@@ -417,44 +431,41 @@ const $ = id => document.getElementById(id);
 const placeholder =
 "https://placehold.co/120x120?text=FC";
 
-function show(id, visible){
+function show(id,visible){
 $(id).classList.toggle("hidden",!visible);
 }
 
 function notice(id,message){
-$(id).textContent = message;
+$(id).textContent=message;
 }
 
 // LOGIN
 async function sendLink(){
 
-const email = $("email").value.trim();
-const btn = $("loginBtn");
+const email=$("email").value.trim();
+const btn=$("loginBtn");
 
 if(!email){
 notice("loginMessage","আগে ইমেইল লিখুন।");
 return;
 }
 
-btn.disabled = true;
-btn.textContent = "পাঠানো হচ্ছে...";
+btn.disabled=true;
+btn.textContent="পাঠানো হচ্ছে...";
 
 try{
 
-const {error} = await db.auth.signInWithOtp({
+const {error}=await db.auth.signInWithOtp({
 email,
 options:{
 emailRedirectTo:
-window.location.origin + window.location.pathname
+window.location.origin+window.location.pathname
 }
 });
 
-if(error) throw error;
+if(error)throw error;
 
-notice(
-"loginMessage",
-"আপনার ইমেইলে Login Link পাঠানো হয়েছে।"
-);
+notice("loginMessage","আপনার ইমেইলে Login Link পাঠানো হয়েছে।");
 
 }catch(error){
 
@@ -462,8 +473,8 @@ notice("loginMessage","সমস্যা: "+error.message);
 
 }finally{
 
-btn.disabled = false;
-btn.textContent = "লগইন লিংক পাঠান";
+btn.disabled=false;
+btn.textContent="লগইন লিংক পাঠান";
 
 }
 }
@@ -471,7 +482,7 @@ btn.textContent = "লগইন লিংক পাঠান";
 // CHECK LOGIN
 async function checkLogin(){
 
-const {data,error} = await db.auth.getSession();
+const {data,error}=await db.auth.getSession();
 
 if(error){
 show("loginBox",true);
@@ -516,7 +527,7 @@ show("appBox",true);
 
 $("userEmail").textContent=user.email||"";
 
-const {data:profile,error} = await db
+const {data:profile,error}=await db
 .from("profiles")
 .select("user_id,email,display_name,role,approved,status,avatar_url")
 .eq("user_id",user.id)
@@ -546,10 +557,7 @@ show("rejectedBox",false);
 show("adminBox",false);
 show("chatBox",false);
 
-if(
-isAdmin() &&
-isApproved()
-){
+if(isAdmin() && isApproved()){
 
 show("adminBox",true);
 show("chatBox",true);
@@ -613,11 +621,7 @@ const file=this.files[0];
 
 if(!file)return;
 
-const allowed=[
-"image/jpeg",
-"image/png",
-"image/webp"
-];
+const allowed=["image/jpeg","image/png","image/webp"];
 
 if(!allowed.includes(file.type)){
 notice("profileMessage","শুধু JPG, PNG অথবা WEBP ছবি দিন।");
@@ -633,10 +637,7 @@ return;
 
 $("avatarPreview").src=URL.createObjectURL(file);
 
-notice(
-"profileMessage",
-"ছবি নির্বাচন হয়েছে। Save Profile চাপুন।"
-);
+notice("profileMessage","ছবি নির্বাচন হয়েছে। Save Profile চাপুন।");
 
 });
 
@@ -666,13 +667,7 @@ let avatarUrl=currentProfile.avatar_url||null;
 
 if(file){
 
-const allowed=[
-"image/jpeg",
-"image/png",
-"image/webp"
-];
-
-if(!allowed.includes(file.type)){
+if(!["image/jpeg","image/png","image/webp"].includes(file.type)){
 throw new Error("ছবির ফরম্যাট সঠিক নয়।");
 }
 
@@ -680,12 +675,10 @@ if(file.size>5*1024*1024){
 throw new Error("ছবি ৫ MB-এর কম হতে হবে।");
 }
 
-const ext=
-file.type==="image/png"?"png":
+const ext=file.type==="image/png"?"png":
 file.type==="image/webp"?"webp":"jpg";
 
-const path=
-currentUser.id+"/"+Date.now()+"."+ext;
+const path=currentUser.id+"/"+Date.now()+"."+ext;
 
 const {error:uploadError}=await db.storage
 .from(AVATAR_BUCKET)
@@ -723,13 +716,9 @@ currentProfile.display_name=name;
 currentProfile.avatar_url=avatarUrl;
 
 updateProfile(currentProfile);
-
 $("avatarFile").value="";
 
-notice(
-"profileMessage",
-"✅ আপনার প্রোফাইল সফলভাবে আপডেট হয়েছে।"
-);
+notice("profileMessage","✅ আপনার প্রোফাইল সফলভাবে আপডেট হয়েছে।");
 
 }catch(error){
 
@@ -797,13 +786,11 @@ head.append(avatar,info);
 
 const status=document.createElement("div");
 status.className="member-status";
-status.textContent=
-"Role: "+member.role+" | Status: "+member.status;
+status.textContent="Role: "+member.role+" | Status: "+member.status;
 
 card.append(head,status);
 
-if(member.role==="member" &&
-member.user_id!==currentUser.id){
+if(member.role==="member" && member.user_id!==currentUser.id){
 
 const approve=document.createElement("button");
 approve.className="green";
@@ -855,10 +842,7 @@ alert("পরিবর্তন হয়নি। Database Policy পরীক্�
 return;
 }
 
-alert(approved?
-"সদস্য অনুমোদিত হয়েছে।":
-"সদস্য Reject করা হয়েছে।"
-);
+alert(approved?"সদস্য অনুমোদিত হয়েছে।":"সদস্য Reject করা হয়েছে।");
 
 await loadMembers();
 
@@ -869,17 +853,12 @@ async function openFamilyChat(){
 
 $("messages").textContent="Chat চালু হচ্ছে...";
 
-const {data,error}=await db.rpc(
-"get_family_conversation"
-);
+const {data,error}=await db.rpc("get_family_conversation");
 
 if(error){
 
 familyConversationId=null;
-
-$("messages").textContent=
-"Chat চালু হয়নি: "+error.message;
-
+$("messages").textContent="Chat চালু হয়নি: "+error.message;
 return;
 
 }
@@ -891,7 +870,7 @@ subscribeMessages();
 
 }
 
-// LOAD MESSAGES
+// LOAD MESSAGES WITH MEMBER NAMES AND PHOTOS
 async function loadMessages(){
 
 if(!familyConversationId || !currentUser)return;
@@ -909,6 +888,7 @@ return;
 }
 
 const box=$("messages");
+
 const nearBottom=
 box.scrollHeight-box.scrollTop-box.clientHeight<100;
 
@@ -919,24 +899,63 @@ box.textContent="এখনো কোনো মেসেজ নেই।";
 return;
 }
 
+// Collect unique sender IDs
+const userIds=[...new Set(data.map(m=>m.owner_id))];
+
+// Get sender profiles
+const {data:profiles,error:profileError}=await db
+.from("profiles")
+.select("user_id,display_name,avatar_url")
+.in("user_id",userIds);
+
+if(profileError){
+console.error("Profile loading error:",profileError);
+}
+
+const profileMap={};
+
+(profiles||[]).forEach(profile=>{
+profileMap[profile.user_id]=profile;
+});
+
+// Create message elements
 data.forEach(message=>{
+
+const profile=profileMap[message.owner_id]||{};
 
 const item=document.createElement("div");
 
 item.className=
-message.owner_id===currentUser.id?
-"msg mine":"msg";
+message.owner_id===currentUser.id?"msg mine":"msg";
+
+// Header with avatar and name
+const header=document.createElement("div");
+header.className="msg-header";
+
+const avatar=document.createElement("img");
+avatar.className="msg-avatar";
+avatar.src=profile.avatar_url||placeholder;
+avatar.alt="Profile";
+avatar.onerror=()=>avatar.src=placeholder;
 
 const sender=document.createElement("div");
 sender.className="msg-name";
-sender.textContent=
-message.owner_id===currentUser.id?
-"আপনি":"পরিবারের সদস্য";
 
+const senderName=profile.display_name||"পরিবারের সদস্য";
+
+sender.textContent=
+message.owner_id===currentUser.id
+?"আপনি ("+senderName+")"
+:senderName;
+
+header.append(avatar,sender);
+
+// Message text
 const content=document.createElement("div");
 content.className="msg-content";
 content.textContent=message.message_text||"";
 
+// Message time
 const time=document.createElement("div");
 time.className="msg-time";
 
@@ -944,12 +963,14 @@ time.textContent=new Date(
 message.created_at
 ).toLocaleString("bn-BD");
 
-item.append(sender,content,time);
+item.append(header,content,time);
 box.append(item);
 
 });
 
-if(nearBottom)box.scrollTop=box.scrollHeight;
+if(nearBottom){
+box.scrollTop=box.scrollHeight;
+}
 
 }
 
@@ -1078,7 +1099,6 @@ return;
 }
 
 clearApp();
-
 show("appBox",false);
 show("loginBox",true);
 
