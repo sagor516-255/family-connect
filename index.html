@@ -629,7 +629,9 @@ async function loadMessages(){
  const profileMap={};(profiles||[]).forEach(p=>profileMap[p.user_id]=p);
  const receipts=await getReceipts(conversationId);
  if(requestId!==messageRequest)return;
- const imagePaths=[...new Set(data.filter(m=>m.attachment_kind==="image"&&m.attachment_url).map(m=>m.attachment_url))];
+
+ /* FIX: Database accepts "photo", not "image" */
+ const imagePaths=[...new Set(data.filter(m=>m.attachment_kind==="photo"&&m.attachment_url).map(m=>m.attachment_url))];
  const signedMap={};
  await Promise.all(imagePaths.map(async path=>{
   const {data:result,error:signedError}=await db.storage.from(CHAT_IMAGE_BUCKET).createSignedUrl(path,3600);
@@ -652,7 +654,9 @@ async function loadMessages(){
    const content=document.createElement("div");content.className="msg-content";
    content.textContent=message.message_text;item.append(content);
   }
-  if(message.attachment_kind==="image"&&message.attachment_url){
+
+  /* FIX: Display messages whose attachment_kind is "photo" */
+  if(message.attachment_kind==="photo"&&message.attachment_url){
    if(signedMap[message.attachment_url]){
     const img=document.createElement("img");img.className="msg-image";
     img.src=signedMap[message.attachment_url];img.alt="Shared image";item.append(img);
@@ -714,9 +718,14 @@ $("imageFile").addEventListener("change",async function(){
   const {error:uploadError}=await db.storage.from(CHAT_IMAGE_BUCKET)
    .upload(path,file,{contentType:file.type,upsert:false});
   if(uploadError)throw uploadError;
+
+  /* FIX: Use "photo" because it is allowed by the database constraint */
   const {error:messageError}=await db.from("messages").insert({
-   conversation_id:conversationId,owner_id:currentUser.id,message_text:"",
-   attachment_url:path,attachment_kind:"image"
+   conversation_id:conversationId,
+   owner_id:currentUser.id,
+   message_text:"",
+   attachment_url:path,
+   attachment_kind:"photo"
   });
   if(messageError)throw messageError;
   status.textContent="ছবি পাঠানো হয়েছে।";
