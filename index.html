@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#0866ff">
 <title>Family Connect</title>
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
@@ -16,13 +15,18 @@ button{cursor:pointer;border:0;border-radius:9px;padding:10px 14px;background:#0
 button:disabled{opacity:.5}
 input,textarea{width:100%;padding:12px;border:1px solid #d5dce8;border-radius:9px;outline:none}
 .hidden{display:none!important}
+
 #login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
 .login-card{background:white;padding:28px;border-radius:18px;width:100%;max-width:390px;box-shadow:0 8px 35px #15284a18}
 .logo{font-size:28px;font-weight:bold;color:#0866ff;text-align:center}
 .sub{text-align:center;color:#718096;margin:8px 0 24px}
+
 #app{height:100vh;display:flex;flex-direction:column}
-.top{height:60px;background:white;display:flex;align-items:center;justify-content:space-between;padding:0 16px;border-bottom:1px solid #e5eaf1}
+.top{height:60px;background:white;display:flex;align-items:center;justify-content:space-between;padding:0 16px;border-bottom:1px solid #e5eaf1;gap:10px}
 .brand{font-weight:bold;color:#0866ff;font-size:20px}
+.top-user{display:flex;align-items:center;gap:9px}
+.top-user span{font-size:13px}
+
 .layout{display:flex;flex:1;min-height:0}
 .sidebar{width:300px;background:white;border-right:1px solid #e5eaf1;display:flex;flex-direction:column}
 .side-head{padding:15px;border-bottom:1px solid #eee}
@@ -30,44 +34,63 @@ input,textarea{width:100%;padding:12px;border:1px solid #d5dce8;border-radius:9p
 .tabs{display:flex;gap:6px;flex-wrap:wrap}
 .tabs button{font-size:12px;padding:8px}
 .chat-list{overflow:auto;flex:1}
-.chat-item{padding:14px;border-bottom:1px solid #f0f2f5;cursor:pointer}
+
+.chat-item{padding:12px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #f0f2f5;cursor:pointer}
 .chat-item:hover,.chat-item.active{background:#edf4ff}
-.chat-item b{display:block}
+.chat-item b{display:block;overflow-wrap:anywhere}
 .chat-item small{color:#718096}
+
 .main{flex:1;display:flex;flex-direction:column;min-width:0}
 .welcome{margin:auto;text-align:center;color:#718096;padding:20px}
 .chat-head{background:white;padding:13px 16px;border-bottom:1px solid #e5eaf1;display:flex;align-items:center;justify-content:space-between}
 .chat-head h3{margin:0}
 .messages{flex:1;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:12px}
+
 .msg{max-width:78%;padding:10px 12px;border-radius:13px;background:white;box-shadow:0 1px 3px #0000000b;overflow-wrap:anywhere}
 .msg.mine{align-self:flex-end;background:#dceaff}
 .msg small{display:block;color:#758198;font-size:11px;margin-top:5px}
 .msg-actions{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}
 .msg-actions button{font-size:11px;padding:5px 7px;background:#e7edf7;color:#26354c}
-.msg img{max-width:220px;max-height:220px;border-radius:8px;display:block;margin-top:6px}
+.msg img.message-image{max-width:220px;max-height:220px;border-radius:8px;display:block;margin-top:6px;object-fit:cover}
+
+.sender-line{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.sender-line b{font-size:13px}
+.msg-avatar{width:30px;height:30px;min-width:30px;height:30px;border-radius:50%;object-fit:cover;margin:0;background:#dce8ff;color:#0866ff;display:inline-flex;align-items:center;justify-content:center;font-weight:bold;font-size:12px}
+
 .composer{background:white;padding:12px;border-top:1px solid #e5eaf1}
 .composer-row{display:flex;gap:8px;align-items:center}
 .composer-row input{flex:1;min-width:0}
 .reply-box{font-size:12px;background:#eef4ff;padding:8px;margin-bottom:8px;border-radius:8px}
+
 .page{padding:20px;overflow:auto}
 .card{background:white;padding:17px;border-radius:13px;margin-bottom:13px;box-shadow:0 2px 10px #00000008}
 .member{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 0;border-bottom:1px solid #eee}
+.member-left{display:flex;align-items:center;gap:10px;min-width:0}
 .member-info{min-width:0}
 .member-info small{display:block;color:#718096;overflow-wrap:anywhere}
-.avatar{width:38px;height:38px;border-radius:50%;object-fit:cover;background:#dce8ff;display:inline-flex;align-items:center;justify-content:center;color:#0866ff;font-weight:bold;flex-shrink:0}
+
+.avatar{width:42px;height:42px;min-width:42px;border-radius:50%;object-fit:cover;background:#dce8ff;display:inline-flex;align-items:center;justify-content:center;color:#0866ff;font-weight:bold;flex-shrink:0}
 .profile-row{display:flex;align-items:center;gap:12px}
-.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#172033;color:white;padding:12px 18px;border-radius:10px;z-index:99;max-width:90%;font-size:14px}
+.profile-large{width:85px;height:85px;min-width:85px;font-size:25px}
+.profile-upload{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 .status{font-size:13px;color:#718096;margin-top:10px}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#172033;color:white;padding:12px 18px;border-radius:10px;z-index:99;max-width:90%;font-size:14px}
+
 @media(max-width:700px){
  .sidebar{width:110px}
  .side-head{padding:8px}
  .side-head h3{font-size:13px}
  .tabs{display:block}
  .tabs button{width:100%;margin:2px 0;padding:7px 3px;font-size:11px}
- .chat-item{padding:10px 5px;font-size:12px}
+ .chat-item{padding:9px 5px;gap:5px;font-size:11px;flex-direction:column;align-items:center;text-align:center}
+ .chat-item .avatar{width:37px;height:37px;min-width:37px}
  .chat-item small{font-size:10px}
  .msg{max-width:90%}
  .page{padding:12px}
+ .top{padding:0 8px}
+ .brand{font-size:16px}
+ .top-user span{display:none}
+ .top-user .avatar{width:32px;height:32px;min-width:32px}
 }
 </style>
 </head>
@@ -88,7 +111,8 @@ input,textarea{width:100%;padding:12px;border:1px solid #d5dce8;border-radius:9p
 <div id="app" class="hidden">
  <header class="top">
   <div class="brand">Family Connect</div>
-  <div>
+  <div class="top-user">
+   <img id="topAvatar" class="avatar" alt="">
    <span id="topName"></span>
    <button id="logoutBtn">Logout</button>
   </div>
@@ -145,22 +169,24 @@ input,textarea{width:100%;padding:12px;border:1px solid #d5dce8;border-radius:9p
    <section id="profilePage" class="page hidden">
     <div class="card">
      <h2>প্রোফাইল সেটিংস</h2>
-     <div class="profile-row">
-      <img id="profileAvatar" class="avatar" src="" alt="">
+
+     <div class="profile-upload">
+      <img id="profileAvatar" class="avatar profile-large" alt="">
       <div>
        <b id="profileEmail"></b>
        <div><small id="profileRole"></small></div>
       </div>
      </div>
+
      <br>
      <label>আপনার নাম</label>
      <input id="profileName" placeholder="আপনার নাম">
      <br><br>
-     <label>প্রোফাইল ছবি</label>
+     <label>প্রোফাইল ছবি পরিবর্তন</label>
      <input id="avatarFile" type="file" accept="image/*">
-     <br><br>
-     <button id="saveProfileBtn">Save Profile</button>
      <div id="profileStatus" class="status"></div>
+     <br>
+     <button id="saveProfileBtn">Save Profile</button>
     </div>
    </section>
 
@@ -186,17 +212,17 @@ const ADMIN_EMAIL = "sagor516@gmail.com";
 const AVATAR_BUCKET = "familly-avatars";
 const IMAGE_BUCKET = "family-chat-images";
 
-const db = window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
-let currentUser = null;
-let currentProfile = null;
-let currentConversation = null;
-let currentReply = null;
-let messagesChannel = null;
-let refreshTimer = null;
-let loadedMessages = [];
+let currentUser=null;
+let currentProfile=null;
+let currentConversation=null;
+let currentReply=null;
+let messagesChannel=null;
+let refreshTimer=null;
+let loadedMessages=[];
 
-const $ = id => document.getElementById(id);
+const $=id=>document.getElementById(id);
 
 function toast(message){
  const el=$("toast");
@@ -206,7 +232,7 @@ function toast(message){
 }
 
 function escapeHTML(value){
- return String(value ?? "").replace(/[&<>"']/g,c=>({
+ return String(value??"").replace(/[&<>"']/g,c=>({
   "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
  }[c]));
 }
@@ -218,6 +244,18 @@ function safeImageURL(url){
  }catch{return "";}
 }
 
+function initials(name){
+ return String(name||"U").trim().charAt(0).toUpperCase()||"U";
+}
+
+function avatarHTML(url,name,extraClass="avatar"){
+ const safe=safeImageURL(url);
+ if(safe){
+  return `<img class="${extraClass}" src="${escapeHTML(safe)}" alt="${escapeHTML(name||"Profile")}" loading="lazy">`;
+ }
+ return `<div class="${extraClass}">${escapeHTML(initials(name))}</div>`;
+}
+
 function timeText(value){
  if(!value)return "";
  return new Date(value).toLocaleString("bn-BD",{
@@ -226,11 +264,11 @@ function timeText(value){
 }
 
 function isAdmin(){
- return currentProfile?.role==="admin" ||
+ return currentProfile?.role==="admin"||
   currentUser?.email?.toLowerCase()===ADMIN_EMAIL.toLowerCase();
 }
 
-/* PAGE NAVIGATION */
+/* NAVIGATION */
 function showPage(page){
  ["chats","members","profile","admin"].forEach(name=>{
   $(name+"Page").classList.toggle("hidden",name!==page);
@@ -245,7 +283,7 @@ document.querySelectorAll("[data-page]").forEach(btn=>{
  btn.addEventListener("click",()=>showPage(btn.dataset.page));
 });
 
-/* AUTHENTICATION */
+/* AUTH */
 async function sendLoginLink(){
  const email=$("emailInput").value.trim();
  if(!email){toast("ইমেইল লিখুন");return;}
@@ -258,7 +296,6 @@ async function sendLoginLink(){
  $("loginBtn").disabled=false;
  $("loginStatus").textContent=error?error.message:"ইমেইলে লগইন লিংক পাঠানো হয়েছে।";
 }
-
 $("loginBtn").addEventListener("click",sendLoginLink);
 
 async function logout(){
@@ -315,8 +352,11 @@ async function loadApp(){
    approved:false
   });
   if(insertError){toast(insertError.message);return;}
-  const {data:newProfile}=await db.from("profiles")
+
+  const {data:newProfile,error:newError}=await db.from("profiles")
    .select("*").eq("user_id",currentUser.id).maybeSingle();
+
+  if(newError){toast(newError.message);return;}
   currentProfile=newProfile;
  }else{
   currentProfile=data;
@@ -324,7 +364,7 @@ async function loadApp(){
 
  if(!currentProfile)return;
 
- if(currentProfile.approved!==true && !isAdmin()){
+ if(currentProfile.approved!==true&&!isAdmin()){
   $("login").classList.remove("hidden");
   $("app").classList.add("hidden");
   $("loginStatus").textContent="আপনার অ্যাকাউন্ট Admin অনুমোদনের অপেক্ষায় আছে।";
@@ -333,12 +373,20 @@ async function loadApp(){
 
  $("login").classList.add("hidden");
  $("app").classList.remove("hidden");
- $("topName").textContent=currentProfile.display_name||currentUser.email;
+ updateHeader();
  $("adminTab").classList.toggle("hidden",!isAdmin());
 
  await loadMembers();
  await loadChatList();
  showPage("chats");
+}
+
+function updateHeader(){
+ $("topName").textContent=currentProfile?.display_name||currentUser.email;
+ $("topAvatar").outerHTML=avatarHTML(
+  currentProfile?.avatar_url,
+  currentProfile?.display_name||currentUser.email
+ ).replace('<img class="avatar"','<img id="topAvatar" class="avatar"');
 }
 
 /* PROFILE */
@@ -348,65 +396,109 @@ function fillProfile(){
  $("profileRole").textContent="Role: "+(currentProfile.role||"member")+
   " | Status: "+(currentProfile.status||"pending");
  $("profileName").value=currentProfile.display_name||"";
- $("profileAvatar").src=safeImageURL(currentProfile.avatar_url)||"";
+
+ $("profileAvatar").outerHTML=avatarHTML(
+  currentProfile.avatar_url,
+  currentProfile.display_name||currentUser.email,
+  "avatar profile-large"
+ ).replace("<img ","<img id=\"profileAvatar\" ");
 }
 
 async function saveProfile(){
  const name=$("profileName").value.trim();
  if(!name){toast("নাম লিখুন");return;}
+
  const {data,error}=await db.from("profiles").update({
   display_name:name
  }).eq("user_id",currentUser.id).select().maybeSingle();
 
  if(error){toast(error.message);return;}
  if(data)currentProfile=data;
- $("topName").textContent=name;
+
+ updateHeader();
+ fillProfile();
  toast("প্রোফাইল আপডেট হয়েছে");
 }
 
 $("saveProfileBtn").addEventListener("click",saveProfile);
 
+/* PROFILE PHOTO UPLOAD */
 $("avatarFile").addEventListener("change",async e=>{
  const file=e.target.files[0];
  if(!file)return;
- if(!file.type.startsWith("image/")){toast("ছবির ফাইল নির্বাচন করুন");return;}
- if(file.size>5*1024*1024){toast("ছবি ৫ MB-এর কম হতে হবে");return;}
 
- const ext=file.name.split(".").pop().toLowerCase();
+ if(!file.type.startsWith("image/")){
+  toast("ছবির ফাইল নির্বাচন করুন");
+  e.target.value="";
+  return;
+ }
+ if(file.size>5*1024*1024){
+  toast("ছবি ৫ MB-এর কম হতে হবে");
+  e.target.value="";
+  return;
+ }
+
+ $("profileStatus").textContent="ছবি আপলোড হচ্ছে...";
+ const ext=(file.name.split(".").pop()||"jpg").toLowerCase();
  const path=currentUser.id+"/"+Date.now()+"."+ext;
+
  const {error:uploadError}=await db.storage.from(AVATAR_BUCKET)
-  .upload(path,file,{upsert:true});
- if(uploadError){toast("Upload error: "+uploadError.message);return;}
+  .upload(path,file,{upsert:true,contentType:file.type});
+
+ if(uploadError){
+  $("profileStatus").textContent=uploadError.message;
+  toast("Upload error: "+uploadError.message);
+  return;
+ }
 
  const {data:urlData}=db.storage.from(AVATAR_BUCKET).getPublicUrl(path);
+ const publicURL=urlData.publicUrl;
+
  const {data,error}=await db.from("profiles").update({
-  avatar_url:urlData.publicUrl
+  avatar_url:publicURL
  }).eq("user_id",currentUser.id).select().maybeSingle();
 
- if(error){toast(error.message);return;}
+ if(error){
+  $("profileStatus").textContent=error.message;
+  toast("Profile update error: "+error.message);
+  return;
+ }
+
  if(data)currentProfile=data;
  fillProfile();
- toast("প্রোফাইল ছবি আপলোড হয়েছে");
+ updateHeader();
+ $("profileStatus").textContent="প্রোফাইল ছবি আপডেট হয়েছে।";
+ e.target.value="";
+
+ await loadMembers();
+ await loadChatList();
+ if(currentConversation)await loadMessages();
+ toast("প্রোফাইল ছবি আপডেট হয়েছে");
 });
 
 /* MEMBERS */
 async function loadMembers(){
  const box=$("membersList");
  box.textContent="লোড হচ্ছে...";
+
  const {data,error}=await db.from("profiles")
   .select("user_id,display_name,email,avatar_url,role,status,approved")
   .order("display_name");
 
  if(error){box.textContent=error.message;return;}
  box.innerHTML="";
+
  (data||[]).forEach(p=>{
   const div=document.createElement("div");
   div.className="member";
   div.innerHTML=`
-   <div class="member-info">
-    <b>${escapeHTML(p.display_name||"Member")}</b>
-    <small>${escapeHTML(p.email||"")}</small>
-    <small>${escapeHTML(p.role||"member")} | ${p.approved?"Approved":"Pending"}</small>
+   <div class="member-left">
+    ${avatarHTML(p.avatar_url,p.display_name||p.email)}
+    <div class="member-info">
+     <b>${escapeHTML(p.display_name||"Member")}</b>
+     <small>${escapeHTML(p.email||"")}</small>
+     <small>${escapeHTML(p.role||"member")} | ${p.approved?"Approved":"Pending"}</small>
+    </div>
    </div>`;
   box.appendChild(div);
  });
@@ -415,22 +507,30 @@ async function loadMembers(){
 /* ADMIN */
 async function loadAdminMembers(){
  if(!isAdmin()){toast("Admin access প্রয়োজন");return;}
+
  const box=$("adminMembersList");
  box.textContent="লোড হচ্ছে...";
+
  const {data,error}=await db.from("profiles")
-  .select("user_id,display_name,email,role,status,approved")
+  .select("user_id,display_name,email,avatar_url,role,status,approved")
   .order("display_name");
 
  if(error){box.textContent=error.message;return;}
  box.innerHTML="";
+
  (data||[]).forEach(p=>{
   const div=document.createElement("div");
   div.className="member";
+
   const info=document.createElement("div");
-  info.className="member-info";
-  info.innerHTML=`<b>${escapeHTML(p.display_name||"Member")}</b>
-   <small>${escapeHTML(p.email||"")}</small>
-   <small>${p.approved?"Approved":"Pending"}</small>`;
+  info.className="member-left";
+  info.innerHTML=`
+   ${avatarHTML(p.avatar_url,p.display_name||p.email)}
+   <div class="member-info">
+    <b>${escapeHTML(p.display_name||"Member")}</b>
+    <small>${escapeHTML(p.email||"")}</small>
+    <small>${p.approved?"Approved":"Pending"}</small>
+   </div>`;
   div.appendChild(info);
 
   if(p.user_id!==currentUser.id){
@@ -445,12 +545,14 @@ async function loadAdminMembers(){
 
 async function setApproval(userId,approved){
  if(!isAdmin())return;
+
  const {error}=await db.from("profiles").update({
   approved,
   status:approved?"approved":"pending"
  }).eq("user_id",userId);
 
  if(error){toast("Approval error: "+error.message);return;}
+
  toast(approved?"সদস্য অনুমোদিত":"অনুমোদন বাতিল হয়েছে");
  await loadAdminMembers();
  await loadMembers();
@@ -458,7 +560,7 @@ async function setApproval(userId,approved){
 
 $("refreshMembersBtn").addEventListener("click",loadAdminMembers);
 
-/* CHAT LIST */
+/* CHAT LIST WITH PROFILE PHOTOS */
 async function loadChatList(){
  const box=$("chatList");
  box.innerHTML="লোড হচ্ছে...";
@@ -468,21 +570,65 @@ async function loadChatList(){
   .eq("owner_id",currentUser.id);
 
  if(mError){box.textContent=mError.message;return;}
- if(!members?.length){box.textContent="এখনো কোনো চ্যাট নেই";return;}
+ if(!members?.length){
+  box.textContent="এখনো কোনো চ্যাট নেই";
+  return;
+ }
 
  const ids=[...new Set(members.map(x=>x.conversation_id))];
+
  const {data:conversations,error}=await db.from("conversations")
   .select("id,conversation_kind,created_at")
   .in("id",ids);
 
  if(error){box.textContent=error.message;return;}
+
+ const {data:allMembers,error:memberError}=await db.from("conversation_members")
+  .select("conversation_id,owner_id")
+  .in("conversation_id",ids);
+
+ if(memberError){box.textContent=memberError.message;return;}
+
+ const userIds=[...new Set((allMembers||[]).map(x=>x.owner_id))];
+
+ const {data:profiles,error:profileError}=await db.from("profiles")
+  .select("user_id,display_name,email,avatar_url")
+  .in("user_id",userIds);
+
+ if(profileError){box.textContent=profileError.message;return;}
+
+ const profileMap={};
+ (profiles||[]).forEach(p=>profileMap[p.user_id]=p);
+
  box.innerHTML="";
 
  (conversations||[]).forEach(c=>{
+  const participants=(allMembers||[])
+   .filter(x=>x.conversation_id===c.id);
+
+  const other=participants
+   .map(x=>profileMap[x.owner_id])
+   .find(p=>p&&p.user_id!==currentUser.id);
+
+  const isGroup=c.conversation_kind==="family_group";
+  const name=isGroup?"Family Group":
+   (other?.display_name||other?.email||"Private Chat");
+
+  const photo=isGroup?null:other?.avatar_url;
+
   const div=document.createElement("div");
-  div.className="chat-item";
-  div.innerHTML=`<b>${c.conversation_kind==="family_group"?"Family Group":"Private Chat"}</b>
-   <small>কথোপকথন খুলুন</small>`;
+  div.className="chat-item"+(currentConversation===c.id?" active":"");
+
+  div.innerHTML=`
+   ${isGroup
+    ?`<div class="avatar">👨‍👩‍👧‍👦</div>`
+    :avatarHTML(photo,name)
+   }
+   <div>
+    <b>${escapeHTML(name)}</b>
+    <small>${isGroup?"পরিবারের গ্রুপ":"Private Chat"}</small>
+   </div>`;
+
   div.addEventListener("click",()=>openConversation(c));
   box.appendChild(div);
  });
@@ -494,17 +640,22 @@ async function openConversation(conversation){
  $("replyPreview").classList.add("hidden");
  $("welcome").classList.add("hidden");
  $("chatPanel").classList.remove("hidden");
+
  $("chatTitle").textContent=
   conversation.conversation_kind==="family_group"?"Family Group":"Private Chat";
+
  await loadMessages();
  subscribeMessages();
+
+ document.querySelectorAll(".chat-item").forEach(x=>x.classList.remove("active"));
 }
 
-/* MESSAGES */
+/* MESSAGES WITH SENDER PHOTO */
 async function loadMessages(){
  if(!currentConversation)return;
 
  const box=$("messages");
+
  const {data,error}=await db.from("messages")
   .select("*")
   .eq("conversation_id",currentConversation)
@@ -516,10 +667,12 @@ async function loadMessages(){
 
  const ownerIds=[...new Set(loadedMessages.map(m=>m.owner_id))];
  let profiles=[];
+
  if(ownerIds.length){
   const result=await db.from("profiles")
    .select("user_id,display_name,avatar_url")
    .in("user_id",ownerIds);
+
   if(!result.error)profiles=result.data||[];
  }
 
@@ -527,25 +680,33 @@ async function loadMessages(){
  profiles.forEach(p=>profileMap[p.user_id]=p);
 
  box.innerHTML="";
+
  loadedMessages.forEach(m=>{
   const mine=m.owner_id===currentUser.id;
   const sender=profileMap[m.owner_id]?.display_name||"Member";
+  const senderPhoto=profileMap[m.owner_id]?.avatar_url;
+
   const div=document.createElement("div");
   div.className="msg"+(mine?" mine":"");
 
   let attachment="";
   if(m.attachment_url){
    const url=safeImageURL(m.attachment_url);
-   if(url && m.attachment_kind==="image"){
-    attachment=`<img src="${escapeHTML(url)}" alt="Shared image">`;
+   if(url&&m.attachment_kind==="image"){
+    attachment=`<img class="message-image" src="${escapeHTML(url)}" alt="Shared image">`;
    }else if(url){
     attachment=`<a href="${escapeHTML(url)}" target="_blank" rel="noopener">Attachment খুলুন</a>`;
    }
   }
 
-  const reply=m.reply_to_id?loadedMessages.find(x=>x.id===m.reply_to_id):null;
+  const reply=m.reply_to_id?
+   loadedMessages.find(x=>x.id===m.reply_to_id):null;
+
   div.innerHTML=`
-   <b>${escapeHTML(sender)}</b>
+   <div class="sender-line">
+    ${avatarHTML(senderPhoto,sender,"msg-avatar")}
+    <b>${escapeHTML(sender)}</b>
+   </div>
    ${reply?`<div class="reply-box">↪ ${escapeHTML(reply.message_text||"ছবি")}</div>`:""}
    <div>${escapeHTML(m.message_text||"")}</div>
    ${attachment}
@@ -558,12 +719,16 @@ async function loadMessages(){
 
   div.querySelector('[data-action="reply"]').onclick=()=>setReply(m);
   div.querySelector('[data-action="react"]').onclick=()=>reactToMessage(m);
+
   const edit=div.querySelector('[data-action="edit"]');
   if(edit)edit.onclick=()=>editMessage(m);
+
   const del=div.querySelector('[data-action="delete"]');
   if(del)del.onclick=()=>deleteMessage(m);
+
   box.appendChild(div);
  });
+
  box.scrollTop=box.scrollHeight;
 }
 
@@ -574,18 +739,15 @@ function setReply(message){
  $("messageInput").focus();
 }
 
-$("cancelReplyBtn")?.addEventListener("click",()=>{
- currentReply=null;
- $("replyPreview").classList.add("hidden");
-});
-
 async function sendMessage(){
  if(!currentConversation){toast("আগে একটি চ্যাট খুলুন");return;}
+
  const input=$("messageInput");
  const message=input.value.trim();
  if(!message)return;
 
  $("sendBtn").disabled=true;
+
  const payload={
   conversation_id:currentConversation,
   owner_id:currentUser.id,
@@ -597,6 +759,7 @@ async function sendMessage(){
  $("sendBtn").disabled=false;
 
  if(error){toast("Send error: "+error.message);return;}
+
  input.value="";
  currentReply=null;
  $("replyPreview").classList.add("hidden");
@@ -605,12 +768,16 @@ async function sendMessage(){
 
 $("sendBtn").addEventListener("click",sendMessage);
 $("messageInput").addEventListener("keydown",e=>{
- if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();sendMessage();}
+ if(e.key==="Enter"&&!e.shiftKey){
+  e.preventDefault();
+  sendMessage();
+ }
 });
 
 async function editMessage(message){
  const updated=prompt("মেসেজ পরিবর্তন করুন:",message.message_text||"");
  if(updated===null||!updated.trim())return;
+
  const {error}=await db.from("messages").update({
   message_text:updated.trim(),
   updated_at:new Date().toISOString()
@@ -622,14 +789,17 @@ async function editMessage(message){
 
 async function deleteMessage(message){
  if(!confirm("এই মেসেজটি মুছে ফেলবেন?"))return;
+
  const {error}=await db.from("messages").delete()
   .eq("id",message.id).eq("owner_id",currentUser.id);
+
  if(error){toast(error.message);return;}
  await loadMessages();
 }
 
 async function reactToMessage(message){
  const emoji="❤️";
+
  const {data,error}=await db.from("message_reactions")
   .select("message_id,user_id,emoji")
   .eq("message_id",message.id)
@@ -647,7 +817,9 @@ async function reactToMessage(message){
   if(result.error)toast(result.error.message);
  }else{
   const result=await db.from("message_reactions").insert({
-   message_id:message.id,user_id:currentUser.id,emoji
+   message_id:message.id,
+   user_id:currentUser.id,
+   emoji
   });
   if(result.error)toast(result.error.message);
   else toast("❤️ Reaction যোগ হয়েছে");
@@ -661,7 +833,9 @@ function subscribeMessages(){
 
  messagesChannel=db.channel("messages-"+currentConversation)
   .on("postgres_changes",{
-   event:"*",schema:"public",table:"messages",
+   event:"*",
+   schema:"public",
+   table:"messages",
    filter:"conversation_id=eq."+currentConversation
   },()=>loadMessages())
   .subscribe();
@@ -676,6 +850,7 @@ function stopRefresh(){
  if(refreshTimer)clearInterval(refreshTimer);
  refreshTimer=null;
 }
+
 function startRefresh(){
  stopRefresh();
  refreshTimer=setInterval(()=>{
@@ -689,20 +864,38 @@ $("imageBtn").addEventListener("click",()=>$("imageFile").click());
 $("imageFile").addEventListener("change",async e=>{
  const file=e.target.files[0];
  if(!file)return;
- if(!currentConversation){toast("আগে একটি চ্যাট খুলুন");return;}
- if(!file.type.startsWith("image/")){toast("শুধু ছবি নির্বাচন করুন");return;}
- if(file.size>5*1024*1024){toast("ছবি ৫ MB-এর কম হতে হবে");return;}
+
+ if(!currentConversation){
+  toast("আগে একটি চ্যাট খুলুন");
+  e.target.value="";
+  return;
+ }
+ if(!file.type.startsWith("image/")){
+  toast("শুধু ছবি নির্বাচন করুন");
+  e.target.value="";
+  return;
+ }
+ if(file.size>5*1024*1024){
+  toast("ছবি ৫ MB-এর কম হতে হবে");
+  e.target.value="";
+  return;
+ }
 
  toast("ছবি আপলোড হচ্ছে...");
- const ext=file.name.split(".").pop().toLowerCase();
+
+ const ext=(file.name.split(".").pop()||"jpg").toLowerCase();
  const path=currentUser.id+"/"+Date.now()+"."+ext;
 
  const {error:uploadError}=await db.storage.from(IMAGE_BUCKET)
   .upload(path,file,{upsert:true});
 
- if(uploadError){toast("Upload error: "+uploadError.message);return;}
+ if(uploadError){
+  toast("Upload error: "+uploadError.message);
+  return;
+ }
 
  const {data:urlData}=db.storage.from(IMAGE_BUCKET).getPublicUrl(path);
+
  const {error}=await db.from("messages").insert({
   conversation_id:currentConversation,
   owner_id:currentUser.id,
@@ -712,6 +905,7 @@ $("imageFile").addEventListener("change",async e=>{
  });
 
  if(error){toast("Message error: "+error.message);return;}
+
  e.target.value="";
  await loadMessages();
  toast("ছবি পাঠানো হয়েছে");
@@ -734,4 +928,4 @@ startRefresh();
 </script>
 
 </body>
-  </html>
+</html>
