@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#0084ff">
 <title>Messenger BD</title>
+<!-- PWA Manifest & Service Worker -->
+<link rel="manifest" href="./manifest.json">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <style>
 :root {
@@ -331,6 +333,15 @@ button { cursor: pointer; border: none; background: none; }
 <div id="toast" class="toast hidden"></div>
 
 <script>
+// Service Worker Registration Script
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js')
+      .then(reg => console.log('Service Worker Registered'))
+      .catch(err => console.log('Service Worker Error:', err));
+  });
+}
+
 // ==================== SUPABASE CONFIG ====================
 const SUPABASE_URL = "https://vtvwfyooiblpcoofzdav.supabase.co";
 const SUPABASE_KEY = "Sb_publishable_Rb2tYhvPfhZIqhGV0gPCLA_SODQoFNg";
