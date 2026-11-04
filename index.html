@@ -5,104 +5,731 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#2481cc">
 <title>Family Connect</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <style>
-:root{
-  --blue:#2481cc;
-  --blue-dark:#1769aa;
-  --blue-light:#e3f2ff;
-  --bg:#eaf2f8;
-  --white:#fff;
-  --text:#17212b;
-  --muted:#718096;
-  --border:#e1e8ef;
-  --green:#d9fdd3;
-  --danger:#e34b4b;
-  --shadow:0 4px 20px rgba(0,0,0,0.08);
-}
+:root{--blue:#2481cc;--blue-dark:#1769aa;--blue-light:#e3f2ff;--bg:#eaf2f8;--text:#17212b;--muted:#718096;--border:#e1e8ef;--green:#d9fdd3;--danger:#e34b4b}
 *{box-sizing:border-box;margin:0;padding:0}
-body{
-  font-family:Arial,"Noto Sans Bengali",sans-serif;
-  color:var(--text);
-  background:var(--bg);
-  overflow:hidden;
-  height:100dvh;
-}
-button,input,textarea{font:inherit}
-button{cursor:pointer;border:none;background:none}
+body{font-family:Arial,"Noto Sans Bengali",sans-serif;color:var(--text);background:var(--bg);height:100dvh;overflow:hidden}
+button,input,textarea{font:inherit}button{cursor:pointer;border:none;background:none}
 .hidden{display:none!important}
-
-/* Topbar */
-.topbar{
-  height:56px;
-  background:var(--blue);
-  color:white;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 14px;
-  position:relative;
-  z-index:50;
-}
-.brand{font-size:18px;font-weight:700;letter-spacing:0.3px}
+.topbar{height:56px;background:var(--blue);color:white;display:flex;align-items:center;justify-content:space-between;padding:0 14px;z-index:50}
+.brand{font-size:18px;font-weight:700}
 .top-actions{display:flex;align-items:center;gap:10px}
-.top-actions button{
-  border:1px solid rgba(255,255,255,0.35);
-  border-radius:8px;
-  padding:6px 12px;
-  color:white;
-  font-size:13px;
-}
-
-/* App Layout */
-.app{
-  height:calc(100dvh - 56px);
-  max-width:1400px;
-  margin:0 auto;
-  display:flex;
-  background:white;
-  overflow:hidden;
-}
-.sidebar{
-  width:340px;
-  min-width:300px;
-  border-right:1px solid var(--border);
-  display:flex;
-  flex-direction:column;
-  background:#f8fafc;
-}
+.top-actions button{border:1px solid rgba(255,255,255,0.35);border-radius:8px;padding:6px 12px;color:white;font-size:13px}
+.app{height:calc(100dvh - 56px);max-width:1400px;margin:0 auto;display:flex;background:white;overflow:hidden}
+.sidebar{width:340px;min-width:300px;border-right:1px solid var(--border);display:flex;flex-direction:column;background:#f8fafc}
 .side-head{padding:12px}
-.search{
-  width:100%;
-  border:1px solid var(--border);
-  border-radius:22px;
-  background:white;
-  padding:11px 16px;
-  outline:none;
-  font-size:14px;
-}
-.search:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(36,129,204,0.15)}
+.search{width:100%;border:1px solid var(--border);border-radius:22px;background:white;padding:11px 16px;outline:none;font-size:14px}
 .tabs{display:flex;gap:4px;padding:0 10px 10px}
-.tabs button{
-  flex:1;
-  padding:9px 4px;
-  border-radius:18px;
-  color:#526273;
-  background:#edf3f8;
-  font-size:12px;
-  font-weight:500;
-  transition:0.2s;
-}
-.tabs button.active{
-  background:var(--blue-light);
-  color:var(--blue-dark);
-  font-weight:700;
-}
+.tabs button{flex:1;padding:9px 4px;border-radius:18px;color:#526273;background:#edf3f8;font-size:12px;font-weight:500}
+.tabs button.active{background:var(--blue-light);color:var(--blue-dark);font-weight:700}
 .chat-list{flex:1;overflow-y:auto}
+.chat-item{display:flex;align-items:center;gap:12px;padding:12px 14px;border-bottom:1px solid #f1f3f5;cursor:pointer}
+.chat-item:hover,.chat-item.active{background:#e8f3fc}
+.avatar{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#dceaf6;color:var(--blue-dark);font-weight:700;font-size:15px;overflow:hidden;flex-shrink:0}
+.avatar img{width:100%;height:100%;object-fit:cover}
+.chat-info{min-width:0;flex:1}
+.chat-name{font-weight:700;margin-bottom:3px;font-size:15px}
+.chat-preview{color:var(--muted);font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chat-main{flex:1;min-width:0;display:flex;flex-direction:column;background:#eaf2f8}
+.chat-head{min-height:60px;padding:8px 14px;background:white;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px}
+.chat-head-info{flex:1;min-width:0}
+.chat-title{font-weight:700;font-size:16px}
+.chat-status{font-size:12px;color:var(--muted);margin-top:2px}
+.back-btn{display:none;font-size:28px;color:var(--blue);padding:4px 8px 4px 0;line-height:1}
+.messages{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:8px}
+.message{max-width:min(78%,520px);background:white;padding:10px 13px;border-radius:16px 16px 16px 4px;box-shadow:0 1px 2px rgba(0,0,0,0.06);align-self:flex-start;overflow-wrap:anywhere}
+.message.mine{background:var(--green);align-self:flex-end;border-radius:16px 16px 4px 16px}
+.message-sender{color:var(--blue-dark);font-weight:700;font-size:12px;margin-bottom:4px}
+.message-text{white-space:pre-wrap;line-height:1.45;font-size:15px}
+.message img{max-width:100%;max-height:280px;display:block;border-radius:10px;margin-top:6px}
+.message-time{text-align:right;color:#788995;font-size:11px;margin-top:5px}
+.reply-quote{background:#edf5fc;border-left:3px solid var(--blue);padding:6px 9px;border-radius:6px;margin-bottom:6px;font-size:12px;color:#526273}
+.message-actions{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;opacity:0.75}
+.message-actions button{font-size:12px;color:#536b7e;padding:2px 5px;border-radius:4px}
+.reactions{font-size:14px;margin-top:4px;letter-spacing:2px}
+.composer{background:white;padding:10px;display:flex;align-items:center;gap:6px;border-top:1px solid var(--border)}
+.composer input{flex:1;min-width:0;border:0;outline:0;background:#f1f5f8;padding:12px 16px;border-radius:24px;font-size:15px}
+.icon-btn{color:var(--blue);font-size:22px;padding:8px;border-radius:50%}
+.send-btn{width:44px;height:44px;border-radius:50%;background:var(--blue);color:white;font-size:18px;display:flex;align-items:center;justify-content:center}
+.send-btn:disabled{opacity:0.5}
+.reply-preview{padding:9px 14px;background:#edf6ff;border-left:4px solid var(--blue);font-size:13px;display:flex;justify-content:space-between;align-items:center}
+.pages{flex:1;overflow:auto;padding:18px;background:white;height:calc(100dvh - 56px)}
+.panel{max-width:680px;margin:0 auto 20px;padding:22px;border:1px solid var(--border);border-radius:16px;background:white;box-shadow:0 4px 20px rgba(0,0,0,0.06)}
+.panel h2{margin-bottom:8px;font-size:20px}
+.panel input,.panel textarea{width:100%;padding:12px 14px;margin:8px 0 14px;border:1px solid var(--border);border-radius:10px;font-size:15px}
+.primary{background:var(--blue);color:white;padding:11px 18px;border-radius:10px;font-weight:600;font-size:14px}
+.primary:disabled{opacity:0.6}
+.secondary{background:#edf3f8;color:#29465e;padding:10px 16px;border-radius:10px}
+.danger{background:#ffeded;color:#bd3030;padding:9px 14px;border-radius:8px;font-size:13px}
+.member-row{display:flex;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid var(--border)}
+.member-info{flex:1;min-width:0}
+.member-email{font-size:12px;color:var(--muted);margin-top:2px}
+.small{font-size:12px;color:var(--muted);margin-top:6px}
+.login-wrap{min-height:calc(100dvh - 56px);display:flex;align-items:center;justify-content:center;padding:20px}
+.login-card{width:min(400px,100%);background:white;padding:32px 28px;border-radius:20px;box-shadow:0 12px 40px rgba(23,70,107,0.12)}
+.login-card h2{margin-bottom:6px}
+.login-card p{color:var(--muted);margin-bottom:20px;font-size:14px}
+.login-card input{width:100%;padding:14px;border:1px solid var(--border);border-radius:12px;margin-bottom:14px;font-size:15px}
+.login-card button{width:100%;padding:14px;font-size:15px}
+.toast{position:fixed;z-index:9999;bottom:24px;left:50%;transform:translateX(-50%);background:#17212b;color:white;padding:12px 22px;border-radius:30px;max-width:90%;text-align:center;font-size:14px}
+.empty{text-align:center;color:var(--muted);padding:40px 16px;font-size:14px}
+.loading{text-align:center;padding:30px;color:var(--muted);font-size:14px}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:1000;display:flex;align-items:center;justify-content:center;padding:16px}
+.modal{background:white;border-radius:18px;width:min(400px,100%);max-height:85dvh;overflow:auto}
+.modal-header{padding:18px 20px 10px;font-weight:700;font-size:17px;display:flex;justify-content:space-between;align-items:center}
+.modal-body{padding:10px 20px 20px}
+.modal-footer{padding:0 20px 18px;display:flex;gap:10px;justify-content:flex-end}
+.modal textarea{width:100%;min-height:90px;padding:12px;border:1px solid var(--border);border-radius:10px;resize:vertical;font-size:15px}
+.emoji-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:6px;margin-top:10px}
+.emoji-grid button{font-size:22px;padding:8px;border-radius:10px}
+@media(max-width:720px){.topbar{height:52px}.app{height:calc(100dvh - 52px)}.sidebar{width:100%;min-width:0;border:0}.chat-main{display:none;width:100%}.app.chat-open .sidebar{display:none}.app.chat-open .chat-main{display:flex}.back-btn{display:block}.messages{padding:12px 10px}.message{max-width:85%}.pages{padding:12px;height:calc(100dvh - 52px)}.tabs button{font-size:11px;padding:8px 2px}}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">💬 Family Connect</div>
+  <div class="top-actions">
+    <span id="topName">Guest</span>
+    <button id="logoutBtn" class="hidden">Logout</button>
+  </div>
+</header>
 
-/* Chat Item */
-.chat-item{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  padding:
+<section id="loginPage" class="login-wrap">
+  <div class="login-card">
+    <h2>Family Connect</h2>
+    <p>আপনার পরিবারের ব্যক্তিগত যোগাযোগের জায়গা</p>
+    <input id="emailInput" type="email" placeholder="আপনার ইমেইল লিখুন" autocomplete="email">
+    <button class="primary" id="loginBtn">লগইন লিংক পাঠান</button>
+    <p class="small" id="loginMessage" style="margin-top:12px;text-align:center">আপনার ইমেইলে একটি লগইন লিংক পাঠানো হবে।</p>
+  </div>
+</section>
+
+<main class="app hidden" id="app">
+  <aside class="sidebar">
+    <div class="side-head"><input class="search" id="chatSearch" placeholder="চ্যাট খুঁজুন..."></div>
+    <div class="tabs">
+      <button class="active" data-page="chats">Chats</button>
+      <button data-page="members">Members</button>
+      <button data-page="profile">Profile</button>
+      <button data-page="admin">Admin</button>
+    </div>
+    <div id="chatList" class="chat-list"></div>
+  </aside>
+  <section class="chat-main">
+    <div class="chat-head">
+      <button class="back-btn" id="backBtn">‹</button>
+      <div class="avatar" id="chatAvatar">FC</div>
+      <div class="chat-head-info">
+        <div class="chat-title" id="chatTitle">Family Connect</div>
+        <div class="chat-status" id="chatStatus">একটি চ্যাট নির্বাচন করুন</div>
+      </div>
+    </div>
+    <div class="messages" id="messages"><div class="empty">চ্যাট শুরু করতে একজন সদস্য নির্বাচন করুন।</div></div>
+    <div id="replyPreview" class="reply-preview hidden"></div>
+    <div class="composer">
+      <button class="icon-btn" id="emojiBtn">☺</button>
+      <button class="icon-btn" id="imageBtn">📎</button>
+      <input id="messageInput" placeholder="মেসেজ লিখুন..." autocomplete="off">
+      <button class="send-btn" id="sendBtn">➤</button>
+      <input type="file" id="imageFile" accept="image/*" hidden>
+    </div>
+  </section>
+</main>
+
+<section id="otherPage" class="pages hidden">
+  <div id="membersPage" class="hidden"></div>
+  <div id="profilePage" class="hidden"></div>
+  <div id="adminPage" class="hidden"></div>
+</section>
+
+<div id="toast" class="toast hidden"></div>
+<div id="modalRoot"></div>
+
+<script>
+const SUPABASE_URL = "https://vtvwfyooiblpcoofzdav.supabase.co";
+const SUPABASE_KEY = "sb_publishable_Rb2tYhvPfhZIqhGV0gPCLA_SODQoFNg";
+const ADMIN_EMAIL = "sagor516@gmail.com";
+const AVATAR_BUCKET = "family-avatars";
+const IMAGE_BUCKET = "family-chat-images";
+
+let db;
+try {
+  db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+} catch (e) {
+  document.body.innerHTML = "<div style='padding:40px;text-align:center;font-family:sans-serif'><h2>Supabase Error</h2><p>" + e.message + "</p></div>";
+  throw e;
+}
+
+let currentUser = null, myProfile = null, isAdmin = false, activeConversation = null, activeConversationKind = null, currentReply = null;
+let messagesCache = [], membersCache = [], conversationsCache = [], realtimeChannel = null, refreshTimer = null, isSending = false;
+
+const $ = id => document.getElementById(id);
+
+function toast(msg, duration = 3000) {
+  const el = $("toast");
+  el.textContent = msg;
+  el.classList.remove("hidden");
+  clearTimeout(el._timer);
+  el._timer = setTimeout(() => el.classList.add("hidden"), duration);
+}
+
+function escapeHTML(str) {
+  return String(str ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[c]);
+}
+
+function initials(name) { return (name || "FC").trim().slice(0, 2).toUpperCase(); }
+
+function formatTime(value) {
+  if (!value) return "";
+  return new Date(value).toLocaleString("bn-BD", { hour: "2-digit", minute: "2-digit", day: "numeric", month: "short" });
+}
+
+function setAvatar(el, url, name) {
+  if (url) el.innerHTML = `<img src="${escapeHTML(url)}" alt="">`;
+  else el.textContent = initials(name);
+}
+
+function showModal({ title, bodyHTML, footerHTML }) {
+  const root = $("modalRoot");
+  root.innerHTML = `<div class="modal-overlay" id="modalOverlay"><div class="modal"><div class="modal-header"><span>\( {escapeHTML(title)}</span><button id="modalCloseBtn" style="font-size:22px;color:#666">×</button></div><div class="modal-body"> \){bodyHTML}</div>\( {footerHTML ? `<div class="modal-footer"> \){footerHTML}</div>` : ""}</div></div>`;
+  const close = () => root.innerHTML = "";
+  $("modalCloseBtn").onclick = close;
+  $("modalOverlay").onclick = e => { if (e.target.id === "modalOverlay") close(); };
+  return { close };
+}
+
+function confirmModal(message) {
+  return new Promise(resolve => {
+    const { close } = showModal({
+      title: "নিশ্চিত করুন",
+      bodyHTML: `<p style="line-height:1.5">${escapeHTML(message)}</p>`,
+      footerHTML: `<button class="secondary" id="confirmNo">না</button><button class="primary" id="confirmYes">হ্যাঁ</button>`
+    });
+    $("confirmNo").onclick = () => { close(); resolve(false); };
+    $("confirmYes").onclick = () => { close(); resolve(true); };
+  });
+}
+
+function showLogin() {
+  $("loginPage").classList.remove("hidden");
+  $("app").classList.add("hidden");
+  $("otherPage").classList.add("hidden");
+  $("logoutBtn").classList.add("hidden");
+  $("topName").textContent = "Guest";
+}
+
+function showApp() {
+  $("loginPage").classList.add("hidden");
+  $("app").classList.remove("hidden");
+  $("otherPage").classList.add("hidden");
+  $("logoutBtn").classList.remove("hidden");
+  $("topName").textContent = myProfile?.display_name || currentUser?.email || "Member";
+}
+
+function showPage(page) {
+  $("app").classList.remove("chat-open");
+  if (page === "chats") {
+    $("otherPage").classList.add("hidden");
+    $("app").classList.remove("hidden");
+  } else {
+    $("app").classList.add("hidden");
+    $("otherPage").classList.remove("hidden");
+    ["membersPage","profilePage","adminPage"].forEach(id => $(id).classList.add("hidden"));
+    $(page + "Page").classList.remove("hidden");
+    if (page === "members") loadMembersPage();
+    if (page === "profile") loadProfilePage();
+    if (page === "admin") loadAdminPage();
+  }
+  document.querySelectorAll(".tabs button").forEach(btn => btn.classList.toggle("active", btn.dataset.page === page));
+}
+
+function isApproved() {
+  return !!(myProfile && (myProfile.approved === true || myProfile.status === "approved"));
+}
+
+$("loginBtn").addEventListener("click", async () => {
+  const email = $("emailInput").value.trim();
+  if (!email || !email.includes("@")) return toast("সঠিক ইমেইল লিখুন");
+  $("loginBtn").disabled = true;
+  $("loginMessage").textContent = "লগইন লিংক পাঠানো হচ্ছে...";
+  const { error } = await db.auth.signInWithOtp({ email, options: { emailRedirectTo: window.location.href } });
+  $("loginBtn").disabled = false;
+  if (error) {
+    $("loginMessage").textContent = error.message;
+    toast("লিংক পাঠানো যায়নি");
+  } else {
+    $("loginMessage").textContent = "✅ ইমেইল চেক করুন। লগইন লিংক পাঠানো হয়েছে।";
+    toast("লিংক পাঠানো হয়েছে");
+  }
+});
+
+$("logoutBtn").addEventListener("click", async () => {
+  if (realtimeChannel) await db.removeChannel(realtimeChannel);
+  if (refreshTimer) clearInterval(refreshTimer);
+  await db.auth.signOut();
+  currentUser = null; myProfile = null; activeConversation = null;
+  showLogin();
+  toast("সফলভাবে লগআউট হয়েছে");
+});
+
+async function loadMyProfile() {
+  const { data, error } = await db.from("profiles").select("*").eq("user_id", currentUser.id).maybeSingle();
+  if (error) throw error;
+  if (!data) {
+    const name = currentUser.user_metadata?.full_name || currentUser.email?.split("@")[0] || "New Member";
+    const isAdminEmail = currentUser.email?.toLowerCase() === ADMIN_EMAIL.toLowerCase();
+    const newProfile = {
+      user_id: currentUser.id, email: currentUser.email, display_name: name,
+      role: isAdminEmail ? "admin" : "member", status: isAdminEmail ? "approved" : "pending", approved: isAdminEmail
+    };
+    const { data: inserted, error: insertError } = await db.from("profiles").insert(newProfile).select().single();
+    if (insertError) throw insertError;
+    myProfile = inserted;
+  } else myProfile = data;
+
+  isAdmin = myProfile.role === "admin" || currentUser.email?.toLowerCase() === ADMIN_EMAIL.toLowerCase();
+  if (isAdmin && (myProfile.role !== "admin" || !myProfile.approved)) {
+    await db.from("profiles").update({ role: "admin", status: "approved", approved: true }).eq("user_id", currentUser.id);
+    myProfile.role = "admin"; myProfile.status = "approved"; myProfile.approved = true;
+  }
+}
+
+async function startApp() {
+  currentUser = (await db.auth.getUser()).data.user;
+  if (!currentUser) return showLogin();
+  try {
+    await loadMyProfile();
+    showApp();
+    if (!isApproved()) {
+      $("app").innerHTML = `<div class="panel" style="margin:40px auto;max-width:420px;text-align:center"><h2 style="margin-bottom:12px">অনুমোদনের অপেক্ষায়</h2><p style="color:var(--muted);line-height:1.6;margin-bottom:16px">আপনার অ্যাকাউন্ট Admin অনুমোদন করলে Family Connect ব্যবহার করতে পারবেন।</p><p style="font-size:13px;margin-bottom:20px"><b>Account:</b> ${escapeHTML(currentUser.email)}</p><button class="secondary" onclick="location.reload()" style="margin-right:8px">Refresh</button><button class="danger" id="pendingLogout">Logout</button></div>`;
+      $("pendingLogout").onclick = async () => { await db.auth.signOut(); location.reload(); };
+      return;
+    }
+    await Promise.all([loadChatList(), loadMembersCache()]);
+    subscribeRealtime();
+    if (refreshTimer) clearInterval(refreshTimer);
+    refreshTimer = setInterval(async () => { await loadChatList(); if (activeConversation) await loadMessages(true); }, 30000);
+  } catch (err) {
+    console.error(err);
+    toast("অ্যাপ চালু করতে সমস্যা: " + err.message);
+  }
+}
+
+async function loadMembersCache() {
+  const { data, error } = await db.from("profiles").select("user_id,email,display_name,avatar_url,role,status,approved").order("display_name");
+  if (error) throw error;
+  membersCache = data || [];
+}
+
+async function loadChatList() {
+  const { data: myMemberships, error } = await db.from("conversation_members").select("conversation_id").eq("owner_id", currentUser.id);
+  if (error) throw error;
+  const ids = [...new Set((myMemberships || []).map(x => x.conversation_id))];
+  if (ids.length === 0) { conversationsCache = []; renderChatList(); return; }
+
+  const [convRes, memRes, latestRes] = await Promise.all([
+    db.from("conversations").select("*").in("id", ids).order("created_at", { ascending: false }),
+    db.from("conversation_members").select("conversation_id,owner_id").in("conversation_id", ids),
+    db.from("messages").select("conversation_id,message_text,attachment_kind,created_at").in("conversation_id", ids).order("created_at", { ascending: false }).limit(300)
+  ]);
+  if (convRes.error) throw convRes.error;
+  if (memRes.error) throw memRes.error;
+
+  const userIds = [...new Set((memRes.data || []).map(x => x.owner_id))];
+  const { data: profiles } = await db.from("profiles").select("user_id,email,display_name,avatar_url").in("user_id", userIds);
+
+  conversationsCache = (convRes.data || []).map(conv => {
+    const participants = (memRes.data || []).filter(m => m.conversation_id === conv.id).map(m => profiles?.find(p => p.user_id === m.owner_id)).filter(Boolean);
+    const other = participants.find(p => p.user_id !== currentUser.id);
+    const isGroup = conv.conversation_kind === "family_group";
+    const last = (latestRes.data || []).find(m => m.conversation_id === conv.id);
+    return {
+      ...conv,
+      name: isGroup ? "Family Group" : (other?.display_name || other?.email || "Private Chat"),
+      avatar: isGroup ? "" : (other?.avatar_url || ""),
+      preview: last ? (last.message_text || (last.attachment_kind ? "📷 ছবি" : "")) : "এখনো কোনো মেসেজ নেই",
+      lastTime: last?.created_at || conv.created_at
+    };
+  });
+  conversationsCache.sort((a, b) => new Date(b.lastTime) - new Date(a.lastTime));
+  renderChatList();
+}
+
+function renderChatList() {
+  const q = ($("chatSearch").value || "").trim().toLowerCase();
+  const list = conversationsCache.filter(c => c.name.toLowerCase().includes(q));
+  const box = $("chatList");
+  box.innerHTML = "";
+  if (!list.length) {
+    box.innerHTML = `<div class="empty">এখনো কোনো চ্যাট নেই।<br>Members ট্যাব থেকে চ্যাট শুরু করুন।</div>`;
+    return;
+  }
+  list.forEach(c => {
+    const item = document.createElement("div");
+    item.className = "chat-item" + (activeConversation === c.id ? " active" : "");
+    const avatarContent = c.conversation_kind === "family_group" ? "👨‍👩‍👧‍👦" : (c.avatar ? `<img src="${escapeHTML(c.avatar)}" alt="">` : escapeHTML(initials(c.name)));
+    item.innerHTML = `<div class="avatar">\( {avatarContent}</div><div class="chat-info"><div class="chat-name"> \){escapeHTML(c.name)}</div><div class="chat-preview">${escapeHTML(c.preview)}</div></div>`;
+    item.onclick = () => openConversation(c);
+    box.appendChild(item);
+  });
+}
+
+$("chatSearch").addEventListener("input", renderChatList);
+
+async function openConversation(conv) {
+  activeConversation = conv.id;
+  activeConversationKind = conv.conversation_kind;
+  $("chatTitle").textContent = conv.name;
+  $("chatStatus").textContent = conv.conversation_kind === "family_group" ? "Family Group" : "Private Chat";
+  setAvatar($("chatAvatar"), conv.avatar, conv.name);
+  $("app").classList.add("chat-open");
+  currentReply = null;
+  $("replyPreview").classList.add("hidden");
+  await loadMessages();
+  renderChatList();
+  subscribeRealtime();
+}
+
+$("backBtn").onclick = () => { $("app").classList.remove("chat-open"); activeConversation = null; };
+
+async function startPrivateChat(profile) {
+  if (profile.user_id === currentUser.id) return toast("নিজের সাথে চ্যাট করা যাবে না");
+  if (profile.approved !== true && profile.status !== "approved") return toast("এই সদস্য এখনো অনুমোদিত নয়");
+
+  const { data: mine } = await db.from("conversation_members").select("conversation_id").eq("owner_id", currentUser.id);
+  const myIds = (mine || []).map(x => x.conversation_id);
+  let found = null;
+  if (myIds.length) {
+    const { data: their } = await db.from("conversation_members").select("conversation_id").eq("owner_id", profile.user_id).in("conversation_id", myIds);
+    const common = (their || []).map(x => x.conversation_id);
+    if (common.length) {
+      const { data: convs } = await db.from("conversations").select("*").in("id", common).eq("conversation_kind", "private");
+      found = convs?.[0] || null;
+    }
+  }
+  if (!found) {
+    const { data: newConv, error: createError } = await db.from("conversations").insert({ conversation_kind: "private" }).select().single();
+    if (createError) return toast("চ্যাট তৈরি হয়নি: " + createError.message);
+    const { error: memberError } = await db.from("conversation_members").insert([
+      { conversation_id: newConv.id, owner_id: currentUser.id },
+      { conversation_id: newConv.id, owner_id: profile.user_id }
+    ]);
+    if (memberError) return toast("সদস্য যোগ হয়নি: " + memberError.message);
+    found = newConv;
+  }
+  await loadChatList();
+  await openConversation({ ...found, name: profile.display_name || profile.email, avatar: profile.avatar_url || "" });
+  showPage("chats");
+}
+
+async function openFamilyGroup() {
+  const { data: mine } = await db.from("conversation_members").select("conversation_id").eq("owner_id", currentUser.id);
+  const ids = (mine || []).map(x => x.conversation_id);
+  let group = null;
+  if (ids.length) {
+    const { data } = await db.from("conversations").select("*").in("id", ids).eq("conversation_kind", "family_group");
+    group = data?.[0] || null;
+  }
+  if (!group) {
+    if (!isAdmin) return toast("Family Group এখনো তৈরি হয়নি। Admin-কে বলুন।");
+    const { data: newGroup, error } = await db.from("conversations").insert({ conversation_kind: "family_group" }).select().single();
+    if (error) return toast(error.message);
+    group = newGroup;
+    const approved = membersCache.filter(m => m.approved === true || m.status === "approved");
+    const rows = [...new Set([currentUser.id, ...approved.map(m => m.user_id)])].map(owner_id => ({ conversation_id: group.id, owner_id }));
+    await db.from("conversation_members").insert(rows);
+  } else if (isAdmin) {
+    const { data: existing } = await db.from("conversation_members").select("owner_id").eq("conversation_id", group.id);
+    const existingIds = new Set((existing || []).map(x => x.owner_id));
+    const toAdd = membersCache.filter(m => (m.approved === true || m.status === "approved") && !existingIds.has(m.user_id));
+    if (toAdd.length) await db.from("conversation_members").insert(toAdd.map(m => ({ conversation_id: group.id, owner_id: m.user_id })));
+  }
+  await loadChatList();
+  await openConversation({ ...group, name: "Family Group", avatar: "" });
+  showPage("chats");
+}
+
+async function loadMessages(silent = false) {
+  if (!activeConversation) return;
+  if (!silent) $("messages").innerHTML = `<div class="loading">মেসেজ লোড হচ্ছে...</div>`;
+  const { data, error } = await db.from("messages").select("*").eq("conversation_id", activeConversation).order("created_at", { ascending: true }).limit(400);
+  if (error) { console.error(error); if (!silent) toast("মেসেজ লোড হয়নি"); return; }
+  const rows = data || [];
+  const senderIds = [...new Set(rows.map(m => m.owner_id))];
+  let profiles = [];
+  if (senderIds.length) {
+    const res = await db.from("profiles").select("user_id,display_name,email,avatar_url").in("user_id", senderIds);
+    profiles = res.data || [];
+  }
+  const msgIds = rows.map(m => m.id);
+  let reactions = [];
+  if (msgIds.length) {
+    const res = await db.from("message_reactions").select("*").in("message_id", msgIds);
+    reactions = res.data || [];
+  }
+  messagesCache = rows;
+  renderMessages(rows, profiles, reactions);
+}
+
+function renderMessages(rows, profiles, reactions) {
+  const box = $("messages");
+  box.innerHTML = "";
+  if (!rows.length) {
+    box.innerHTML = `<div class="empty">এখনো কোনো মেসেজ নেই।<br>প্রথম মেসেজটি পাঠান 👋</div>`;
+    return;
+  }
+  rows.forEach(msg => {
+    const mine = msg.owner_id === currentUser.id;
+    const sender = profiles.find(p => p.user_id === msg.owner_id);
+    const reply = msg.reply_to_id ? rows.find(m => m.id === msg.reply_to_id) : null;
+    const related = reactions.filter(r => r.message_id === msg.id);
+    const div = document.createElement("div");
+    div.className = "message" + (mine ? " mine" : "");
+    let html = "";
+    if (activeConversationKind === "family_group" && !mine) html += `<div class="message-sender">${escapeHTML(sender?.display_name || sender?.email || "Member")}</div>`;
+    if (reply) html += `<div class="reply-quote">↪ ${escapeHTML(reply.message_text || "ছবি")}</div>`;
+    if (msg.message_text) html += `<div class="message-text">${escapeHTML(msg.message_text)}</div>`;
+    if (msg.attachment_url) html += `<a href="\( {escapeHTML(msg.attachment_url)}" target="_blank" rel="noopener"><img src=" \){escapeHTML(msg.attachment_url)}" alt="ছবি" loading="lazy"></a>`;
+    html += `<div class="message-time">\( {formatTime(msg.created_at)} \){msg.updated_at ? " · সম্পাদিত" : ""}</div>`;
+    if (related.length) html += `<div class="reactions">${related.map(r => escapeHTML(r.emoji)).join(" ")}</div>`;
+    html += `<div class="message-actions"><button data-action="reply">↩ রিপ্লাই</button><button data-action="react">❤️</button>${mine ? `<button data-action="edit">এডিট</button><button data-action="delete">ডিলিট</button>` : ""}</div>`;
+    div.innerHTML = html;
+    div.querySelector('[data-action="reply"]').onclick = () => setReply(msg);
+    div.querySelector('[data-action="react"]').onclick = () => openReactionModal(msg);
+    const editBtn = div.querySelector('[data-action="edit"]');
+    if (editBtn) editBtn.onclick = () => openEditModal(msg);
+    const delBtn = div.querySelector('[data-action="delete"]');
+    if (delBtn) delBtn.onclick = () => deleteMessage(msg);
+    box.appendChild(div);
+  });
+  box.scrollTop = box.scrollHeight;
+}
+
+async function sendMessage() {
+  if (!activeConversation || isSending) return;
+  const text = $("messageInput").value.trim();
+  if (!text) return;
+  isSending = true;
+  $("sendBtn").disabled = true;
+  const { error } = await db.from("messages").insert({
+    conversation_id: activeConversation, owner_id: currentUser.id, message_text: text, reply_to_id: currentReply?.id || null
+  });
+  isSending = false;
+  $("sendBtn").disabled = false;
+  if (error) return toast("মেসেজ পাঠানো যায়নি: " + error.message);
+  $("messageInput").value = "";
+  currentReply = null;
+  $("replyPreview").classList.add("hidden");
+  await loadMessages();
+  await loadChatList();
+}
+
+$("sendBtn").onclick = sendMessage;
+$("messageInput").addEventListener("keydown", e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendMessage(); } });
+
+function setReply(msg) {
+  currentReply = msg;
+  $("replyPreview").innerHTML = `<div>↪ ${escapeHTML(msg.message_text || "ছবি")}</div><button id="cancelReply" style="font-size:18px;color:#666">✕</button>`;
+  $("replyPreview").classList.remove("hidden");
+  $("cancelReply").onclick = () => { currentReply = null; $("replyPreview").classList.add("hidden"); };
+  $("messageInput").focus();
+}
+
+function openEditModal(msg) {
+  const { close } = showModal({
+    title: "মেসেজ এডিট করুন",
+    bodyHTML: `<textarea id="editTextArea">${escapeHTML(msg.message_text || "")}</textarea>`,
+    footerHTML: `<button class="secondary" id="editCancel">বাতিল</button><button class="primary" id="editSave">সেভ করুন</button>`
+  });
+  $("editCancel").onclick = close;
+  $("editSave").onclick = async () => {
+    const newText = $("editTextArea").value.trim();
+    if (!newText) return toast("খালি মেসেজ করা যাবে না");
+    const { error } = await db.from("messages").update({ message_text: newText, updated_at: new Date().toISOString() }).eq("id", msg.id).eq("owner_id", currentUser.id);
+    if (error) return toast("এডিট হয়নি: " + error.message);
+    close();
+    toast("মেসেজ আপডেট হয়েছে");
+    await loadMessages();
+  };
+  setTimeout(() => $("editTextArea")?.focus(), 100);
+}
+
+async function deleteMessage(msg) {
+  const ok = await confirmModal("এই মেসেজটি মুছে ফেলতে চান?");
+  if (!ok) return;
+  const { error } = await db.from("messages").delete().eq("id", msg.id).eq("owner_id", currentUser.id);
+  if (error) return toast("ডিলিট হয়নি: " + error.message);
+  toast("মেসেজ মুছে ফেলা হয়েছে");
+  await loadMessages();
+  await loadChatList();
+}
+
+function openReactionModal(msg) {
+  const common = ["❤️","😂","😮","😢","😡","👍","🙏","🔥","👏","😍","🥰","💯"];
+  const { close } = showModal({
+    title: "রিঅ্যাকশন দিন",
+    bodyHTML: `<div class="emoji-grid" id="reactGrid">\( {common.map(e => `<button data-emoji=" \){e}">${e}</button>`).join("")}</div><div style="margin-top:14px"><input id="customEmoji" placeholder="অন্য ইমোজি লিখুন..." style="width:100%;padding:10px;border:1px solid var(--border);border-radius:8px"></div>`,
+    footerHTML: `<button class="primary" id="reactCustomBtn">ব্যবহার করুন</button>`
+  });
+  document.querySelectorAll("#reactGrid button").forEach(btn => btn.onclick = () => applyReaction(msg, btn.dataset.emoji, close));
+  $("reactCustomBtn").onclick = () => { const val = $("customEmoji").value.trim(); if (val) applyReaction(msg, val, close); };
+}
+
+async function applyReaction(msg, emoji, closeFn) {
+  const { data: existing } = await db.from("message_reactions").select("*").eq("message_id", msg.id).eq("user_id", currentUser.id);
+  if (existing?.length) await db.from("message_reactions").update({ emoji }).eq("message_id", msg.id).eq("user_id", currentUser.id);
+  else await db.from("message_reactions").insert({ message_id: msg.id, user_id: currentUser.id, emoji });
+  if (closeFn) closeFn();
+  await loadMessages();
+}
+
+$("emojiBtn").onclick = () => {
+  const common = ["😊","😂","❤️","👍","🙏","🔥","😍","🥰","😮","😢","👏","💯","🎉","✨","😎"];
+  const { close } = showModal({ title: "ইমোজি বেছে নিন", bodyHTML: `<div class="emoji-grid">\( {common.map(e => `<button data-e=" \){e}">${e}</button>`).join("")}</div>` });
+  document.querySelectorAll(".emoji-grid button").forEach(btn => btn.onclick = () => { $("messageInput").value += btn.dataset.e; $("messageInput").focus(); close(); });
+};
+
+$("imageBtn").onclick = () => $("imageFile").click();
+$("imageFile").addEventListener("change", async e => {
+  const file = e.target.files?.[0];
+  if (!file) return;
+  if (!activeConversation) { toast("আগে একটি চ্যাট নির্বাচন করুন"); e.target.value = ""; return; }
+  if (!file.type.startsWith("image/")) return toast("শুধুমাত্র ছবি আপলোড করা যাবে");
+  if (file.size > 8 * 1024 * 1024) return toast("ছবির সাইজ ৮ MB-এর কম রাখুন");
+  toast("ছবি আপলোড হচ্ছে...");
+  const ext = (file.name.split(".").pop() || "jpg").replace(/[^a-z0-9]/gi, "");
+  const path = `\( {currentUser.id}/ \){Date.now()}.${ext}`;
+  const { error: uploadError } = await db.storage.from(IMAGE_BUCKET).upload(path, file, { upsert: true, contentType: file.type });
+  if (uploadError) { toast("আপলোড ব্যর্থ: " + uploadError.message); e.target.value = ""; return; }
+  const { data: urlData } = db.storage.from(IMAGE_BUCKET).getPublicUrl(path);
+  const { error: msgError } = await db.from("messages").insert({
+    conversation_id: activeConversation, owner_id: currentUser.id, message_text: "", attachment_url: urlData.publicUrl, attachment_kind: "image", reply_to_id: currentReply?.id || null
+  });
+  if (msgError) toast("মেসেজ পাঠানো যায়নি: " + msgError.message);
+  else {
+    currentReply = null; $("replyPreview").classList.add("hidden");
+    toast("ছবি পাঠানো হয়েছে");
+    await loadMessages(); await loadChatList();
+  }
+  e.target.value = "";
+});
+
+function subscribeRealtime() {
+  if (realtimeChannel) { db.removeChannel(realtimeChannel); realtimeChannel = null; }
+  if (!activeConversation) return;
+  realtimeChannel = db.channel("chat-" + activeConversation)
+    .on("postgres_changes", { event: "*", schema: "public", table: "messages", filter: `conversation_id=eq.${activeConversation}` }, async () => {
+      await loadMessages(true); await loadChatList();
+    }).subscribe();
+}
+
+async function loadMembersPage() {
+  const el = $("membersPage");
+  el.innerHTML = `<div class="panel"><h2>পরিবারের সদস্য</h2><p class="small" style="margin-bottom:16px">অনুমোদিত সদস্যদের সাথে ব্যক্তিগত চ্যাট শুরু করুন</p><div id="membersList"><div class="loading">লোড হচ্ছে...</div></div><button class="secondary" id="familyGroupBtn" style="margin-top:16px;width:100%">👨‍👩‍👧‍👦 Family Group খুলুন</button></div>`;
+  const { data, error } = await db.from("profiles").select("user_id,email,display_name,avatar_url,role,status,approved").order("display_name");
+  if (error) { $("membersList").textContent = error.message; return; }
+  membersCache = data || [];
+  const list = $("membersList");
+  list.innerHTML = "";
+  const approved = membersCache.filter(m => m.approved === true || m.status === "approved");
+  approved.forEach(m => {
+    if (m.user_id === currentUser.id) return;
+    const row = document.createElement("div");
+    row.className = "member-row";
+    row.innerHTML = `<div class="avatar">\( {m.avatar_url ? `<img src=" \){escapeHTML(m.avatar_url)}" alt="">` : escapeHTML(initials(m.display_name))}</div><div class="member-info"><b>\( {escapeHTML(m.display_name || "Member")}</b><div class="member-email"> \){escapeHTML(m.email || "")}</div></div><button class="primary">Chat</button>`;
+    row.querySelector("button").onclick = () => startPrivateChat(m);
+    list.appendChild(row);
+  });
+  if (!approved.length) list.innerHTML = `<p class="empty">কোনো অনুমোদিত সদস্য নেই</p>`;
+  $("familyGroupBtn").onclick = openFamilyGroup;
+}
+
+async function loadProfilePage() {
+  const p = myProfile || {};
+  \( ("profilePage").innerHTML = `<div class="panel"><h2>প্রোফাইল সেটিংস</h2><div style="display:flex;align-items:center;gap:16px;margin:18px 0"><div class="avatar" id="profileAvatar" style="width:80px;height:80px;font-size:24px"></div><div><b style="font-size:17px"> \){escapeHTML(p.display_name || "Member")}</b><div class="small">\( {escapeHTML(currentUser.email)}</div></div></div><label style="font-size:13px;font-weight:600">নাম</label><input id="profileName" value=" \){escapeHTML(p.display_name || "")}" placeholder="আপনার নাম"><label style="font-size:13px;font-weight:600">প্রোফাইল ছবি</label><input id="avatarFile" type="file" accept="image/*"><button class="primary" id="saveProfileBtn" style="width:100%;margin-top:8px">সেভ করুন</button><p class="small" style="margin-top:16px">Role: <b>\( {escapeHTML(p.role || "member")}</b> · Status: <b> \){escapeHTML(p.status || "pending")}</b></p></div>`;
+  setAvatar($("profileAvatar"), p.avatar_url, p.display_name);
+  $("saveProfileBtn").onclick = saveProfile;
+}
+
+async function saveProfile() {
+  const name = $("profileName").value.trim();
+  if (!name) return toast("নাম লিখুন");
+  const btn = $("saveProfileBtn");
+  btn.disabled = true; btn.textContent = "সেভ হচ্ছে...";
+  let avatar_url = myProfile.avatar_url || null;
+  const file = $("avatarFile").files?.[0];
+  if (file) {
+    if (!file.type.startsWith("image/")) { toast("শুধু ছবি নির্বাচন করুন"); btn.disabled = false; btn.textContent = "সেভ করুন"; return; }
+    const ext = (file.name.split(".").pop() || "jpg").replace(/[^a-z0-9]/gi, "");
+    const path = `\( {currentUser.id}/avatar- \){Date.now()}.${ext}`;
+    const { error: upError } = await db.storage.from(AVATAR_BUCKET).upload(path, file, { upsert: true, contentType: file.type });
+    if (upError) { toast("ছবি আপলোড হয়নি: " + upError.message); btn.disabled = false; btn.textContent = "সেভ করুন"; return; }
+    avatar_url = db.storage.from(AVATAR_BUCKET).getPublicUrl(path).data.publicUrl;
+  }
+  const { data, error } = await db.from("profiles").update({ display_name: name, avatar_url }).eq("user_id", currentUser.id).select().single();
+  btn.disabled = false; btn.textContent = "সেভ করুন";
+  if (error) return toast("সেভ হয়নি: " + error.message);
+  myProfile = data;
+  $("topName").textContent = name;
+  toast("প্রোফাইল সফলভাবে আপডেট হয়েছে");
+  loadProfilePage();
+}
+
+async function loadAdminPage() {
+  const el = $("adminPage");
+  if (!isAdmin) {
+    el.innerHTML = `<div class="panel" style="text-align:center"><h2>Admin Dashboard</h2><p style="color:var(--muted);margin-top:12px">এই পেজ শুধুমাত্র Admin ব্যবহার করতে পারবেন।</p></div>`;
+    return;
+  }
+  el.innerHTML = `<div class="panel"><h2>Admin Dashboard</h2><p class="small" style="margin-bottom:16px">পরিবারের সদস্যদের অনুমোদন ও নিয়ন্ত্রণ করুন</p><button class="secondary" id="refreshAdminBtn">রিফ্রেশ করুন</button><div id="adminMembers" style="margin-top:16px"><div class="loading">লোড হচ্ছে...</div></div></div>`;
+  $("refreshAdminBtn").onclick = loadAdminMembers;
+  await loadAdminMembers();
+}
+
+async function loadAdminMembers() {
+  const list = $("adminMembers");
+  if (!list) return;
+  list.innerHTML = `<div class="loading">লোড হচ্ছে...</div>`;
+  const { data, error } = await db.from("profiles").select("user_id,email,display_name,role,status,approved").order("display_name");
+  if (error) { list.textContent = error.message; return; }
+  list.innerHTML = "";
+  (data || []).forEach(m => {
+    const approved = m.approved === true || m.status === "approved";
+    const row = document.createElement("div");
+    row.className = "member-row";
+    row.innerHTML = `<div class="member-info"><b>\( {escapeHTML(m.display_name || "Member")}</b><div class="member-email"> \){escapeHTML(m.email || "")}</div><div class="small">Role: ${escapeHTML(m.role || "member")} · Status: \( {approved ? "✅ Approved" : "⏳ Pending"}</div></div> \){m.user_id === currentUser.id ? `<span class="small">You</span>` : approved ? `<button class="danger">Revoke</button>` : `<button class="primary">Approve</button>`}`;
+    const btn = row.querySelector("button");
+    if (btn) btn.onclick = () => updateMemberStatus(m.user_id, !approved);
+    list.appendChild(row);
+  });
+}
+
+async function updateMemberStatus(userId, approve) {
+  const { error } = await db.from("profiles").update({ status: approve ? "approved" : "pending", approved: approve }).eq("user_id", userId);
+  if (error) return toast("পরিবর্তন হয়নি: " + error.message);
+  toast(approve ? "সদস্য অনুমোদিত হয়েছে ✅" : "অনুমোদন বাতিল করা হয়েছে");
+  await loadAdminMembers();
+  await loadMembersCache();
+}
+
+document.querySelectorAll(".tabs button").forEach(btn => btn.addEventListener("click", () => showPage(btn.dataset.page)));
+
+db.auth.onAuthStateChange((event, session) => {
+  if (session?.user) setTimeout(() => startApp(), 0);
+  else if (event === "SIGNED_OUT") showLogin();
+});
+
+(async () => {
+  try {
+    const { data: { session } } = await db.auth.getSession();
+    if (session?.user) await startApp();
+    else showLogin();
+  } catch (e) {
+    console.error(e);
+    showLogin();
+  }
+})();
+</script>
+</body>
+  </html>
