@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#1a73e8">
+<link rel="manifest" href="./manifest.json">
+<link rel="apple-touch-icon" href="./icons/icon-192.png">
 <title>Family Connect</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <style>
@@ -85,6 +87,14 @@ async function updateMemberStatus(userId,approve){const{error}=await db.from('pr
 document.querySelectorAll('.tabs button').forEach(btn=>btn.addEventListener('click',()=>showPage(btn.dataset.page)));
 let authHandled=false;db.auth.onAuthStateChange((event,session)=>{if(session?.user){if(!authHandled){authHandled=true;setTimeout(()=>startApp(),0)}}else if(event==='SIGNED_OUT'){authHandled=false;showAuth()}});
 (async()=>{try{const{data:{session}}=await db.auth.getSession();if(session?.user){authHandled=true;await startApp()}else showAuth()}catch(e){console.error(e);showAuth()}})();
+</script>
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./sw.js", { scope: "./" })
+      .catch(err => console.error("Service worker registration failed:", err));
+  });
+}
 </script>
 </body>
 </html>
