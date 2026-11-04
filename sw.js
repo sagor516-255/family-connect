@@ -31,15 +31,19 @@ self.addEventListener("fetch", event => {
   const request = event.request;
   const url = new URL(request.url);
 
-  if (request.method !== "GET" ||
-      url.origin !== self.location.origin) {
+  if (
+    request.method !== "GET" ||
+    url.origin !== self.location.origin
+  ) {
     return;
   }
 
   if (request.mode === "navigate") {
     event.respondWith(
       fetch(request).catch(async () => {
-        return await caches.match("./index.html");
+        return (
+          await caches.match("./index.html")
+        ) || await caches.match("./");
       })
     );
     return;
