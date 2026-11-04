@@ -29,7 +29,6 @@ self.addEventListener("fetch", (event) => {
   const request = event.request;
   const url = new URL(request.url);
 
-  // Never intercept Supabase/API or other cross-origin requests.
   if (request.method !== "GET" || url.origin !== self.location.origin) return;
 
   if (request.mode === "navigate") {
