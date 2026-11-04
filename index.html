@@ -3,1090 +3,190 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#0875e1">
-<meta name="description" content="Family Connect - Private Family Chat">
-
+<meta name="theme-color" content="#0866ff">
 <title>Family Connect</title>
-
-<link rel="manifest" href="./manifest.json">
-<link rel="icon" href="./icon.png">
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-:root {
-  --primary: #0875e1;
-  --primary-dark: #075bb5;
-  --light-blue: #eaf4ff;
-  --white: #ffffff;
-  --bg: #f4f7fb;
-  --text: #172b4d;
-  --muted: #718096;
-  --border: #e5eaf1;
-  --green: #16a36a;
-  --red: #e5484d;
-  --shadow: 0 5px 20px rgba(20,60,110,.08);
-}
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  font-family: Arial, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  min-height: 100vh;
-}
-
-button, input, textarea {
-  font: inherit;
-}
-
-button {
-  cursor: pointer;
-  border: none;
-}
-
-.hidden {
-  display: none !important;
-}
-
-.app-header {
-  height: 62px;
-  background: var(--white);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 16px;
-  box-shadow: var(--shadow);
-  position: sticky;
-  top: 0;
-  z-index: 50;
-}
-
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 19px;
-  font-weight: bold;
-  color: var(--primary);
-}
-
-.brand-logo {
-  width: 38px;
-  height: 38px;
-  background: var(--primary);
-  color: white;
-  border-radius: 12px;
-  display: grid;
-  place-items: center;
-  font-size: 21px;
-}
-
-.header-actions {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-}
-
-.icon-btn {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  background: var(--light-blue);
-  color: var(--primary);
-  font-size: 18px;
-}
-
-.container {
-  max-width: 1200px;
-  margin: auto;
-  padding: 16px;
-}
-
-.card {
-  background: white;
-  border-radius: 16px;
-  padding: 18px;
-  box-shadow: var(--shadow);
-  margin-bottom: 15px;
-}
-
-.section-title {
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 14px;
-}
-
-.muted {
-  color: var(--muted);
-  font-size: 13px;
-}
-
-.btn {
-  padding: 11px 16px;
-  border-radius: 10px;
-  font-weight: bold;
-  background: var(--primary);
-  color: white;
-}
-
-.btn:hover {
-  background: var(--primary-dark);
-}
-
-.btn-secondary {
-  background: var(--light-blue);
-  color: var(--primary);
-}
-
-.btn-danger {
-  background: #fff0f0;
-  color: var(--red);
-}
-
-.btn-success {
-  background: #e8f8f0;
-  color: var(--green);
-}
-
-.input {
-  width: 100%;
-  padding: 13px;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  outline: none;
-  background: white;
-  margin: 7px 0 13px;
-}
-
-.input:focus {
-  border-color: var(--primary);
-}
-
-label {
-  font-size: 13px;
-  font-weight: bold;
-}
-
-.login-screen {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 18px;
-  background: linear-gradient(145deg, #eaf4ff, #f8fbff);
-}
-
-.login-box {
-  width: 100%;
-  max-width: 400px;
-  background: white;
-  border-radius: 22px;
-  padding: 28px 22px;
-  box-shadow: var(--shadow);
-}
-
-.login-logo {
-  width: 75px;
-  height: 75px;
-  border-radius: 23px;
-  background: var(--primary);
-  color: white;
-  display: grid;
-  place-items: center;
-  font-size: 36px;
-  margin: 0 auto 18px;
-}
-
-.login-box h1 {
-  text-align: center;
-  color: var(--primary);
-  margin-bottom: 8px;
-}
-
-.login-box .subtitle {
-  text-align: center;
-  color: var(--muted);
-  font-size: 14px;
-  margin-bottom: 25px;
-}
-
-.login-box .btn {
-  width: 100%;
-}
-
-.status-message {
-  padding: 12px;
-  border-radius: 10px;
-  margin-top: 12px;
-  font-size: 13px;
-  display: none;
-}
-
-.status-message.show {
-  display: block;
-}
-
-.status-message.error {
-  background: #fff0f0;
-  color: var(--red);
-}
-
-.status-message.success {
-  background: #e8f8f0;
-  color: var(--green);
-}
-
-.main-layout {
-  display: grid;
-  grid-template-columns: 300px 1fr;
-  gap: 16px;
-  max-width: 1200px;
-  margin: auto;
-  padding: 16px;
-}
-
-.sidebar {
-  background: white;
-  border-radius: 16px;
-  box-shadow: var(--shadow);
-  overflow: hidden;
-  min-height: 500px;
-}
-
-.sidebar-title {
-  padding: 17px;
-  border-bottom: 1px solid var(--border);
-  font-weight: bold;
-}
-
-.profile-mini {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 16px;
-  border-bottom: 1px solid var(--border);
-}
-
-.avatar {
-  width: 43px;
-  height: 43px;
-  border-radius: 50%;
-  object-fit: cover;
-  background: var(--light-blue);
-  display: grid;
-  place-items: center;
-  color: var(--primary);
-  font-weight: bold;
-  flex-shrink: 0;
-}
-
-.profile-mini-info {
-  min-width: 0;
-  flex: 1;
-}
-
-.profile-mini-info strong {
-  display: block;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.nav-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 14px 17px;
-  color: var(--text);
-  background: white;
-  width: 100%;
-  text-align: left;
-  font-size: 14px;
-}
-
-.nav-item:hover,
-.nav-item.active {
-  background: var(--light-blue);
-  color: var(--primary);
-}
-
-.content-area {
-  min-width: 0;
-}
-
-.dashboard-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  margin-bottom: 16px;
-}
-
-.stat-card {
-  background: white;
-  border-radius: 14px;
-  padding: 16px;
-  box-shadow: var(--shadow);
-}
-
-.stat-card strong {
-  font-size: 23px;
-  color: var(--primary);
-  display: block;
-  margin-top: 8px;
-}
-
-.member-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.member-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 11px;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-}
-
-.member-info {
-  flex: 1;
-  min-width: 0;
-}
-
-.member-info strong {
-  display: block;
-  overflow-wrap: anywhere;
-}
-
-.member-actions {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-}
-
-.badge {
-  display: inline-block;
-  font-size: 11px;
-  padding: 4px 8px;
-  border-radius: 20px;
-  background: var(--light-blue);
-  color: var(--primary);
-}
-
-.badge-approved {
-  background: #e8f8f0;
-  color: var(--green);
-}
-
-.badge-pending {
-  background: #fff5dc;
-  color: #a66a00;
-}
-
-.chat-layout {
-  display: grid;
-  grid-template-columns: 250px 1fr;
-  background: white;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: var(--shadow);
-  min-height: 600px;
-}
-
-.chat-list {
-  border-right: 1px solid var(--border);
-  overflow-y: auto;
-}
-
-.chat-list-header {
-  padding: 16px;
-  border-bottom: 1px solid var(--border);
-  font-weight: bold;
-}
-
-.chat-item {
-  padding: 13px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  cursor: pointer;
-  border-bottom: 1px solid #f1f3f6;
-}
-
-.chat-item:hover,
-.chat-item.active {
-  background: var(--light-blue);
-}
-
-.chat-window {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  min-height: 600px;
-}
-
-.chat-header {
-  padding: 13px;
-  border-bottom: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.chat-header-info {
-  flex: 1;
-  min-width: 0;
-}
-
-.chat-header-actions {
-  display: flex;
-  gap: 6px;
-}
-
-.messages {
-  flex: 1;
-  padding: 15px;
-  overflow-y: auto;
-  background: #f7faff;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  min-height: 350px;
-  max-height: 65vh;
-}
-
-.message {
-  max-width: 82%;
-  align-self: flex-start;
-  background: white;
-  padding: 10px 12px;
-  border-radius: 13px 13px 13px 3px;
-  box-shadow: 0 2px 6px rgba(0,0,0,.04);
-  overflow-wrap: anywhere;
-}
-
-.message.mine {
-  align-self: flex-end;
-  background: #dceeff;
-  border-radius: 13px 13px 3px 13px;
-}
-
-.message-author {
-  font-size: 11px;
-  color: var(--primary);
-  font-weight: bold;
-  margin-bottom: 5px;
-}
-
-.message-time {
-  font-size: 10px;
-  color: var(--muted);
-  margin-top: 6px;
-  text-align: right;
-}
-
-.message img,
-.message video {
-  max-width: 100%;
-  border-radius: 10px;
-  margin-top: 7px;
-}
-
-.message-tools {
-  display: flex;
-  gap: 7px;
-  flex-wrap: wrap;
-  margin-top: 7px;
-}
-
-.message-tools button {
-  background: transparent;
-  color: var(--muted);
-  font-size: 12px;
-}
-
-.composer {
-  padding: 12px;
-  border-top: 1px solid var(--border);
-  background: white;
-}
-
-.reply-preview {
-  padding: 9px;
-  border-left: 3px solid var(--primary);
-  background: var(--light-blue);
-  border-radius: 7px;
-  margin-bottom: 8px;
-  font-size: 12px;
-}
-
-.composer-row {
-  display: flex;
-  align-items: flex-end;
-  gap: 8px;
-}
-
-.composer textarea {
-  flex: 1;
-  min-height: 43px;
-  max-height: 120px;
-  resize: none;
-  border: 1px solid var(--border);
-  border-radius: 13px;
-  padding: 12px;
-  outline: none;
-}
-
-.composer-actions {
-  display: flex;
-  gap: 6px;
-}
-
-.composer-actions button {
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  background: var(--light-blue);
-  color: var(--primary);
-  font-size: 18px;
-}
-
-.send-btn {
-  background: var(--primary) !important;
-  color: white !important;
-}
-
-.profile-settings {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-}
-
-.profile-large {
-  width: 95px;
-  height: 95px;
-  border-radius: 50%;
-  object-fit: cover;
-  background: var(--light-blue);
-}
-
-.call-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 200;
-  background: rgba(10,25,45,.96);
-  color: white;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-}
-
-.call-video-grid {
-  width: 100%;
-  max-width: 700px;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-}
-
-.call-video-grid video {
-  width: 100%;
-  background: #172b4d;
-  border-radius: 14px;
-  aspect-ratio: 4/3;
-  object-fit: cover;
-}
-
-.call-controls {
-  display: flex;
-  gap: 14px;
-  margin-top: 25px;
-}
-
-.call-controls button {
-  width: 55px;
-  height: 55px;
-  border-radius: 50%;
-  background: #33445b;
-  color: white;
-  font-size: 21px;
-}
-
-.call-controls .end-call {
-  background: var(--red);
-}
-
-.modal {
-  position: fixed;
-  inset: 0;
-  z-index: 150;
-  background: rgba(0,0,0,.45);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 15px;
-}
-
-.modal-box {
-  width: 100%;
-  max-width: 430px;
-  background: white;
-  border-radius: 17px;
-  padding: 20px;
-  max-height: 85vh;
-  overflow-y: auto;
-}
-
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 18px;
-}
-
-.toast {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #172b4d;
-  color: white;
-  padding: 12px 18px;
-  border-radius: 30px;
-  z-index: 500;
-  font-size: 13px;
-  max-width: 90%;
-  text-align: center;
-  box-shadow: var(--shadow);
-}
-
-.empty-state {
-  text-align: center;
-  padding: 35px 15px;
-  color: var(--muted);
-}
-
-@media(max-width: 750px) {
-  .main-layout {
-    display: block;
-    padding: 10px;
-  }
-
-  .sidebar {
-    min-height: auto;
-    margin-bottom: 12px;
-  }
-
-  .dashboard-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .chat-layout {
-    grid-template-columns: 1fr;
-    min-height: auto;
-  }
-
-  .chat-list {
-    display: flex;
-    overflow-x: auto;
-    border-right: none;
-    border-bottom: 1px solid var(--border);
-    max-height: 90px;
-  }
-
-  .chat-list-header {
-    display: none;
-  }
-
-  .chat-item {
-    min-width: 145px;
-    border-bottom: none;
-  }
-
-  .chat-window {
-    min-height: 65vh;
-  }
-
-  .messages {
-    min-height: 300px;
-    max-height: 55vh;
-  }
-
-  .message {
-    max-width: 90%;
-  }
-}
-
-@media(max-width: 400px) {
-  .dashboard-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .composer-actions button {
-    width: 36px;
-    height: 36px;
-  }
-
-  .composer-row {
-    gap: 5px;
-  }
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#eef2f8;color:#172033}
+button,input,textarea{font:inherit}
+button{cursor:pointer;border:0;border-radius:9px;padding:10px 14px;background:#0866ff;color:white}
+button:disabled{opacity:.5}
+input,textarea{width:100%;padding:12px;border:1px solid #d5dce8;border-radius:9px;outline:none}
+.hidden{display:none!important}
+#login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.login-card{background:white;padding:28px;border-radius:18px;width:100%;max-width:390px;box-shadow:0 8px 35px #15284a18}
+.logo{font-size:28px;font-weight:bold;color:#0866ff;text-align:center}
+.sub{text-align:center;color:#718096;margin:8px 0 24px}
+#app{height:100vh;display:flex;flex-direction:column}
+.top{height:60px;background:white;display:flex;align-items:center;justify-content:space-between;padding:0 16px;border-bottom:1px solid #e5eaf1}
+.brand{font-weight:bold;color:#0866ff;font-size:20px}
+.layout{display:flex;flex:1;min-height:0}
+.sidebar{width:300px;background:white;border-right:1px solid #e5eaf1;display:flex;flex-direction:column}
+.side-head{padding:15px;border-bottom:1px solid #eee}
+.side-head h3{margin:0 0 10px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap}
+.tabs button{font-size:12px;padding:8px}
+.chat-list{overflow:auto;flex:1}
+.chat-item{padding:14px;border-bottom:1px solid #f0f2f5;cursor:pointer}
+.chat-item:hover,.chat-item.active{background:#edf4ff}
+.chat-item b{display:block}
+.chat-item small{color:#718096}
+.main{flex:1;display:flex;flex-direction:column;min-width:0}
+.welcome{margin:auto;text-align:center;color:#718096;padding:20px}
+.chat-head{background:white;padding:13px 16px;border-bottom:1px solid #e5eaf1;display:flex;align-items:center;justify-content:space-between}
+.chat-head h3{margin:0}
+.messages{flex:1;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:12px}
+.msg{max-width:78%;padding:10px 12px;border-radius:13px;background:white;box-shadow:0 1px 3px #0000000b;overflow-wrap:anywhere}
+.msg.mine{align-self:flex-end;background:#dceaff}
+.msg small{display:block;color:#758198;font-size:11px;margin-top:5px}
+.msg-actions{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}
+.msg-actions button{font-size:11px;padding:5px 7px;background:#e7edf7;color:#26354c}
+.msg img{max-width:220px;max-height:220px;border-radius:8px;display:block;margin-top:6px}
+.composer{background:white;padding:12px;border-top:1px solid #e5eaf1}
+.composer-row{display:flex;gap:8px;align-items:center}
+.composer-row input{flex:1;min-width:0}
+.reply-box{font-size:12px;background:#eef4ff;padding:8px;margin-bottom:8px;border-radius:8px}
+.page{padding:20px;overflow:auto}
+.card{background:white;padding:17px;border-radius:13px;margin-bottom:13px;box-shadow:0 2px 10px #00000008}
+.member{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 0;border-bottom:1px solid #eee}
+.member-info{min-width:0}
+.member-info small{display:block;color:#718096;overflow-wrap:anywhere}
+.avatar{width:38px;height:38px;border-radius:50%;object-fit:cover;background:#dce8ff;display:inline-flex;align-items:center;justify-content:center;color:#0866ff;font-weight:bold;flex-shrink:0}
+.profile-row{display:flex;align-items:center;gap:12px}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#172033;color:white;padding:12px 18px;border-radius:10px;z-index:99;max-width:90%;font-size:14px}
+.status{font-size:13px;color:#718096;margin-top:10px}
+@media(max-width:700px){
+ .sidebar{width:110px}
+ .side-head{padding:8px}
+ .side-head h3{font-size:13px}
+ .tabs{display:block}
+ .tabs button{width:100%;margin:2px 0;padding:7px 3px;font-size:11px}
+ .chat-item{padding:10px 5px;font-size:12px}
+ .chat-item small{font-size:10px}
+ .msg{max-width:90%}
+ .page{padding:12px}
 }
 </style>
 </head>
 
 <body>
 
-<!-- LOGIN SCREEN -->
-<section id="loginScreen" class="login-screen">
-  <div class="login-box">
-    <div class="login-logo">✉</div>
-
-    <h1>Family Connect</h1>
-    <p class="subtitle">আপনার পরিবারের ব্যক্তিগত যোগাযোগ</p>
-
-    <label for="loginEmail">আপনার ইমেইল</label>
-    <input
-      id="loginEmail"
-      class="input"
-      type="email"
-      placeholder="example@gmail.com"
-      autocomplete="email"
-    >
-
-    <button id="loginBtn" class="btn">
-      Send Login Link
-    </button>
-
-    <div id="loginStatus" class="status-message"></div>
-
-    <p class="muted" style="text-align:center;margin-top:20px">
-      Private Family Space
-    </p>
-  </div>
+<section id="login">
+ <div class="login-card">
+  <div class="logo">Family Connect</div>
+  <div class="sub">আপনার পরিবারের ব্যক্তিগত যোগাযোগ</div>
+  <label>আপনার ইমেইল</label>
+  <input id="emailInput" type="email" placeholder="name@example.com">
+  <button id="loginBtn" style="width:100%;margin-top:13px">Send Login Link</button>
+  <div id="loginStatus" class="status"></div>
+ </div>
 </section>
 
-<!-- MAIN APPLICATION -->
-<div id="appScreen" class="hidden">
+<div id="app" class="hidden">
+ <header class="top">
+  <div class="brand">Family Connect</div>
+  <div>
+   <span id="topName"></span>
+   <button id="logoutBtn">Logout</button>
+  </div>
+ </header>
 
-  <header class="app-header">
-    <div class="brand">
-      <div class="brand-logo">✉</div>
-      <span>Family Connect</span>
+ <div class="layout">
+  <aside class="sidebar">
+   <div class="side-head">
+    <h3>পরিবার</h3>
+    <div class="tabs">
+     <button data-page="chats">চ্যাট</button>
+     <button data-page="members">সদস্য</button>
+     <button data-page="profile">প্রোফাইল</button>
+     <button data-page="admin" id="adminTab" class="hidden">Admin</button>
+    </div>
+   </div>
+   <div id="chatList" class="chat-list"></div>
+  </aside>
+
+  <main class="main">
+   <section id="chatsPage" class="page">
+    <div id="welcome" class="welcome">
+     <h2>Family Connect</h2>
+     <p>পরিবারের ব্যক্তিগত যোগাযোগ</p>
+     <p>চ্যাট শুরু করতে বাম পাশ থেকে একটি কথোপকথন নির্বাচন করুন।</p>
     </div>
 
-    <div class="header-actions">
-      <button class="icon-btn" id="refreshBtn" title="Refresh">↻</button>
-      <button class="icon-btn" id="profileBtn" title="Profile">👤</button>
-      <button class="icon-btn" id="logoutBtn" title="Logout">⇥</button>
+    <div id="chatPanel" class="hidden" style="height:100%;display:flex;flex-direction:column">
+     <div class="chat-head">
+      <h3 id="chatTitle">Chat</h3>
+      <button id="refreshBtn">Refresh</button>
+     </div>
+     <div id="messages" class="messages"></div>
+     <div class="composer">
+      <div id="replyPreview" class="reply-box hidden"></div>
+      <div class="composer-row">
+       <button id="emojiBtn" title="Emoji">😊</button>
+       <button id="imageBtn" title="ছবি">📷</button>
+       <input id="messageInput" placeholder="মেসেজ লিখুন...">
+       <button id="sendBtn">Send</button>
+      </div>
+      <input type="file" id="imageFile" accept="image/*" class="hidden">
+     </div>
     </div>
-  </header>
+   </section>
 
-  <main class="main-layout">
+   <section id="membersPage" class="page hidden">
+    <div class="card">
+     <h2>পরিবারের সদস্য</h2>
+     <div id="membersList">লোড হচ্ছে...</div>
+    </div>
+   </section>
 
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
-
-      <div class="profile-mini">
-        <img id="miniAvatar" class="avatar" alt="Profile">
-        <div class="profile-mini-info">
-          <strong id="miniName">Loading...</strong>
-          <span id="miniRole" class="muted">Member</span>
-        </div>
+   <section id="profilePage" class="page hidden">
+    <div class="card">
+     <h2>প্রোফাইল সেটিংস</h2>
+     <div class="profile-row">
+      <img id="profileAvatar" class="avatar" src="" alt="">
+      <div>
+       <b id="profileEmail"></b>
+       <div><small id="profileRole"></small></div>
       </div>
+     </div>
+     <br>
+     <label>আপনার নাম</label>
+     <input id="profileName" placeholder="আপনার নাম">
+     <br><br>
+     <label>প্রোফাইল ছবি</label>
+     <input id="avatarFile" type="file" accept="image/*">
+     <br><br>
+     <button id="saveProfileBtn">Save Profile</button>
+     <div id="profileStatus" class="status"></div>
+    </div>
+   </section>
 
-      <div class="sidebar-title">Menu</div>
-
-      <button class="nav-item active" data-page="homePage">
-        🏠 Dashboard
-      </button>
-
-      <button class="nav-item" data-page="chatPage">
-        💬 Messages
-      </button>
-
-      <button class="nav-item" data-page="membersPage">
-        👨‍👩‍👧 Family Members
-      </button>
-
-      <button class="nav-item" data-page="profilePage">
-        ⚙️ Profile Settings
-      </button>
-
-      <button class="nav-item" id="adminNav">
-        🛡️ Admin Dashboard
-      </button>
-
-    </aside>
-
-    <!-- CONTENT -->
-    <section class="content-area">
-
-      <!-- HOME PAGE -->
-      <div id="homePage" class="page">
-
-        <div class="card">
-          <h2>আসসালামু আলাইকুম 👋</h2>
-          <p class="muted" style="margin-top:7px">
-            Family Connect-এ আপনাকে স্বাগতম।
-          </p>
-        </div>
-
-        <div class="dashboard-grid">
-
-          <div class="stat-card">
-            <span class="muted">পরিবারের সদস্য</span>
-            <strong id="totalMembers">0</strong>
-          </div>
-
-          <div class="stat-card">
-            <span class="muted">অনুমোদিত সদস্য</span>
-            <strong id="approvedMembers">0</strong>
-          </div>
-
-          <div class="stat-card">
-            <span class="muted">মেসেজ</span>
-            <strong id="totalMessages">0</strong>
-          </div>
-
-        </div>
-
-        <div class="card">
-          <h3 class="section-title">আপনার ব্যক্তিগত যোগাযোগ</h3>
-          <p class="muted">
-            পরিবারের সদস্যদের সঙ্গে নিরাপদে যোগাযোগ করুন।
-          </p>
-
-          <button class="btn" style="margin-top:15px"
-            onclick="showPage('chatPage')">
-            Open Messages
-          </button>
-        </div>
-
-      </div>
-
-      <!-- CHAT PAGE -->
-      <div id="chatPage" class="page hidden">
-
-        <div class="chat-layout">
-
-          <div class="chat-list">
-            <div class="chat-list-header">Chats</div>
-            <div id="chatListItems">
-              <div class="empty-state">চ্যাট লোড হচ্ছে...</div>
-            </div>
-          </div>
-
-          <div class="chat-window">
-
-            <div class="chat-header">
-              <div class="avatar">👨‍👩‍👧</div>
-
-              <div class="chat-header-info">
-                <strong id="chatTitle">Family Chat</strong>
-                <div class="muted" id="chatSubtitle">
-                  পরিবারের সদস্যরা
-                </div>
-              </div>
-
-              <div class="chat-header-actions">
-                <button class="icon-btn" id="audioCallBtn"
-                  title="Audio Call">📞</button>
-
-                <button class="icon-btn" id="videoCallBtn"
-                  title="Video Call">📹</button>
-              </div>
-            </div>
-
-            <div id="messages" class="messages">
-              <div class="empty-state">
-                একটি চ্যাট নির্বাচন করুন।
-              </div>
-            </div>
-
-            <div id="replyPreview" class="reply-preview hidden">
-              <span id="replyText"></span>
-              <button id="cancelReplyBtn">✕</button>
-            </div>
-
-            <div class="composer">
-
-              <div class="composer-row">
-
-                <div class="composer-actions">
-                  <button id="emojiBtn" title="Emoji">😊</button>
-                  <button id="imageBtn" title="Image">🖼️</button>
-                  <button id="videoBtn" title="Video">🎥</button>
-                </div>
-
-                <textarea
-                  id="messageInput"
-                  placeholder="একটি মেসেজ লিখুন..."
-                  rows="1"
-                ></textarea>
-
-                <button id="sendBtn" class="btn send-btn"
-                  title="Send">➤</button>
-
-              </div>
-
-              <input id="imageFile" type="file"
-                accept="image/*" hidden>
-
-              <input id="videoFile" type="file"
-                accept="video/*" hidden>
-
-              <div id="uploadStatus" class="muted"></div>
-
-            </div>
-
-          </div>
-        </div>
-      </div>
-
-      <!-- MEMBERS PAGE -->
-      <div id="membersPage" class="page hidden">
-
-        <div class="card">
-          <h3 class="section-title">Family Members</h3>
-          <div id="membersList" class="member-list">
-            <div class="empty-state">সদস্য লোড হচ্ছে...</div>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- PROFILE PAGE -->
-      <div id="profilePage" class="page hidden">
-
-        <div class="card">
-          <h3 class="section-title">Profile Settings</h3>
-
-          <div class="profile-settings">
-
-            <img id="profileAvatar" class="profile-large"
-              alt="Profile Photo">
-
-            <label class="btn btn-secondary">
-              Change Photo
-              <input id="avatarFile" type="file"
-                accept="image/*" hidden>
-            </label>
-
-          </div>
-
-          <label for="profileName">আপনার নাম</label>
-          <input id="profileName" class="input"
-            placeholder="আপনার নাম">
-
-          <label for="profileEmail">ইমেইল</label>
-          <input id="profileEmail" class="input"
-            disabled>
-
-          <button id="saveProfileBtn" class="btn">
-            Save Profile
-          </button>
-
-        </div>
-
-      </div>
-
-      <!-- ADMIN PAGE -->
-      <div id="adminPage" class="page hidden">
-
-        <div class="card">
-          <h3 class="section-title">🛡️ Admin Dashboard</h3>
-          <p class="muted">
-            পরিবারের সদস্যদের অনুমোদন ও নিয়ন্ত্রণ করুন।
-          </p>
-
-          <button id="refreshMembersBtn"
-            class="btn btn-secondary"
-            style="margin-top:12px">
-            Refresh Members
-          </button>
-        </div>
-
-        <div class="card">
-          <h3 class="section-title">Member Management</h3>
-          <div id="adminMembersList" class="member-list">
-            <div class="empty-state">সদস্য লোড হচ্ছে...</div>
-          </div>
-        </div>
-
-      </div>
-
-    </section>
+   <section id="adminPage" class="page hidden">
+    <div class="card">
+     <h2>Admin Dashboard</h2>
+     <p>পরিবারের সদস্যদের অনুমোদন ও নিয়ন্ত্রণ করুন।</p>
+     <button id="refreshMembersBtn">Refresh Members</button>
+     <div id="adminMembersList"></div>
+    </div>
+   </section>
   </main>
+ </div>
 </div>
 
-<!-- PROFILE EDIT MODAL -->
-<div id="profileModal" class="modal hidden">
-  <div class="modal-box">
-    <div class="modal-header">
-      <h3>Profile</h3>
-      <button id="closeProfileModal">✕</button>
-    </div>
-    <p class="muted">আপনার প্রোফাইল সেটিংস পরিবর্তন করুন।</p>
-    <button class="btn" style="margin-top:15px"
-      onclick="showPage('profilePage');closeModal('profileModal')">
-      Edit Profile
-    </button>
-  </div>
-</div>
+<div id="toast" class="toast hidden"></div>
 
-<!-- CALL SCREEN -->
-<div id="callOverlay" class="call-overlay hidden">
-
-  <h2 id="callTitle">Calling...</h2>
-  <p id="callStatus" style="margin:10px 0 20px">
-    Connecting...
-  </p>
-
-  <div id="callVideoGrid" class="call-video-grid">
-    <video id="localVideo" autoplay muted playsinline></video>
-    <video id="remoteVideo" autoplay playsinline></video>
-  </div>
-
-  <div class="call-controls">
-    <button id="muteCallBtn">🎤</button>
-    <button id="cameraCallBtn">📷</button>
-    <button id="endCallBtn" class="end-call">📞</button>
-  </div>
-
-</div>
-
-<div id="toast" class="toast hidden"></div><script>
-/* =====================================
-   FAMILY CONNECT - SUPABASE CONFIG
-===================================== */
-
-const SUPABASE_URL =
-  "https://vtvwfyooiblpcoofzdav.supabase.co";
-
-const SUPABASE_ANON_KEY =
-  "sb_publishable_Rb2tYhvPfhZIqhGV0gPCLA_SODQoFNg";
-
+<script>
+/* SUPABASE CONFIG */
+const SUPABASE_URL = "https://vtvwfyooiblpcoofzdav.supabase.co";
+const SUPABASE_KEY = "sb_publishable_Rb2tYhvPfhZIqhGV0gPCLA_SODQoFNg";
 const ADMIN_EMAIL = "sagor516@gmail.com";
+const AVATAR_BUCKET = "familly-avatars";
+const IMAGE_BUCKET = "family-chat-images";
 
-const db = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_ANON_KEY
-);
-
-
-/* =====================================
-   GLOBAL APP STATE
-===================================== */
+const db = window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 let currentUser = null;
 let currentProfile = null;
@@ -1094,637 +194,544 @@ let currentConversation = null;
 let currentReply = null;
 let messagesChannel = null;
 let refreshTimer = null;
-let authSubscription = null;
-
-let isLoadingApp = false;
-let isAppLoaded = false;
-
-
-/* =====================================
-   COMMON HELPERS
-===================================== */
+let loadedMessages = [];
 
 const $ = id => document.getElementById(id);
 
-function showToast(message) {
-  const toast = $("toast");
-
-  toast.textContent = message;
-  toast.classList.remove("hidden");
-
-  clearTimeout(toast._timer);
-
-  toast._timer = setTimeout(() => {
-    toast.classList.add("hidden");
-  }, 3000);
+function toast(message){
+ const el=$("toast");
+ el.textContent=message;
+ el.classList.remove("hidden");
+ setTimeout(()=>el.classList.add("hidden"),3000);
 }
 
-function showStatus(id, message, type = "success") {
-  const el = $(id);
-
-  if (!el) return;
-
-  el.textContent = message;
-  el.className = "status-message show " + type;
+function escapeHTML(value){
+ return String(value ?? "").replace(/[&<>"']/g,c=>({
+  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+ }[c]));
 }
 
-function escapeHTML(value) {
-  return String(value ?? "").replace(/[&<>"']/g, char => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#039;"
-  })[char]);
+function safeImageURL(url){
+ try{
+  const u=new URL(url);
+  return ["https:","http:"].includes(u.protocol)?u.href:"";
+ }catch{return "";}
 }
 
-function getInitial(name) {
-  return String(name || "U").trim().charAt(0).toUpperCase();
+function timeText(value){
+ if(!value)return "";
+ return new Date(value).toLocaleString("bn-BD",{
+  hour:"2-digit",minute:"2-digit",day:"numeric",month:"short"
+ });
 }
 
-function getAvatar(url, name) {
-  if (url) return url;
-
-  return "https://ui-avatars.com/api/?name=" +
-    encodeURIComponent(name || "User") +
-    "&background=0875e1&color=ffffff";
+function isAdmin(){
+ return currentProfile?.role==="admin" ||
+  currentUser?.email?.toLowerCase()===ADMIN_EMAIL.toLowerCase();
 }
 
-function formatTime(date) {
-  if (!date) return "";
+/* PAGE NAVIGATION */
+function showPage(page){
+ ["chats","members","profile","admin"].forEach(name=>{
+  $(name+"Page").classList.toggle("hidden",name!==page);
+ });
+ if(page==="members")loadMembers();
+ if(page==="profile")fillProfile();
+ if(page==="admin")loadAdminMembers();
+ if(page==="chats")loadChatList();
+}
 
-  return new Date(date).toLocaleString("bn-BD", {
-    hour: "2-digit",
-    minute: "2-digit"
+document.querySelectorAll("[data-page]").forEach(btn=>{
+ btn.addEventListener("click",()=>showPage(btn.dataset.page));
+});
+
+/* AUTHENTICATION */
+async function sendLoginLink(){
+ const email=$("emailInput").value.trim();
+ if(!email){toast("ইমেইল লিখুন");return;}
+ $("loginBtn").disabled=true;
+ $("loginStatus").textContent="লিংক পাঠানো হচ্ছে...";
+ const {error}=await db.auth.signInWithOtp({
+  email,
+  options:{emailRedirectTo:location.origin+location.pathname}
+ });
+ $("loginBtn").disabled=false;
+ $("loginStatus").textContent=error?error.message:"ইমেইলে লগইন লিংক পাঠানো হয়েছে।";
+}
+
+$("loginBtn").addEventListener("click",sendLoginLink);
+
+async function logout(){
+ if(messagesChannel)await db.removeChannel(messagesChannel);
+ stopRefresh();
+ await db.auth.signOut();
+ currentUser=null;
+ currentProfile=null;
+ currentConversation=null;
+ $("app").classList.add("hidden");
+ $("login").classList.remove("hidden");
+}
+
+$("logoutBtn").addEventListener("click",logout);
+
+async function checkLogin(){
+ const {data,error}=await db.auth.getSession();
+ if(error){toast(error.message);return;}
+ if(data.session){
+  currentUser=data.session.user;
+  await loadApp();
+ }else{
+  $("login").classList.remove("hidden");
+  $("app").classList.add("hidden");
+ }
+}
+
+db.auth.onAuthStateChange(async(event,session)=>{
+ if(session?.user){
+  currentUser=session.user;
+  if(event==="SIGNED_IN")await loadApp();
+ }
+ if(event==="SIGNED_OUT"){
+  $("login").classList.remove("hidden");
+  $("app").classList.add("hidden");
+ }
+});
+
+async function loadApp(){
+ if(!currentUser)return;
+
+ const {data,error}=await db.from("profiles")
+  .select("*").eq("user_id",currentUser.id).maybeSingle();
+
+ if(error){toast("Profile error: "+error.message);return;}
+
+ if(!data){
+  const {error:insertError}=await db.from("profiles").insert({
+   user_id:currentUser.id,
+   email:currentUser.email,
+   display_name:currentUser.email.split("@")[0],
+   role:currentUser.email.toLowerCase()===ADMIN_EMAIL.toLowerCase()?"admin":"member",
+   status:"pending",
+   approved:false
   });
+  if(insertError){toast(insertError.message);return;}
+  const {data:newProfile}=await db.from("profiles")
+   .select("*").eq("user_id",currentUser.id).maybeSingle();
+  currentProfile=newProfile;
+ }else{
+  currentProfile=data;
+ }
+
+ if(!currentProfile)return;
+
+ if(currentProfile.approved!==true && !isAdmin()){
+  $("login").classList.remove("hidden");
+  $("app").classList.add("hidden");
+  $("loginStatus").textContent="আপনার অ্যাকাউন্ট Admin অনুমোদনের অপেক্ষায় আছে।";
+  return;
+ }
+
+ $("login").classList.add("hidden");
+ $("app").classList.remove("hidden");
+ $("topName").textContent=currentProfile.display_name||currentUser.email;
+ $("adminTab").classList.toggle("hidden",!isAdmin());
+
+ await loadMembers();
+ await loadChatList();
+ showPage("chats");
 }
 
-function formatDate(date) {
-  if (!date) return "";
-
-  return new Date(date).toLocaleDateString("bn-BD");
+/* PROFILE */
+function fillProfile(){
+ if(!currentProfile)return;
+ $("profileEmail").textContent=currentUser.email;
+ $("profileRole").textContent="Role: "+(currentProfile.role||"member")+
+  " | Status: "+(currentProfile.status||"pending");
+ $("profileName").value=currentProfile.display_name||"";
+ $("profileAvatar").src=safeImageURL(currentProfile.avatar_url)||"";
 }
 
+async function saveProfile(){
+ const name=$("profileName").value.trim();
+ if(!name){toast("নাম লিখুন");return;}
+ const {data,error}=await db.from("profiles").update({
+  display_name:name
+ }).eq("user_id",currentUser.id).select().maybeSingle();
 
-/* =====================================
-   PAGE NAVIGATION
-===================================== */
+ if(error){toast(error.message);return;}
+ if(data)currentProfile=data;
+ $("topName").textContent=name;
+ toast("প্রোফাইল আপডেট হয়েছে");
+}
 
-function showPage(pageId) {
-  document.querySelectorAll(".page").forEach(page => {
-    page.classList.add("hidden");
+$("saveProfileBtn").addEventListener("click",saveProfile);
+
+$("avatarFile").addEventListener("change",async e=>{
+ const file=e.target.files[0];
+ if(!file)return;
+ if(!file.type.startsWith("image/")){toast("ছবির ফাইল নির্বাচন করুন");return;}
+ if(file.size>5*1024*1024){toast("ছবি ৫ MB-এর কম হতে হবে");return;}
+
+ const ext=file.name.split(".").pop().toLowerCase();
+ const path=currentUser.id+"/"+Date.now()+"."+ext;
+ const {error:uploadError}=await db.storage.from(AVATAR_BUCKET)
+  .upload(path,file,{upsert:true});
+ if(uploadError){toast("Upload error: "+uploadError.message);return;}
+
+ const {data:urlData}=db.storage.from(AVATAR_BUCKET).getPublicUrl(path);
+ const {data,error}=await db.from("profiles").update({
+  avatar_url:urlData.publicUrl
+ }).eq("user_id",currentUser.id).select().maybeSingle();
+
+ if(error){toast(error.message);return;}
+ if(data)currentProfile=data;
+ fillProfile();
+ toast("প্রোফাইল ছবি আপলোড হয়েছে");
+});
+
+/* MEMBERS */
+async function loadMembers(){
+ const box=$("membersList");
+ box.textContent="লোড হচ্ছে...";
+ const {data,error}=await db.from("profiles")
+  .select("user_id,display_name,email,avatar_url,role,status,approved")
+  .order("display_name");
+
+ if(error){box.textContent=error.message;return;}
+ box.innerHTML="";
+ (data||[]).forEach(p=>{
+  const div=document.createElement("div");
+  div.className="member";
+  div.innerHTML=`
+   <div class="member-info">
+    <b>${escapeHTML(p.display_name||"Member")}</b>
+    <small>${escapeHTML(p.email||"")}</small>
+    <small>${escapeHTML(p.role||"member")} | ${p.approved?"Approved":"Pending"}</small>
+   </div>`;
+  box.appendChild(div);
+ });
+}
+
+/* ADMIN */
+async function loadAdminMembers(){
+ if(!isAdmin()){toast("Admin access প্রয়োজন");return;}
+ const box=$("adminMembersList");
+ box.textContent="লোড হচ্ছে...";
+ const {data,error}=await db.from("profiles")
+  .select("user_id,display_name,email,role,status,approved")
+  .order("display_name");
+
+ if(error){box.textContent=error.message;return;}
+ box.innerHTML="";
+ (data||[]).forEach(p=>{
+  const div=document.createElement("div");
+  div.className="member";
+  const info=document.createElement("div");
+  info.className="member-info";
+  info.innerHTML=`<b>${escapeHTML(p.display_name||"Member")}</b>
+   <small>${escapeHTML(p.email||"")}</small>
+   <small>${p.approved?"Approved":"Pending"}</small>`;
+  div.appendChild(info);
+
+  if(p.user_id!==currentUser.id){
+   const btn=document.createElement("button");
+   btn.textContent=p.approved?"Revoke":"Approve";
+   btn.addEventListener("click",()=>setApproval(p.user_id,!p.approved));
+   div.appendChild(btn);
+  }
+  box.appendChild(div);
+ });
+}
+
+async function setApproval(userId,approved){
+ if(!isAdmin())return;
+ const {error}=await db.from("profiles").update({
+  approved,
+  status:approved?"approved":"pending"
+ }).eq("user_id",userId);
+
+ if(error){toast("Approval error: "+error.message);return;}
+ toast(approved?"সদস্য অনুমোদিত":"অনুমোদন বাতিল হয়েছে");
+ await loadAdminMembers();
+ await loadMembers();
+}
+
+$("refreshMembersBtn").addEventListener("click",loadAdminMembers);
+
+/* CHAT LIST */
+async function loadChatList(){
+ const box=$("chatList");
+ box.innerHTML="লোড হচ্ছে...";
+
+ const {data:members,error:mError}=await db.from("conversation_members")
+  .select("conversation_id,owner_id")
+  .eq("owner_id",currentUser.id);
+
+ if(mError){box.textContent=mError.message;return;}
+ if(!members?.length){box.textContent="এখনো কোনো চ্যাট নেই";return;}
+
+ const ids=[...new Set(members.map(x=>x.conversation_id))];
+ const {data:conversations,error}=await db.from("conversations")
+  .select("id,conversation_kind,created_at")
+  .in("id",ids);
+
+ if(error){box.textContent=error.message;return;}
+ box.innerHTML="";
+
+ (conversations||[]).forEach(c=>{
+  const div=document.createElement("div");
+  div.className="chat-item";
+  div.innerHTML=`<b>${c.conversation_kind==="family_group"?"Family Group":"Private Chat"}</b>
+   <small>কথোপকথন খুলুন</small>`;
+  div.addEventListener("click",()=>openConversation(c));
+  box.appendChild(div);
+ });
+}
+
+async function openConversation(conversation){
+ currentConversation=conversation.id;
+ currentReply=null;
+ $("replyPreview").classList.add("hidden");
+ $("welcome").classList.add("hidden");
+ $("chatPanel").classList.remove("hidden");
+ $("chatTitle").textContent=
+  conversation.conversation_kind==="family_group"?"Family Group":"Private Chat";
+ await loadMessages();
+ subscribeMessages();
+}
+
+/* MESSAGES */
+async function loadMessages(){
+ if(!currentConversation)return;
+
+ const box=$("messages");
+ const {data,error}=await db.from("messages")
+  .select("*")
+  .eq("conversation_id",currentConversation)
+  .order("created_at",{ascending:true})
+  .limit(100);
+
+ if(error){toast("Message error: "+error.message);return;}
+ loadedMessages=data||[];
+
+ const ownerIds=[...new Set(loadedMessages.map(m=>m.owner_id))];
+ let profiles=[];
+ if(ownerIds.length){
+  const result=await db.from("profiles")
+   .select("user_id,display_name,avatar_url")
+   .in("user_id",ownerIds);
+  if(!result.error)profiles=result.data||[];
+ }
+
+ const profileMap={};
+ profiles.forEach(p=>profileMap[p.user_id]=p);
+
+ box.innerHTML="";
+ loadedMessages.forEach(m=>{
+  const mine=m.owner_id===currentUser.id;
+  const sender=profileMap[m.owner_id]?.display_name||"Member";
+  const div=document.createElement("div");
+  div.className="msg"+(mine?" mine":"");
+
+  let attachment="";
+  if(m.attachment_url){
+   const url=safeImageURL(m.attachment_url);
+   if(url && m.attachment_kind==="image"){
+    attachment=`<img src="${escapeHTML(url)}" alt="Shared image">`;
+   }else if(url){
+    attachment=`<a href="${escapeHTML(url)}" target="_blank" rel="noopener">Attachment খুলুন</a>`;
+   }
+  }
+
+  const reply=m.reply_to_id?loadedMessages.find(x=>x.id===m.reply_to_id):null;
+  div.innerHTML=`
+   <b>${escapeHTML(sender)}</b>
+   ${reply?`<div class="reply-box">↪ ${escapeHTML(reply.message_text||"ছবি")}</div>`:""}
+   <div>${escapeHTML(m.message_text||"")}</div>
+   ${attachment}
+   <small>${timeText(m.created_at)} ${m.updated_at?"(edited)":""}</small>
+   <div class="msg-actions">
+    <button data-action="reply">Reply</button>
+    <button data-action="react">❤️</button>
+    ${mine?'<button data-action="edit">Edit</button><button data-action="delete">Delete</button>':""}
+   </div>`;
+
+  div.querySelector('[data-action="reply"]').onclick=()=>setReply(m);
+  div.querySelector('[data-action="react"]').onclick=()=>reactToMessage(m);
+  const edit=div.querySelector('[data-action="edit"]');
+  if(edit)edit.onclick=()=>editMessage(m);
+  const del=div.querySelector('[data-action="delete"]');
+  if(del)del.onclick=()=>deleteMessage(m);
+  box.appendChild(div);
+ });
+ box.scrollTop=box.scrollHeight;
+}
+
+function setReply(message){
+ currentReply=message;
+ $("replyPreview").textContent="Reply: "+(message.message_text||"ছবি");
+ $("replyPreview").classList.remove("hidden");
+ $("messageInput").focus();
+}
+
+$("cancelReplyBtn")?.addEventListener("click",()=>{
+ currentReply=null;
+ $("replyPreview").classList.add("hidden");
+});
+
+async function sendMessage(){
+ if(!currentConversation){toast("আগে একটি চ্যাট খুলুন");return;}
+ const input=$("messageInput");
+ const message=input.value.trim();
+ if(!message)return;
+
+ $("sendBtn").disabled=true;
+ const payload={
+  conversation_id:currentConversation,
+  owner_id:currentUser.id,
+  message_text:message,
+  reply_to_id:currentReply?.id||null
+ };
+
+ const {error}=await db.from("messages").insert(payload);
+ $("sendBtn").disabled=false;
+
+ if(error){toast("Send error: "+error.message);return;}
+ input.value="";
+ currentReply=null;
+ $("replyPreview").classList.add("hidden");
+ await loadMessages();
+}
+
+$("sendBtn").addEventListener("click",sendMessage);
+$("messageInput").addEventListener("keydown",e=>{
+ if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();sendMessage();}
+});
+
+async function editMessage(message){
+ const updated=prompt("মেসেজ পরিবর্তন করুন:",message.message_text||"");
+ if(updated===null||!updated.trim())return;
+ const {error}=await db.from("messages").update({
+  message_text:updated.trim(),
+  updated_at:new Date().toISOString()
+ }).eq("id",message.id).eq("owner_id",currentUser.id);
+
+ if(error){toast(error.message);return;}
+ await loadMessages();
+}
+
+async function deleteMessage(message){
+ if(!confirm("এই মেসেজটি মুছে ফেলবেন?"))return;
+ const {error}=await db.from("messages").delete()
+  .eq("id",message.id).eq("owner_id",currentUser.id);
+ if(error){toast(error.message);return;}
+ await loadMessages();
+}
+
+async function reactToMessage(message){
+ const emoji="❤️";
+ const {data,error}=await db.from("message_reactions")
+  .select("message_id,user_id,emoji")
+  .eq("message_id",message.id)
+  .eq("user_id",currentUser.id)
+  .eq("emoji",emoji)
+  .maybeSingle();
+
+ if(error){toast("Reaction error: "+error.message);return;}
+
+ if(data){
+  const result=await db.from("message_reactions").delete()
+   .eq("message_id",message.id)
+   .eq("user_id",currentUser.id)
+   .eq("emoji",emoji);
+  if(result.error)toast(result.error.message);
+ }else{
+  const result=await db.from("message_reactions").insert({
+   message_id:message.id,user_id:currentUser.id,emoji
   });
-
-  const target = $(pageId);
-
-  if (target) {
-    target.classList.remove("hidden");
-  }
-
-  document.querySelectorAll(".nav-item").forEach(item => {
-    item.classList.remove("active");
-  });
-
-  const nav = document.querySelector(
-    `[data-page="${pageId}"]`
-  );
-
-  if (nav) nav.classList.add("active");
-
-  if (pageId === "membersPage") {
-    loadMembers();
-  }
-
-  if (pageId === "adminPage") {
-    loadAdminMembers();
-  }
-
-  if (pageId === "chatPage") {
-    loadChatList();
-  }
+  if(result.error)toast(result.error.message);
+  else toast("❤️ Reaction যোগ হয়েছে");
+ }
 }
 
-function closeModal(id) {
-  $(id)?.classList.add("hidden");
+/* REALTIME */
+function subscribeMessages(){
+ if(messagesChannel)db.removeChannel(messagesChannel);
+ if(!currentConversation)return;
+
+ messagesChannel=db.channel("messages-"+currentConversation)
+  .on("postgres_changes",{
+   event:"*",schema:"public",table:"messages",
+   filter:"conversation_id=eq."+currentConversation
+  },()=>loadMessages())
+  .subscribe();
 }
 
-
-/* =====================================
-   LOGIN WITH EMAIL MAGIC LINK
-===================================== */
-
-async function login() {
-  const email = $("loginEmail").value.trim();
-
-  if (!email) {
-    showStatus(
-      "loginStatus",
-      "আপনার ইমেইল লিখুন।",
-      "error"
-    );
-    return;
-  }
-
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    showStatus(
-      "loginStatus",
-      "সঠিক ইমেইল ঠিকানা দিন।",
-      "error"
-    );
-    return;
-  }
-
-  $("loginBtn").disabled = true;
-  $("loginBtn").textContent = "Sending...";
-
-  try {
-    const { error } = await db.auth.signInWithOtp({
-      email,
-      options: {
-        emailRedirectTo: window.location.origin +
-          window.location.pathname
-      }
-    });
-
-    if (error) throw error;
-
-    showStatus(
-      "loginStatus",
-      "লগইন লিংক পাঠানো হয়েছে। ইমেইল চেক করুন।",
-      "success"
-    );
-
-  } catch (error) {
-    console.error("Login error:", error);
-
-    showStatus(
-      "loginStatus",
-      error.message || "লগইন করা যায়নি।",
-      "error"
-    );
-
-  } finally {
-    $("loginBtn").disabled = false;
-    $("loginBtn").textContent = "Send Login Link";
-  }
-}
-
-
-/* =====================================
-   AUTHENTICATION SESSION
-===================================== */
-
-async function checkLogin() {
-  try {
-    const { data, error } = await db.auth.getSession();
-
-    if (error) throw error;
-
-    if (data.session?.user) {
-      await loadApp(data.session.user);
-    } else {
-      showLogin();
-    }
-
-  } catch (error) {
-    console.error("Session error:", error);
-    showLogin();
-  }
-}
-
-function showLogin() {
-  $("loginScreen").classList.remove("hidden");
-  $("appScreen").classList.add("hidden");
-
-  currentUser = null;
-  currentProfile = null;
-
-  isAppLoaded = false;
-}
-
-async function logout() {
-  stopRefresh();
-
-  if (messagesChannel) {
-    await db.removeChannel(messagesChannel);
-    messagesChannel = null;
-  }
-
-  try {
-    const { error } = await db.auth.signOut();
-
-    if (error) throw error;
-
-    showLogin();
-    showToast("আপনি লগআউট করেছেন।");
-
-  } catch (error) {
-    console.error(error);
-    showToast("লগআউট করা যায়নি।");
-  }
-}
-
-
-/* =====================================
-   LOAD APPLICATION
-===================================== */
-
-async function loadApp(user) {
-  if (isLoadingApp) return;
-
-  if (
-    isAppLoaded &&
-    currentUser?.id === user.id
-  ) {
-    return;
-  }
-
-  isLoadingApp = true;
-
-  try {
-    currentUser = user;
-
-    const { data, error } = await db
-      .from("profiles")
-      .select("*")
-      .eq("user_id", user.id)
-      .maybeSingle();
-
-    if (error) throw error;
-
-    if (!data) {
-      const newProfile = {
-        user_id: user.id,
-        email: user.email,
-        display_name: user.email?.split("@")[0] || "Member",
-        role: user.email?.toLowerCase() === ADMIN_EMAIL.toLowerCase()
-          ? "admin"
-          : "member",
-        approved: user.email?.toLowerCase() === ADMIN_EMAIL.toLowerCase(),
-        status: user.email?.toLowerCase() === ADMIN_EMAIL.toLowerCase()
-          ? "approved"
-          : "pending"
-      };
-
-      const { data: created, error: createError } = await db
-        .from("profiles")
-        .insert(newProfile)
-        .select()
-        .single();
-
-      if (createError) throw createError;
-
-      currentProfile = created;
-
-    } else {
-      currentProfile = data;
-    }
-
-    $("loginScreen").classList.add("hidden");
-    $("appScreen").classList.remove("hidden");
-
-    isAppLoaded = true;
-
-    updateProfileUI();
-
-    const approved =
-      currentProfile.approved === true ||
-      currentProfile.status === "approved";
-
-    if (!approved) {
-      showToast("আপনার অ্যাকাউন্ট অ্যাডমিন অনুমোদনের অপেক্ষায় আছে।");
-
-      $("chatPage").classList.add("hidden");
-      $("homePage").classList.remove("hidden");
-
-      return;
-    }
-
-    const isAdmin =
-      currentProfile.role === "admin" ||
-      user.email?.toLowerCase() === ADMIN_EMAIL.toLowerCase();
-
-    $("adminNav").classList.toggle("hidden", !isAdmin);
-
-    await loadDashboard();
-    await loadMembers();
-    await loadChatList();
-
-    startRefresh();
-
-  } catch (error) {
-    console.error("Application loading error:", error);
-
-    showToast(
-      "অ্যাপ লোড করা যায়নি: " + error.message
-    );
-
-    isAppLoaded = false;
-
-  } finally {
-    isLoadingApp = false;
-  }
-}
-
-
-/* =====================================
-   PROFILE UI
-===================================== */
-
-function updateProfileUI() {
-  if (!currentProfile) return;
-
-  const name =
-    currentProfile.display_name ||
-    currentUser?.email ||
-    "Member";
-
-  const avatar = getAvatar(
-    currentProfile.avatar_url,
-    name
-  );
-
-  $("miniName").textContent = name;
-
-  $("miniRole").textContent =
-    currentProfile.role || "member";
-
-  $("miniAvatar").src = avatar;
-  $("profileAvatar").src = avatar;
-
-  $("profileName").value =
-    currentProfile.display_name || "";
-
-  $("profileEmail").value =
-    currentUser?.email || "";
-
-}
-
-
-/* =====================================
-   SAVE PROFILE
-===================================== */
-
-async function saveProfile() {
-  if (!currentUser) return;
-
-  const name = $("profileName").value.trim();
-
-  if (!name) {
-    showToast("আপনার নাম লিখুন।");
-    return;
-  }
-
-  try {
-    const { data, error } = await db
-      .from("profiles")
-      .update({
-        display_name: name
-      })
-      .eq("user_id", currentUser.id)
-      .select()
-      .single();
-
-    if (error) throw error;
-
-    currentProfile = data;
-
-    updateProfileUI();
-
-    showToast("প্রোফাইল আপডেট হয়েছে।");
-
-  } catch (error) {
-    console.error(error);
-    showToast("প্রোফাইল আপডেট করা যায়নি।");
-  }
-}
-
-
-/* =====================================
-   UPLOAD PROFILE PHOTO
-===================================== */
-
-async function uploadAvatar(file) {
-  if (!file || !currentUser) return;
-
-  if (!file.type.startsWith("image/")) {
-    showToast("শুধু ছবি নির্বাচন করুন।");
-    return;
-  }
-
-  if (file.size > 5 * 1024 * 1024) {
-    showToast("ছবির সাইজ ৫ MB-এর কম হতে হবে।");
-    return;
-  }
-
-  try {
-    showToast("ছবি আপলোড হচ্ছে...");
-
-    const extension =
-      file.name.split(".").pop() || "jpg";
-
-    const path =
-      currentUser.id + "/" +
-      Date.now() + "." + extension;
-
-    const { error: uploadError } = await db.storage
-      .from("familly-avatars")
-      .upload(path, file, {
-        upsert: true
-      });
-
-    if (uploadError) throw uploadError;
-
-    const { data } = db.storage
-      .from("familly-avatars")
-      .getPublicUrl(path);
-
-    const imageUrl = data.publicUrl;
-
-    const { data: updated, error } = await db
-      .from("profiles")
-      .update({
-        avatar_url: imageUrl
-      })
-      .eq("user_id", currentUser.id)
-      .select()
-      .single();
-
-    if (error) throw error;
-
-    currentProfile = updated;
-
-    updateProfileUI();
-
-    showToast("প্রোফাইল ছবি আপডেট হয়েছে।");
-
-  } catch (error) {
-    console.error(error);
-    showToast("ছবি আপলোড করা যায়নি: " + error.message);
-  }
-}
-
-
-/* =====================================
-   DASHBOARD
-===================================== */
-
-async function loadDashboard() {
-  try {
-    const { data: members, error: memberError } = await db
-      .from("profiles")
-      .select("user_id,approved,status");
-
-    if (memberError) throw memberError;
-
-    const total = members?.length || 0;
-
-    const approved = (members || []).filter(member =>
-      member.approved === true ||
-      member.status === "approved"
-    ).length;
-
-    $("totalMembers").textContent = total;
-    $("approvedMembers").textContent = approved;
-
-    const { count, error: messageError } = await db
-      .from("messages")
-      .select("*", {
-        count: "exact",
-        head: true
-      });
-
-    if (messageError) throw messageError;
-
-    $("totalMessages").textContent = count || 0;
-
-  } catch (error) {
-    console.error("Dashboard error:", error);
-  }
-}
-
-
-/* =====================================
-   REFRESH SYSTEM
-===================================== */
-
-function startRefresh() {
-  stopRefresh();
-
-  refreshTimer = setInterval(async () => {
-    if (!currentUser || !isAppLoaded) return;
-
-    await loadDashboard();
-
-    if (!$("membersPage").classList.contains("hidden")) {
-      await loadMembers();
-    }
-
-    if (!$("adminPage").classList.contains("hidden")) {
-      await loadAdminMembers();
-    }
-
-    if (currentConversation) {
-      await loadMessages(currentConversation);
-    }
-
-  }, 15000);
-}
-
-function stopRefresh() {
-  if (refreshTimer) {
-    clearInterval(refreshTimer);
-    refreshTimer = null;
-  }
-}
-
-
-/* =====================================
-   EVENT LISTENERS
-===================================== */
-
-$("loginBtn").addEventListener("click", login);
-
-$("loginEmail").addEventListener("keydown", event => {
-  if (event.key === "Enter") login();
+$("refreshBtn").addEventListener("click",()=>{
+ loadMessages();
+ loadChatList();
 });
 
-$("logoutBtn").addEventListener("click", logout);
+function stopRefresh(){
+ if(refreshTimer)clearInterval(refreshTimer);
+ refreshTimer=null;
+}
+function startRefresh(){
+ stopRefresh();
+ refreshTimer=setInterval(()=>{
+  if(currentConversation)loadMessages();
+ },20000);
+}
 
-$("refreshBtn").addEventListener("click", async () => {
-  await loadDashboard();
-  await loadMembers();
-  await loadChatList();
-  showToast("রিফ্রেশ সম্পন্ন হয়েছে।");
+/* IMAGE MESSAGE */
+$("imageBtn").addEventListener("click",()=>$("imageFile").click());
+
+$("imageFile").addEventListener("change",async e=>{
+ const file=e.target.files[0];
+ if(!file)return;
+ if(!currentConversation){toast("আগে একটি চ্যাট খুলুন");return;}
+ if(!file.type.startsWith("image/")){toast("শুধু ছবি নির্বাচন করুন");return;}
+ if(file.size>5*1024*1024){toast("ছবি ৫ MB-এর কম হতে হবে");return;}
+
+ toast("ছবি আপলোড হচ্ছে...");
+ const ext=file.name.split(".").pop().toLowerCase();
+ const path=currentUser.id+"/"+Date.now()+"."+ext;
+
+ const {error:uploadError}=await db.storage.from(IMAGE_BUCKET)
+  .upload(path,file,{upsert:true});
+
+ if(uploadError){toast("Upload error: "+uploadError.message);return;}
+
+ const {data:urlData}=db.storage.from(IMAGE_BUCKET).getPublicUrl(path);
+ const {error}=await db.from("messages").insert({
+  conversation_id:currentConversation,
+  owner_id:currentUser.id,
+  message_text:"",
+  attachment_url:urlData.publicUrl,
+  attachment_kind:"image"
+ });
+
+ if(error){toast("Message error: "+error.message);return;}
+ e.target.value="";
+ await loadMessages();
+ toast("ছবি পাঠানো হয়েছে");
 });
 
-$("saveProfileBtn").addEventListener(
-  "click",
-  saveProfile
-);
-
-$("avatarFile").addEventListener("change", event => {
-  uploadAvatar(event.target.files[0]);
+/* EMOJI */
+$("emojiBtn").addEventListener("click",()=>{
+ const emojis=["😊","❤️","😂","👍","🥰","🙏","😍","😢"];
+ const choice=prompt("একটি Emoji বেছে নাও:\n"+emojis.join(" "));
+ if(choice&&emojis.includes(choice)){
+  $("messageInput").value+=choice;
+  $("messageInput").focus();
+ }
 });
 
-$("profileBtn").addEventListener("click", () => {
-  $("profileModal").classList.remove("hidden");
-});
-
-$("closeProfileModal").addEventListener("click", () => {
-  closeModal("profileModal");
-});
-
-$("adminNav").addEventListener("click", () => {
-  showPage("adminPage");
-});
-
-$("refreshMembersBtn").addEventListener(
-  "click",
-  loadAdminMembers
-);
-
-document.querySelectorAll("[data-page]").forEach(button => {
-  button.addEventListener("click", () => {
-    showPage(button.dataset.page);
-  });
-});
-
-
-/* =====================================
-   AUTH STATE CHANGE
-===================================== */
-
-const { data: authData } = db.auth.onAuthStateChange(
-  (event, session) => {
-
-    if (event === "SIGNED_OUT") {
-      stopRefresh();
-      showLogin();
-      return;
-    }
-
-    if (
-      session?.user &&
-      !isAppLoaded &&
-      !isLoadingApp
-    ) {
-      setTimeout(() => {
-        loadApp(session.user);
-      }, 0);
-    }
-  }
-);
-
-authSubscription = authData.subscription;
-
-
-/* =====================================
-   START APPLICATION
-===================================== */
-
+/* START */
+$("refreshMembersBtn").addEventListener("click",loadAdminMembers);
 checkLogin();
-
+startRefresh();
 </script>
 
-<!-- পরবর্তী অংশ এখানে যোগ হবে -->
+</body>
+  </html>
