@@ -1,6 +1,7 @@
 {
   "name": "Bigo Family Live",
   "short_name": "BigoFamily",
+  "description": "Bigo style live streaming and social super app",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#05070e",
@@ -9,12 +10,14 @@
     {
       "src": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=192&auto=format&fit=crop&q=60",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
       "src": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=512&auto=format&fit=crop&q=60",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }
