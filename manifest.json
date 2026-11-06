@@ -8,13 +8,13 @@
   "theme_color": "#05070e",
   "icons": [
     {
-      "src": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=192&auto=format&fit=crop&q=60",
+      "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADAQMAAAABPSvhAAAABlBMVEUAAAAAAAClZ7nPAAAAAXRSTlMAQObYZgAAAFBJREFUeF7twQENAAAAwiD7p7bHBwwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADg1wJ8AAAB9n+JxgAAAABJRU5ErkJggg==",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=512&auto=format&fit=crop&q=60",
+      "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADAQMAAAABPSvhAAAABlBMVEUAAAAAAAClZ7nPAAAAAXRSTlMAQObYZgAAAFBJREFUeF7twQENAAAAwiD7p7bHBwwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADg1wJ8AAAB9n+JxgAAAABJRU5ErkJggg==",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
