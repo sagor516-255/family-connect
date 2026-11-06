@@ -1,4 +1,4 @@
-const CACHE_NAME = 'family-connect-wow-v1';
+const CACHE_NAME = 'bigo-family-live-v1';
 const urlsToCache = [
   './index.html',
   './manifest.json'

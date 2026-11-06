@@ -1,10 +1,10 @@
 {
-  "name": "Family Connect Live",
-  "short_name": "FamilyConnect",
+  "name": "Bigo Family Live",
+  "short_name": "BigoFamily",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#05070f",
-  "theme_color": "#05070f",
+  "background_color": "#05070e",
+  "theme_color": "#05070e",
   "icons": [
     {
       "src": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=192&auto=format&fit=crop&q=60",

@@ -3,22 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Family Connect Live - WOW 3D Edition</title>
+    <title>Family Connect Live - Bigo Style Ultra Edition</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="manifest" href="manifest.json">
     <style>
         :root {
-            --bg-main: #05070f;
-            --panel-bg: rgba(13, 18, 30, 0.85);
-            --card-bg: rgba(23, 32, 54, 0.75);
-            --neon-purple: #a855f7;
-            --neon-pink: #ec4899;
-            --neon-cyan: #06b6d4;
-            --neon-gold: #f59e0b;
-            --neon-green: #10b981;
-            --text-primary: #f8fafc;
-            --text-secondary: #94a3b8;
-            --border-glass: rgba(255, 255, 255, 0.15);
+            --bg-main: #05070e;
+            --panel-bg: rgba(11, 16, 28, 0.88);
+            --card-bg: rgba(20, 29, 48, 0.8);
+            --bigo-cyan: #00f2fe;
+            --bigo-pink: #ff0844;
+            --bigo-purple: #7f00ff;
+            --bigo-gold: #ffb100;
+            --bigo-green: #00e676;
+            --text-primary: #ffffff;
+            --text-secondary: #a1a1aa;
+            --border-glass: rgba(255, 255, 255, 0.16);
             --nav-height: 70px;
         }
 
@@ -42,12 +42,12 @@
             display: flex;
             flex-direction: column;
             background-image: 
-                radial-gradient(circle at 10% 10%, rgba(168, 85, 247, 0.25) 0%, transparent 40%),
-                radial-gradient(circle at 90% 90%, rgba(236, 72, 153, 0.25) 0%, transparent 40%),
-                radial-gradient(circle at 50% 50%, rgba(6, 182, 212, 0.1) 0%, transparent 60%);
+                radial-gradient(circle at 10% 10%, rgba(0, 242, 254, 0.25) 0%, transparent 40%),
+                radial-gradient(circle at 90% 90%, rgba(255, 8, 68, 0.25) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(127, 0, 255, 0.15) 0%, transparent 60%);
         }
 
-        /* WOW Header */
+        /* Bigo Live Style Header */
         header {
             height: 62px;
             background: var(--panel-bg);
@@ -59,19 +59,19 @@
             align-items: center;
             padding: 0 16px;
             z-index: 100;
-            box-shadow: 0 4px 30px rgba(0,0,0,0.5);
+            box-shadow: 0 4px 30px rgba(0,0,0,0.6);
         }
 
         .brand-logo {
             font-size: 1.25rem;
             font-weight: 900;
-            background: linear-gradient(135deg, #c084fc, #f472b6, #38bdf8);
+            background: linear-gradient(135deg, var(--bigo-cyan), #00c6ff, var(--bigo-pink));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             display: flex;
             align-items: center;
             gap: 8px;
-            filter: drop-shadow(0 0 12px rgba(192, 132, 252, 0.6));
+            filter: drop-shadow(0 0 14px rgba(0, 242, 254, 0.7));
         }
 
         .header-actions {
@@ -81,25 +81,25 @@
         }
 
         .wallet-pill {
-            background: linear-gradient(135deg, rgba(245, 158, 11, 0.3), rgba(217, 119, 6, 0.15));
-            border: 1px solid rgba(245, 158, 11, 0.6);
-            color: var(--neon-gold);
+            background: linear-gradient(135deg, rgba(255, 177, 0, 0.35), rgba(255, 8, 68, 0.2));
+            border: 1px solid rgba(255, 177, 0, 0.7);
+            color: var(--bigo-gold);
             padding: 6px 14px;
             border-radius: 20px;
             font-size: 0.85rem;
-            font-weight: 800;
+            font-weight: 900;
             display: flex;
             align-items: center;
             gap: 6px;
             cursor: pointer;
-            box-shadow: 0 0 16px rgba(245, 158, 11, 0.35);
+            box-shadow: 0 0 18px rgba(255, 177, 0, 0.4);
             transition: all 0.2s ease;
         }
 
         .wallet-pill:active { transform: scale(0.93); }
 
         .lang-dropdown {
-            background: rgba(15, 23, 42, 0.95);
+            background: rgba(11, 16, 28, 0.95);
             color: var(--text-primary);
             border: 1px solid var(--border-glass);
             padding: 6px 10px;
@@ -131,15 +131,32 @@
             flex-direction: column;
         }
 
-        /* 1. 3D WOW LIVE STAGE */
+        /* 1. BIGO STYLE LIVE PK & STAGE VIEW */
         .live-stage {
             flex: 1;
             background: #000;
             position: relative;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             overflow: hidden;
+        }
+
+        /* PK Battle Layout Split View */
+        .pk-stage-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            position: relative;
+        }
+
+        .pk-screen-left, .pk-screen-right {
+            flex: 1;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         canvas.live-video-sim, video.live-video-stream {
@@ -149,6 +166,67 @@
             position: absolute;
             top: 0; left: 0;
         }
+
+        /* PK Battle Progress Bar Header Overlay */
+        .pk-battle-bar-box {
+            position: absolute;
+            top: 70px;
+            left: 14px; right: 14px;
+            height: 32px;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border-glass);
+            border-radius: 20px;
+            z-index: 25;
+            display: flex;
+            align-items: center;
+            padding: 4px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0,0,0,0.6);
+        }
+
+        .pk-bar-blue {
+            height: 100%;
+            width: 50%;
+            background: linear-gradient(90deg, #00c6ff, #0072ff);
+            border-radius: 16px 0 0 16px;
+            display: flex;
+            align-items: center;
+            padding-left: 10px;
+            font-size: 0.75rem;
+            font-weight: 900;
+            transition: width 0.4s ease;
+        }
+
+        .pk-bar-red {
+            height: 100%;
+            width: 50%;
+            background: linear-gradient(90deg, #f71060, #ff416c);
+            border-radius: 0 16px 16px 0;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 10px;
+            font-size: 0.75rem;
+            font-weight: 900;
+            transition: width 0.4s ease;
+        }
+
+        .pk-vs-badge {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, var(--bigo-gold), var(--bigo-pink));
+            color: #fff;
+            font-size: 0.8rem;
+            font-weight: 900;
+            padding: 4px 12px;
+            border-radius: 14px;
+            box-shadow: 0 0 15px rgba(255, 177, 0, 0.9);
+            animation: vsPulse 1.2s infinite alternate;
+        }
+
+        @keyframes vsPulse { 0% { transform: translateX(-50%) scale(1); } 100% { transform: translateX(-50%) scale(1.15); } }
 
         /* Fullscreen Screen Glow Effect for Mega Gifts */
         .screen-fx-overlay {
@@ -167,9 +245,9 @@
             transform: translate(-50%, -50%) scale(0.2);
             z-index: 25;
             pointer-events: none;
-            font-size: 7.5rem;
+            font-size: 8rem;
             display: none;
-            filter: drop-shadow(0 0 40px rgba(236, 72, 153, 0.9));
+            filter: drop-shadow(0 0 50px rgba(255, 8, 68, 0.9));
             animation: megaGiftFly 1.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
         }
 
@@ -183,19 +261,19 @@
         /* Floating VIP Entrance Banner */
         .vip-entrance-banner {
             position: absolute;
-            top: 75px;
+            top: 112px;
             left: 50%;
             transform: translateX(-50%) translateY(-50px);
-            background: linear-gradient(135deg, rgba(245, 158, 11, 0.9), rgba(236, 72, 153, 0.9));
+            background: linear-gradient(135deg, rgba(255, 177, 0, 0.95), rgba(255, 8, 68, 0.95));
             backdrop-filter: blur(12px);
-            border: 2px solid #fef08a;
+            border: 2px solid #fff;
             color: #fff;
             padding: 8px 24px;
             border-radius: 30px;
             font-size: 0.85rem;
-            font-weight: 800;
-            box-shadow: 0 0 25px rgba(245, 158, 11, 0.8);
-            z-index: 22;
+            font-weight: 900;
+            box-shadow: 0 0 30px rgba(255, 177, 0, 0.9);
+            z-index: 28;
             opacity: 0;
             transition: all 0.5s ease;
             white-space: nowrap;
@@ -206,28 +284,53 @@
             transform: translateX(-50%) translateY(0);
         }
 
+        /* Level Up Floating Alert Banner */
+        .level-up-banner {
+            position: absolute;
+            top: 160px;
+            left: 50%;
+            transform: translateX(-50%) scale(0.5);
+            background: linear-gradient(135deg, var(--bigo-cyan), var(--bigo-purple));
+            border: 2px solid #fff;
+            color: #fff;
+            padding: 10px 28px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 900;
+            box-shadow: 0 0 35px rgba(0, 242, 254, 0.9);
+            z-index: 29;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .level-up-banner.show {
+            opacity: 1;
+            transform: translateX(-50%) scale(1);
+        }
+
         /* Top Host Bar & Leaderboard */
         .live-header-bar {
             position: absolute;
-            top: 14px;
+            top: 12px;
             left: 14px;
             right: 14px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            z-index: 20;
+            z-index: 26;
         }
 
         .host-info {
             display: flex;
             align-items: center;
             gap: 10px;
-            background: rgba(10, 15, 28, 0.7);
+            background: rgba(10, 15, 28, 0.75);
             padding: 5px 14px 5px 5px;
             border-radius: 30px;
-            backdrop-filter: blur(12px);
+            backdrop-filter: blur(14px);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 0 15px rgba(0,0,0,0.4);
+            box-shadow: 0 0 15px rgba(0,0,0,0.5);
         }
 
         .host-avatar-box {
@@ -238,7 +341,7 @@
         .host-avatar {
             width: 100%; height: 100%;
             border-radius: 50%;
-            border: 2px solid var(--neon-pink);
+            border: 2px solid var(--bigo-pink);
             object-fit: cover;
         }
 
@@ -246,14 +349,14 @@
             position: absolute;
             top: -10px; right: -4px;
             font-size: 1.1rem;
-            filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.8));
+            filter: drop-shadow(0 0 8px rgba(255, 177, 0, 0.9));
         }
 
         .top-donors-row {
             display: flex;
             align-items: center;
             gap: 6px;
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(0, 0, 0, 0.45);
             padding: 4px 10px;
             border-radius: 20px;
             backdrop-filter: blur(8px);
@@ -262,44 +365,81 @@
         .donor-micro-avatar {
             width: 26px; height: 26px;
             border-radius: 50%;
-            border: 1.5px solid var(--neon-gold);
+            border: 1.5px solid var(--bigo-gold);
             object-fit: cover;
         }
 
         .cam-toggle-btn {
-            background: linear-gradient(135deg, var(--neon-purple), var(--neon-pink));
+            background: linear-gradient(135deg, var(--bigo-cyan), var(--bigo-purple));
             border: 1px solid rgba(255,255,255,0.4);
             color: #fff;
             padding: 6px 12px;
             border-radius: 14px;
             font-size: 0.75rem;
-            font-weight: 800;
+            font-weight: 900;
             cursor: pointer;
-            box-shadow: 0 0 12px rgba(168, 85, 247, 0.5);
+            box-shadow: 0 0 14px rgba(0, 242, 254, 0.5);
         }
 
-        /* Floating Lucky Wheel Widget on Stream */
-        .lucky-wheel-widget {
+        /* AR Filters Floating Selector Box */
+        .ar-filter-bar {
             position: absolute;
             right: 14px;
-            top: 75px;
-            width: 46px; height: 46px;
-            background: linear-gradient(135deg, var(--neon-gold), var(--neon-pink));
+            top: 115px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 26;
+        }
+
+        .ar-btn {
+            width: 44px; height: 44px;
+            background: rgba(11, 16, 28, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border-glass);
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 1.4rem;
-            border: 2px solid #fff;
-            box-shadow: 0 0 20px rgba(245, 158, 11, 0.7);
+            font-size: 1.25rem;
+            color: #fff;
             cursor: pointer;
-            z-index: 20;
-            animation: spinWheel 4s linear infinite;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            transition: transform 0.2s;
         }
 
-        @keyframes spinWheel { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .ar-btn:active { transform: scale(0.85); }
 
-        /* Floating Live Glassmorphism Chat Overlay */
+        /* DJ Soundboard Quick Bar */
+        .soundboard-drawer {
+            position: absolute;
+            left: 14px;
+            top: 115px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            z-index: 26;
+        }
+
+        .snd-btn {
+            background: rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-glass);
+            color: #fff;
+            padding: 6px 10px;
+            border-radius: 14px;
+            font-size: 0.72rem;
+            font-weight: 800;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        }
+
+        .snd-btn:active { transform: scale(0.92); }
+
+        /* Floating Glassmorphism Chat Overlay */
         .live-chat-overlay {
             position: absolute;
             bottom: 85px;
@@ -310,7 +450,7 @@
             display: flex;
             flex-direction: column;
             gap: 8px;
-            z-index: 20;
+            z-index: 26;
             pointer-events: auto;
             scrollbar-width: none;
         }
@@ -318,14 +458,14 @@
         .live-chat-overlay::-webkit-scrollbar { display: none; }
 
         .chat-bubble-live {
-            background: rgba(15, 23, 42, 0.85);
+            background: rgba(11, 16, 28, 0.85);
             backdrop-filter: blur(14px);
             border: 1px solid rgba(255, 255, 255, 0.15);
             padding: 8px 14px;
             border-radius: 16px;
             font-size: 0.85rem;
             color: #fff;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.35);
             animation: slideUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             display: flex;
             align-items: center;
@@ -334,7 +474,7 @@
 
         @keyframes slideUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Neon Gift Action Bar */
+        /* Bigo Neon Gift Action Bar */
         .gift-action-bar {
             position: absolute;
             bottom: 12px;
@@ -342,13 +482,13 @@
             right: 14px;
             display: flex;
             gap: 8px;
-            z-index: 20;
+            z-index: 26;
             overflow-x: auto;
             padding-bottom: 4px;
         }
 
         .gift-chip {
-            background: rgba(23, 32, 54, 0.95);
+            background: rgba(20, 29, 48, 0.95);
             backdrop-filter: blur(16px);
             border: 1px solid var(--border-glass);
             border-radius: 16px;
@@ -364,10 +504,76 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.4);
         }
 
-        .gift-chip:active { transform: scale(0.9); border-color: var(--neon-gold); }
+        .gift-chip:active { transform: scale(0.9); border-color: var(--bigo-gold); }
         .gift-icon { font-size: 1.5rem; filter: drop-shadow(0 0 8px rgba(255,255,255,0.4)); }
 
-        /* 2. REELS / SHORTS VIEW */
+        /* 2. MULTI-GUEST PARTY VOICE ROOM TAB */
+        .party-room-container {
+            flex: 1;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            background: linear-gradient(180deg, #090e1a 0%, #05070e 100%);
+            padding-bottom: 90px;
+        }
+
+        .party-room-header-card {
+            background: var(--panel-bg);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--border-glass);
+            border-radius: 22px;
+            padding: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+        }
+
+        .guest-grid-9 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            margin-top: 10px;
+        }
+
+        .seat-card {
+            background: var(--card-bg);
+            border: 1px dashed rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            height: 110px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        .seat-card.occupied {
+            border: 2px solid var(--bigo-cyan);
+            background: rgba(0, 242, 254, 0.1);
+        }
+
+        .seat-avatar {
+            width: 52px; height: 52px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--bigo-pink);
+        }
+
+        .mic-badge {
+            position: absolute;
+            bottom: 8px; right: 8px;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 3px 6px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+        }
+
+        /* 3. REELS / SHORTS VIEW */
         .reels-container {
             flex: 1;
             height: 100%;
@@ -381,7 +587,7 @@
             height: 100%;
             scroll-snap-align: start;
             position: relative;
-            background: #05070f;
+            background: #05070e;
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
@@ -436,7 +642,7 @@
         .action-icon-btn:active { transform: scale(0.85); }
         .action-cnt { font-size: 0.65rem; color: #cbd5e1; font-weight: 700; margin-top: 2px; }
 
-        /* 3. POST CREATOR TAB */
+        /* 4. POST CREATOR TAB */
         .post-page-container {
             padding: 16px;
             display: flex;
@@ -482,7 +688,7 @@
         .btn-action-row { display: flex; gap: 10px; }
 
         .btn-primary {
-            background: linear-gradient(135deg, var(--neon-purple), var(--neon-pink));
+            background: linear-gradient(135deg, var(--bigo-cyan), var(--bigo-purple));
             color: #fff;
             border: none;
             padding: 12px 18px;
@@ -490,7 +696,7 @@
             font-weight: 800;
             cursor: pointer;
             text-align: center;
-            box-shadow: 0 4px 20px rgba(168, 85, 247, 0.4);
+            box-shadow: 0 4px 20px rgba(0, 242, 254, 0.4);
             transition: all 0.2s ease;
         }
 
@@ -524,10 +730,10 @@
             height: 44px;
             border-radius: 50%;
             object-fit: cover;
-            border: 2px solid var(--neon-pink);
+            border: 2px solid var(--bigo-pink);
         }
 
-        /* 4. CHATS TAB (Telegram Style) */
+        /* 5. CHATS TAB */
         .chats-view-container {
             display: flex;
             flex-direction: column;
@@ -564,14 +770,14 @@
         }
 
         .chat-bubble.incoming {
-            background: rgba(23, 32, 54, 0.95);
+            background: rgba(20, 29, 48, 0.95);
             border: 1px solid var(--border-glass);
             align-self: flex-start;
             border-bottom-left-radius: 4px;
         }
 
         .chat-bubble.outgoing {
-            background: linear-gradient(135deg, var(--neon-purple), #6366f1);
+            background: linear-gradient(135deg, var(--bigo-purple), #6366f1);
             color: #fff;
             align-self: flex-end;
             border-bottom-right-radius: 4px;
@@ -603,7 +809,7 @@
             user-select: text;
         }
 
-        /* 5. ME / PROFILE TAB (Screenshot Matching Clone) */
+        /* 6. ME / PROFILE TAB (Screenshot Clone) */
         .profile-container {
             padding: 16px;
             display: flex;
@@ -637,15 +843,15 @@
             height: 100%;
             border-radius: 50%;
             object-fit: cover;
-            border: 3px solid var(--neon-pink);
-            box-shadow: 0 0 25px rgba(236, 72, 153, 0.5);
+            border: 3px solid var(--bigo-pink);
+            box-shadow: 0 0 25px rgba(255, 8, 68, 0.5);
         }
 
         .edit-avatar-badge {
             position: absolute;
             bottom: 0;
             right: 0;
-            background: var(--neon-purple);
+            background: var(--bigo-purple);
             color: #fff;
             width: 28px;
             height: 28px;
@@ -656,7 +862,7 @@
             font-size: 0.85rem;
             cursor: pointer;
             border: 2px solid var(--bg-main);
-            box-shadow: 0 0 10px rgba(168, 85, 247, 0.6);
+            box-shadow: 0 0 10px rgba(127, 0, 255, 0.6);
         }
 
         .profile-name {
@@ -749,7 +955,7 @@
         }
 
         .modal-card {
-            background: #172036;
+            background: #141d30;
             border: 1px solid var(--border-glass);
             border-radius: 26px;
             padding: 24px;
@@ -763,7 +969,7 @@
 
         .form-input {
             width: 100%;
-            background: #0d121e;
+            background: #090e1a;
             border: 1px solid var(--border-glass);
             padding: 14px 16px;
             border-radius: 14px;
@@ -800,20 +1006,20 @@
             transition: all 0.2s ease;
         }
 
-        .nav-btn.active { color: var(--neon-pink); filter: drop-shadow(0 0 10px rgba(236, 72, 153, 0.6)); }
+        .nav-btn.active { color: var(--bigo-cyan); filter: drop-shadow(0 0 10px rgba(0, 242, 254, 0.6)); }
         .nav-icon { font-size: 1.45rem; }
 
         .center-action-btn {
             width: 54px;
             height: 54px;
-            background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple));
+            background: linear-gradient(135deg, var(--bigo-pink), var(--bigo-purple));
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             font-size: 1.7rem;
             color: #fff;
-            box-shadow: 0 0 25px rgba(236, 72, 153, 0.6);
+            box-shadow: 0 0 25px rgba(255, 8, 68, 0.6);
             margin-top: -26px;
             border: 3px solid var(--bg-main);
             cursor: pointer;
@@ -834,10 +1040,15 @@
     👑 VIP সাগর সিস্টেমে প্রবেশ করেছেন!
 </div>
 
+<!-- Level Up Alert Banner -->
+<div id="levelUpBanner" class="level-up-banner">
+    🎉 Level Up! You are now Lv.26!
+</div>
+
 <!-- Header Bar -->
 <header>
     <div class="brand-logo">
-        ✨ Family Connect
+        ✨ Bigo Family Live
     </div>
     <div class="header-actions">
         <div class="wallet-pill" onclick="openWalletModal()">
@@ -858,17 +1069,52 @@
 <!-- App Main Body -->
 <div class="app-body">
     
-    <!-- 1. WOW 3D LIVE STREAM TAB -->
+    <!-- 1. BIGO STYLE LIVE PK BATTLE STAGE -->
     <div id="view-live" class="tab-view active">
         <div class="live-stage">
             
-            <!-- Dynamic 3D Neon Canvas Simulation -->
-            <canvas id="liveCanvasSim" class="live-video-sim"></canvas>
-            <video id="webcamStream" class="live-video-stream" autoplay playsinline muted style="display:none;"></video>
+            <!-- PK Battle Split Screen -->
+            <div class="pk-stage-container">
+                <div class="pk-screen-left">
+                    <canvas id="liveCanvasSimLeft" class="live-video-sim"></canvas>
+                    <video id="webcamStream" class="live-video-stream" autoplay playsinline muted style="display:none;"></video>
+                    <div style="position: absolute; bottom: 10px; left: 10px; background: rgba(0,0,0,0.6); padding: 4px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: 800;">
+                        🟦 Host: Ayesha
+                    </div>
+                </div>
+                
+                <div class="pk-screen-right">
+                    <canvas id="liveCanvasSimRight" class="live-video-sim"></canvas>
+                    <div style="position: absolute; bottom: 10px; right: 10px; background: rgba(0,0,0,0.6); padding: 4px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: 800; color: var(--bigo-pink);">
+                        🟥 PK Guest: Riya
+                    </div>
+                </div>
+            </div>
 
-            <!-- Floating Lucky Spin Wheel Button -->
-            <div class="lucky-wheel-widget" onclick="openLuckyWheelModal()" title="Spin & Win Diamonds">
-                🎡
+            <!-- PK Battle Progress Bar Header Overlay -->
+            <div class="pk-battle-bar-box">
+                <div class="pk-bar-blue" id="pkBarBlue" style="width: 55%;">
+                    <span id="blueScoreText">14,250</span>
+                </div>
+                <span class="pk-vs-badge">⚡ PK BATTLE ⚡</span>
+                <div class="pk-bar-red" id="pkBarRed" style="width: 45%;">
+                    <span id="redScoreText">11,800</span>
+                </div>
+            </div>
+
+            <!-- AR Filters Quick Floating Panel -->
+            <div class="ar-filter-bar">
+                <div class="ar-btn" onclick="applyArFilter('👑')" title="Crown Filter">👑</div>
+                <div class="ar-btn" onclick="applyArFilter('🐱')" title="Cat Ears Filter">🐱</div>
+                <div class="ar-btn" onclick="applyArFilter('🔥')" title="Fire Filter">🔥</div>
+                <div class="ar-btn" onclick="applyArFilter('🕶️')" title="Cool Glasses">🕶️</div>
+            </div>
+
+            <!-- DJ Soundboard Drawer -->
+            <div class="soundboard-drawer">
+                <div class="snd-btn" onclick="playEffectSound('👏 Applause')">👏 Clap</div>
+                <div class="snd-btn" onclick="playEffectSound('🎉 Cheers')">🎉 Cheer</div>
+                <div class="snd-btn" onclick="playEffectSound('🥁 Drum Roll')">🥁 Drum</div>
             </div>
 
             <!-- Header Host Info & Top Donor Leaderboard -->
@@ -880,7 +1126,7 @@
                     </div>
                     <div>
                         <div style="font-size: 0.85rem; font-weight: 800;" id="liveHostName">Ayesha Khan</div>
-                        <div style="font-size: 0.65rem; color: #94a3b8;">👁️ <span id="liveViewerCount">2,840</span> Viewers</div>
+                        <div style="font-size: 0.65rem; color: #94a3b8;">👁️ <span id="liveViewerCount">5,940</span> Viewers</div>
                     </div>
                 </div>
 
@@ -894,44 +1140,98 @@
             <!-- Floating Glassmorphism Chat Overlay -->
             <div class="live-chat-overlay" id="liveChatOverlay">
                 <div class="chat-bubble-live">
-                    <span style="color:var(--neon-gold)">👑 VIP Sistem:</span> লাইভ রুমে স্বাগতম! চমৎকার ৩ডি অভিজ্ঞতা উপভোগ করুন। 🎉
+                    <span style="color:var(--bigo-cyan)">⚡ PK Live:</span> বিগো স্টাইলের PK ব্যাটল শুরু হয়েছে! আপনার প্রিয় টিমকে সাপোর্ট করুন! 🔥
                 </div>
                 <div class="chat-bubble-live">
-                    <b>Rahim:</b> আসসালামু আলাইকুম! ওয়াও কি সুন্দর ডিজাইন! 😍
+                    <b>Rahim:</b> টিম আয়শা জিতবে! 🚀
                 </div>
                 <div class="chat-bubble-live">
-                    <b>Sofia:</b> Stunning 3D effects! Love this app! 🔥
+                    <b>Sofia:</b> Team Riya fighting! ❤️
                 </div>
             </div>
 
-            <!-- Gift Bar with Mega Animations -->
+            <!-- Bigo Style Gift Bar -->
             <div class="gift-action-bar">
-                <div class="gift-chip" onclick="sendLiveGift('🌹 Rose', 10, '🌹')">
+                <div class="gift-chip" onclick="sendLiveGift('🌹 Rose', 10, '🌹', 'blue')">
                     <span class="gift-icon">🌹</span>
-                    <span style="color:var(--neon-gold)">10 💎</span>
+                    <span style="color:var(--bigo-cyan)">Blue +10</span>
                 </div>
-                <div class="gift-chip" onclick="sendLiveGift('☕ Coffee', 50, '☕')">
+                <div class="gift-chip" onclick="sendLiveGift('☕ Coffee', 50, '☕', 'red')">
                     <span class="gift-icon">☕</span>
-                    <span style="color:var(--neon-gold)">50 💎</span>
+                    <span style="color:var(--bigo-pink)">Red +50</span>
                 </div>
-                <div class="gift-chip" onclick="sendLiveGift('🚗 Supercar', 200, '🚗')">
+                <div class="gift-chip" onclick="sendLiveGift('🚗 Supercar', 200, '🚗', 'blue')">
                     <span class="gift-icon">🚗</span>
-                    <span style="color:var(--neon-gold)">200 💎</span>
+                    <span style="color:var(--bigo-cyan)">Blue +200</span>
                 </div>
-                <div class="gift-chip" onclick="sendLiveGift('🚀 Mega Rocket', 500, '🚀')">
+                <div class="gift-chip" onclick="sendLiveGift('🚀 Mega Rocket', 500, '🚀', 'red')">
                     <span class="gift-icon">🚀</span>
-                    <span style="color:var(--neon-gold)">500 💎</span>
+                    <span style="color:var(--bigo-pink)">Red +500</span>
                 </div>
-                <div class="gift-chip" onclick="sendLiveGift('🏰 Royal Castle', 1000, '🏰')">
+                <div class="gift-chip" onclick="sendLiveGift('🏰 Royal Castle', 1000, '🏰', 'blue')">
                     <span class="gift-icon">🏰</span>
-                    <span style="color:var(--neon-gold)">1000 💎</span>
+                    <span style="color:var(--bigo-cyan)">Blue +1000</span>
                 </div>
             </div>
 
         </div>
     </div>
 
-    <!-- 2. REELS / SHORTS TAB -->
+    <!-- 2. MULTI-GUEST PARTY VOICE ROOM TAB -->
+    <div id="view-party" class="tab-view">
+        <div class="party-room-container">
+            <div class="party-room-header-card">
+                <div>
+                    <h3 style="color: var(--bigo-cyan);">🎙️ 9-Guest Multi Voice Room</h3>
+                    <p style="font-size: 0.8rem; color: #94a3b8;">সবার সাথে লাইভ আড্ডা দিন ও গান গাওয়ান!</p>
+                </div>
+                <button class="btn-primary" style="padding: 6px 14px; font-size: 0.8rem;" onclick="alert('আপনার ভয়েস মাইক অন করা হয়েছে!')">🎙️ Join Mic</button>
+            </div>
+
+            <div class="guest-grid-9" id="guestGrid9">
+                <div class="seat-card occupied">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=60" class="seat-avatar" alt="Host">
+                    <span style="font-size: 0.75rem; font-weight: 800;">Ayesha (Host)</span>
+                    <span class="mic-badge">🎙️ On</span>
+                </div>
+                <div class="seat-card occupied">
+                    <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&auto=format&fit=crop&q=60" class="seat-avatar" alt="Guest">
+                    <span style="font-size: 0.75rem; font-weight: 800;">Sagar VIP</span>
+                    <span class="mic-badge">🎙️ On</span>
+                </div>
+                <div class="seat-card" onclick="claimSeat(3)">
+                    <span style="font-size: 1.8rem; color: var(--bigo-cyan);">+</span>
+                    <span style="font-size: 0.72rem; color: #94a3b8;">Seat 3</span>
+                </div>
+                <div class="seat-card" onclick="claimSeat(4)">
+                    <span style="font-size: 1.8rem; color: var(--bigo-cyan);">+</span>
+                    <span style="font-size: 0.72rem; color: #94a3b8;">Seat 4</span>
+                </div>
+                <div class="seat-card" onclick="claimSeat(5)">
+                    <span style="font-size: 1.8rem; color: var(--bigo-cyan);">+</span>
+                    <span style="font-size: 0.72rem; color: #94a3b8;">Seat 5</span>
+                </div>
+                <div class="seat-card" onclick="claimSeat(6)">
+                    <span style="font-size: 1.8rem; color: var(--bigo-cyan);">+</span>
+                    <span style="font-size: 0.72rem; color: #94a3b8;">Seat 6</span>
+                </div>
+                <div class="seat-card" onclick="claimSeat(7)">
+                    <span style="font-size: 1.8rem; color: var(--bigo-cyan);">+</span>
+                    <span style="font-size: 0.72rem; color: #94a3b8;">Seat 7</span>
+                </div>
+                <div class="seat-card" onclick="claimSeat(8)">
+                    <span style="font-size: 1.8rem; color: var(--bigo-cyan);">+</span>
+                    <span style="font-size: 0.72rem; color: #94a3b8;">Seat 8</span>
+                </div>
+                <div class="seat-card" onclick="claimSeat(9)">
+                    <span style="font-size: 1.8rem; color: var(--bigo-cyan);">+</span>
+                    <span style="font-size: 0.72rem; color: #94a3b8;">Seat 9</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. REELS / SHORTS TAB -->
     <div id="view-reels" class="tab-view">
         <div class="reels-container" id="reelsContainer">
             
@@ -940,20 +1240,20 @@
                 <div class="reel-sidebar-actions">
                     <div class="action-icon-btn" onclick="toggleReelLike(this)">
                         <span class="like-icon">❤️</span>
-                        <span class="action-cnt">18.4k</span>
+                        <span class="action-cnt">24.8k</span>
                     </div>
                     <div class="action-icon-btn" onclick="openCommentDrawer()">
                         <span>💬</span>
-                        <span class="action-cnt">1.4k</span>
+                        <span class="action-cnt">2.1k</span>
                     </div>
-                    <div class="action-icon-btn" onclick="sendLiveGift('🎁 Gift', 100, '🎁')">
+                    <div class="action-icon-btn" onclick="sendLiveGift('🎁 Gift', 100, '🎁', 'blue')">
                         <span>🎁</span>
                         <span class="action-cnt">Gift</span>
                     </div>
                 </div>
                 <div class="reel-overlay-content">
                     <h4 style="color: #fff;">@path_bhola_pathik</h4>
-                    <p style="font-size: 0.85rem; color: #cbd5e1; margin-top: 4px;">নতুন নেওন ৩ডি ফিউচারিস্টিক সুপার অ্যাপ! 🔥 #FamilyConnect #Trending</p>
+                    <p style="font-size: 0.85rem; color: #cbd5e1; margin-top: 4px;">বিগো লাইভ স্টাইলের আল্ট্রা ফিচারস সোশ্যাল অ্যাপ! 🔥 #FamilyConnect #BigoLive</p>
                 </div>
             </div>
 
@@ -962,23 +1262,23 @@
                 <div class="reel-sidebar-actions">
                     <div class="action-icon-btn" onclick="toggleReelLike(this)">
                         <span class="like-icon">🤍</span>
-                        <span class="action-cnt">62.8k</span>
+                        <span class="action-cnt">84.2k</span>
                     </div>
                     <div class="action-icon-btn" onclick="openCommentDrawer()">
                         <span>💬</span>
-                        <span class="action-cnt">3.1k</span>
+                        <span class="action-cnt">4.9k</span>
                     </div>
                 </div>
                 <div class="reel-overlay-content">
                     <h4 style="color: #fff;">@ayesha_live</h4>
-                    <p style="font-size: 0.85rem; color: #cbd5e1; margin-top: 4px;">Night 3D Party Vibes ✨</p>
+                    <p style="font-size: 0.85rem; color: #cbd5e1; margin-top: 4px;">Bigo Style PK Battle Party ✨</p>
                 </div>
             </div>
 
         </div>
     </div>
 
-    <!-- 3. POST CREATOR TAB -->
+    <!-- 4. POST CREATOR TAB -->
     <div id="view-create" class="tab-view">
         <div class="post-page-container">
             <div class="create-post-box">
@@ -992,7 +1292,7 @@
                 <div class="btn-action-row">
                     <button class="btn-primary" style="flex:1;" onclick="triggerFilePick()" data-i18n="btn_photo">📷 ছবি বেছে নিন</button>
                     <input type="file" id="hiddenFileInput" accept="image/*" style="display:none;" onchange="handleFileSelect(event)">
-                    <button class="btn-primary" style="flex:1; background: linear-gradient(135deg, var(--neon-cyan), #3b82f6);" onclick="publishUserPost()" data-i18n="btn_publish">পোস্ট প্রকাশ করুন</button>
+                    <button class="btn-primary" style="flex:1; background: linear-gradient(135deg, var(--bigo-cyan), #3b82f6);" onclick="publishUserPost()" data-i18n="btn_publish">পোস্ট প্রকাশ করুন</button>
                 </div>
             </div>
 
@@ -1006,32 +1306,32 @@
                             <div style="font-size: 0.75rem; color: #94a3b8;">১০ মিনিট আগে</div>
                         </div>
                     </div>
-                    <p style="font-size: 0.9rem; color: #e2e8f0; line-height: 1.5;">ফ্যামিলি কানেক্ট ৩ডি নেওন এডিশনে সবাইকে স্বাগতম! চমৎকার অভিজ্ঞতা উপভোগ করুন। 🎉</p>
+                    <p style="font-size: 0.9rem; color: #e2e8f0; line-height: 1.5;">বিগো লাইভ আল্ট্রা ভার্সনে সবাইকে স্বাগতম! PK Battle ও Multi-Guest রুম ফিচার যোগ হয়েছে। 🎉</p>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- 4. CHATS TAB -->
+    <!-- 5. CHATS TAB -->
     <div id="view-chats" class="tab-view">
         <div class="chats-view-container">
             <div class="chat-room-header">
-                <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&auto=format&fit=crop&q=60" style="width:42px; height:42px; border-radius:50%; border:2px solid var(--neon-purple);" alt="Chat User">
+                <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&auto=format&fit=crop&q=60" style="width:42px; height:42px; border-radius:50%; border:2px solid var(--bigo-purple);" alt="Chat User">
                 <div>
-                    <div style="font-weight: 800; font-size: 0.95rem;">Family VIP Main Chat Room</div>
-                    <div style="font-size: 0.72rem; color: #4ade80;">● 256 Members Online</div>
+                    <div style="font-weight: 800; font-size: 0.95rem;">Bigo VIP Official Chat Room</div>
+                    <div style="font-size: 0.72rem; color: #4ade80;">● 512 Members Online</div>
                 </div>
             </div>
 
             <div class="messages-scroll-area" id="messagesScrollArea">
                 <div class="chat-bubble incoming">
-                    <b>তানভীর:</b> সবাইকে স্বাগতম আমাদের অফিসিয়াল ৩ডি চ্যাট রুমে! 🚀
+                    <b>তানভীর:</b> সবাইকে স্বাগতম আমাদের নতুন বিগো স্টাইলের প্রজেক্টে! 🚀
                 </div>
                 <div class="chat-bubble incoming">
-                    <b>সাদিয়া:</b> আসসালামু আলাইকুম, অ্যাপের নতুন থ্রিডি ডিজাইনটা দারুণ হয়েছে! 😍
+                    <b>সাদিয়া:</b> আসসালামু আলাইকুম, PK Battle ফিচারটা জটিল হয়েছে! 😍
                 </div>
                 <div class="chat-bubble outgoing">
-                    ধন্যবাদ! নতুন ফিচারগুলো সবার পছন্দ হবে আশা করি।
+                    ধন্যবাদ! অ্যাপটির সব ফিচার দারুণভাবে কাজ করছে।
                 </div>
             </div>
 
@@ -1042,7 +1342,7 @@
         </div>
     </div>
 
-    <!-- 5. ME / PROFILE TAB (Screenshot Clone) -->
+    <!-- 6. ME / PROFILE TAB (Screenshot Clone) -->
     <div id="view-me" class="tab-view">
         <div class="profile-container">
             
@@ -1072,19 +1372,19 @@
             </div>
 
             <div class="feature-cards-grid">
-                <div class="feat-card" style="background: rgba(6, 182, 212, 0.15); border-color: rgba(6, 182, 212, 0.4);" onclick="alert('আপনার লেভেল: Lv.25 🏆')">
+                <div class="feat-card" style="background: rgba(0, 242, 254, 0.15); border-color: rgba(0, 242, 254, 0.4);" onclick="triggerLevelUpAnim()">
                     <span class="feat-icon">💎</span>
-                    <span>Lv.25</span>
+                    <span>Lv.26</span>
                 </div>
-                <div class="feat-card" style="background: rgba(245, 158, 11, 0.15); border-color: rgba(245, 158, 11, 0.4);" onclick="openWalletModal()">
+                <div class="feat-card" style="background: rgba(255, 177, 0, 0.15); border-color: rgba(255, 177, 0, 0.4);" onclick="openWalletModal()">
                     <span class="feat-icon">👑</span>
                     <span data-i18n="feat_vip">Purchase VIP</span>
                 </div>
-                <div class="feat-card" style="background: rgba(236, 72, 153, 0.15); border-color: rgba(236, 72, 153, 0.4);" onclick="alert('Family Clan Level 5 Activated!')">
+                <div class="feat-card" style="background: rgba(255, 8, 68, 0.15); border-color: rgba(255, 8, 68, 0.4);" onclick="alert('Family Clan Level 5 Active!')">
                     <span class="feat-icon">🦁</span>
                     <span data-i18n="feat_family">Family</span>
                 </div>
-                <div class="feat-card" style="background: rgba(168, 85, 247, 0.15); border-color: rgba(168, 85, 247, 0.4);" onclick="openWalletModal()">
+                <div class="feat-card" style="background: rgba(127, 0, 255, 0.15); border-color: rgba(127, 0, 255, 0.4);" onclick="openWalletModal()">
                     <span class="feat-icon">💰</span>
                     <span data-i18n="feat_earn">Earn Money</span>
                 </div>
@@ -1119,7 +1419,7 @@
                     </div>
                     <span style="color: var(--text-secondary); font-size: 0.8rem;">2 ›</span>
                 </div>
-                <div class="menu-row" onclick="switchNav('create', document.querySelectorAll('.nav-btn')[2])">
+                <div class="menu-row" onclick="switchNav('create', document.querySelectorAll('.nav-btn')[3])">
                     <div class="menu-left">
                         <span>📝</span>
                         <span data-i18n="menu_post">Post</span>
@@ -1154,22 +1454,11 @@
 
 </div>
 
-<!-- Lucky Spin Wheel Modal -->
-<div class="modal-overlay" id="luckyWheelModal">
-    <div class="modal-card" style="text-align: center;">
-        <h3 style="color: var(--neon-gold);">🎡 ডায়মন্ড স্পিন হুইল</h3>
-        <p style="font-size: 0.85rem; color: #94a3b8;">ঘুরিয়ে জিতে নিন ৫০০ পর্যন্ত ডায়মন্ড!</p>
-        <div style="font-size: 4.5rem; margin: 10px 0; animation: spinWheel 6s linear infinite;" id="wheelEmoji">🎡</div>
-        <button class="btn-primary" onclick="spinLuckyWheel()">স্পিন করুন (১০ 💎)</button>
-        <button class="btn-primary" style="background: #334155;" onclick="closeModal('luckyWheelModal')">বন্ধ করুন</button>
-    </div>
-</div>
-
 <!-- Wallet Modal -->
 <div class="modal-overlay" id="walletModal">
     <div class="modal-card">
-        <h3 style="color: var(--neon-gold);" data-i18n="wallet_title">💎 ডায়মন্ড ওয়ালেট ও ক্যাশআউট</h3>
-        <p style="font-size: 0.85rem; color: #94a3b8;">বর্তমান ব্যালেন্স: <b id="modalDiamondCount" style="color: var(--neon-gold);">2315</b> Diamonds</p>
+        <h3 style="color: var(--bigo-gold);" data-i18n="wallet_title">💎 ডায়মন্ড ওয়ালেট ও ক্যাশআউট</h3>
+        <p style="font-size: 0.85rem; color: #94a3b8;">বর্তমান ব্যালেন্স: <b id="modalDiamondCount" style="color: var(--bigo-gold);">2315</b> Diamonds</p>
         
         <div style="display: flex; flex-direction: column; gap: 10px;">
             <div style="background: rgba(255,255,255,0.05); padding: 12px; border-radius: 14px; display: flex; justify-content: space-between; align-items: center;">
@@ -1216,11 +1505,15 @@
 <nav class="bottom-nav">
     <div class="nav-btn active" onclick="switchNav('live', this)">
         <span class="nav-icon">📺</span>
-        <span data-i18n="nav_live">Live</span>
+        <span data-i18n="nav_live">Live PK</span>
+    </div>
+    <div class="nav-btn" onclick="switchNav('party', this)">
+        <span class="nav-icon">🎙️</span>
+        <span data-i18n="nav_party">Party</span>
     </div>
     <div class="nav-btn" onclick="switchNav('reels', this)">
         <span class="nav-icon">🎬</span>
-        <span data-i18n="nav_reels">Party</span>
+        <span data-i18n="nav_reels">Video</span>
     </div>
     
     <div class="center-action-btn" onclick="switchNav('create', this)">
@@ -1246,6 +1539,8 @@
     let selectedPostImageBase64 = '';
     let selectedProfileImageBase64 = '';
     let isWebcamActive = false;
+    let blueScore = 14250;
+    let redScore = 11800;
 
     // Trigger VIP entrance banner automatically on load
     setTimeout(() => {
@@ -1256,7 +1551,7 @@
 
     const i18n = {
         bn: {
-            nav_live: "Live", nav_reels: "Party", nav_chats: "Chats", nav_me: "Me",
+            nav_live: "Live PK", nav_party: "Party", nav_reels: "Video", nav_chats: "Chats", nav_me: "Me",
             stat_friends: "Friends", stat_following: "Following", stat_fans: "Fans",
             feat_vip: "Purchase VIP", feat_family: "Family", feat_earn: "Earn Money",
             menu_creator: "Creator Center", menu_event: "Event Center", menu_wallet: "Wallet",
@@ -1264,7 +1559,7 @@
             create_post_head: "নতুন পোস্ট তৈরি করুন", btn_photo: "📷 ছবি বেছে নিন", btn_publish: "পোস্ট প্রকাশ করুন", recent_feed: "সাম্প্রতিক পোস্ট ফিড", wallet_title: "💎 ডায়মন্ড ওয়ালেট ও ক্যাশআউট"
         },
         en: {
-            nav_live: "Live", nav_reels: "Party", nav_chats: "Chats", nav_me: "Me",
+            nav_live: "Live PK", nav_party: "Party", nav_reels: "Video", nav_chats: "Chats", nav_me: "Me",
             stat_friends: "Friends", stat_following: "Following", stat_fans: "Fans",
             feat_vip: "Purchase VIP", feat_family: "Family", feat_earn: "Earn Money",
             menu_creator: "Creator Center", menu_event: "Event Center", menu_wallet: "Wallet",
@@ -1272,7 +1567,7 @@
             create_post_head: "Create New Post", btn_photo: "📷 Select Photo", btn_publish: "Publish Post", recent_feed: "Recent Feed", wallet_title: "💎 Diamond Wallet"
         },
         ar: {
-            nav_live: "مباشر", nav_reels: "حفلة", nav_chats: "الدردشات", nav_me: "أنا",
+            nav_live: "مباشر PK", nav_party: "حفلة", nav_reels: "فيديو", nav_chats: "الدردشات", nav_me: "أنا",
             stat_friends: "الأصدقاء", stat_following: "المتابعة", stat_fans: "المعجبون",
             feat_vip: "شراء VIP", feat_family: "العائلة", feat_earn: "كسب المال",
             menu_creator: "مركز المبدعين", menu_event: "مركز الفعاليات", menu_wallet: "المحفظة",
@@ -1298,61 +1593,66 @@
         });
     }
 
-    // Advanced 3D Neon Stage Canvas Renderer
-    const canvas = document.getElementById('liveCanvasSim');
-    const ctx = canvas.getContext('2d');
-    function resizeCanvas() {
-        canvas.width = canvas.clientWidth;
-        canvas.height = canvas.clientHeight;
-    }
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
+    // Canvas Renderers for Split Screen PK Stage
+    function setupPkCanvas(id, hueOffset) {
+        const c = document.getElementById(id);
+        const cx = c.getContext('2d');
+        function resize() { c.width = c.clientWidth; c.height = c.clientHeight; }
+        resize();
+        window.addEventListener('resize', resize);
 
-    let step = 0;
-    function render3DStage() {
-        if (!isWebcamActive && canvas.width > 0) {
-            step += 0.025;
-            const cx = canvas.width / 2;
-            const cy = canvas.height / 2;
+        let step = Math.random() * 10;
+        function render() {
+            if (!isWebcamActive && c.width > 0) {
+                step += 0.025;
+                const g = cx.createRadialGradient(c.width/2, c.height/2, 20, c.width/2, c.height/2, c.height);
+                g.addColorStop(0, `hsl(${Math.sin(step) * 40 + hueOffset}, 85%, 22%)`);
+                g.addColorStop(1, '#05070e');
+                cx.fillStyle = g;
+                cx.fillRect(0, 0, c.width, c.height);
 
-            // Deep 3D Radial Background
-            const g = ctx.createRadialGradient(cx, cy, 50, cx, cy, canvas.height);
-            g.addColorStop(0, `hsl(${Math.sin(step) * 50 + 270}, 85%, 22%)`);
-            g.addColorStop(0.5, `hsl(${Math.cos(step * 0.7) * 50 + 320}, 75%, 12%)`);
-            g.addColorStop(1, '#05070f');
-            ctx.fillStyle = g;
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            // Glowing 3D Stage Rings
-            ctx.strokeStyle = "rgba(168, 85, 247, 0.25)";
-            ctx.lineWidth = 3;
-            for (let r = 1; r <= 4; r++) {
-                let radius = (Math.sin(step + r) * 20 + r * 60);
-                ctx.beginPath();
-                ctx.arc(cx, cy - 20, radius, 0, Math.PI * 2);
-                ctx.stroke();
+                cx.fillStyle = "rgba(255, 255, 255, 0.2)";
+                for (let i = 0; i < 10; i++) {
+                    let px = (Math.sin(step * 0.8 + i) * 0.4 + 0.5) * c.width;
+                    let py = (Math.cos(step * 0.6 + i) * 0.4 + 0.5) * c.height;
+                    cx.beginPath();
+                    cx.arc(px, py, (i % 4) * 3 + 2, 0, Math.PI * 2);
+                    cx.fill();
+                }
             }
-
-            // Floating 3D Glowing Particles
-            for (let i = 0; i < 25; i++) {
-                let px = (Math.sin(step * 0.6 + i * 2) * 0.45 + 0.5) * canvas.width;
-                let py = (Math.cos(step * 0.8 + i * 1.5) * 0.45 + 0.5) * canvas.height;
-                let size = (Math.sin(step + i) * 3 + 4);
-                
-                ctx.fillStyle = i % 2 === 0 ? "rgba(236, 72, 153, 0.4)" : "rgba(6, 182, 212, 0.4)";
-                ctx.beginPath();
-                ctx.arc(px, py, size, 0, Math.PI * 2);
-                ctx.fill();
-            }
+            requestAnimationFrame(render);
         }
-        requestAnimationFrame(render3DStage);
+        render();
     }
-    render3DStage();
+    setupPkCanvas('liveCanvasSimLeft', 200); // Blue side
+    setupPkCanvas('liveCanvasSimRight', 340); // Red side
+
+    // AR Filters Application
+    function applyArFilter(filterEmoji) {
+        alert(`AR Filter Applied: ${filterEmoji}! ক্যামেরা ও সেশনে ফিল্টার যোগ হয়েছে।`);
+    }
+
+    // Soundboard
+    function playEffectSound(soundName) {
+        alert(`Sound Effect Played: ${soundName} 🔊`);
+    }
+
+    // Level Up Alert trigger
+    function triggerLevelUpAnim() {
+        const lvl = document.getElementById('levelUpBanner');
+        lvl.classList.add('show');
+        setTimeout(() => lvl.classList.remove('show'), 3000);
+    }
+
+    // Multi-Guest seat claim
+    function claimSeat(seatNo) {
+        alert(`আপনি Seat #${seatNo}-এ যুক্ত হয়েছেন! মাইক ও ভয়েস চালু আছে।`);
+    }
 
     // Webcam toggle
     async function toggleCameraStream() {
         const videoEl = document.getElementById('webcamStream');
-        const canvasEl = document.getElementById('liveCanvasSim');
+        const canvasEl = document.getElementById('liveCanvasSimLeft');
         if (!isWebcamActive) {
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
@@ -1360,9 +1660,9 @@
                 videoEl.style.display = 'block';
                 canvasEl.style.display = 'none';
                 isWebcamActive = true;
-                alert('আপনার ফোনের ক্যামেরা সরাসরি ৩ডি স্ট্রিমে সক্রিয় হয়েছে!');
+                alert('আপনার ক্যামেরা সরাসরি PK স্ট্রিমে সংযুক্ত হয়েছে!');
             } catch(e) {
-                alert('ক্যামেরা সক্রিয় করা সম্ভব হয়নি। ভার্চুয়াল ৩ডি নিওন স্ট্রিম চালু আছে।');
+                alert('ক্যামেরা সক্রিয় করা সম্ভব হয়নি। ভার্চুয়াল PK স্ট্রিম চালু আছে।');
             }
         } else {
             videoEl.style.display = 'none';
@@ -1371,20 +1671,25 @@
         }
     }
 
-    // 3D Fullscreen Gift Animation & Screen Glow FX
-    function sendLiveGift(name, cost, emoji) {
+    // Send Gift with PK Progress Bar Updates
+    function sendLiveGift(name, cost, emoji, team) {
         if (userDiamonds >= cost) {
             userDiamonds -= cost;
             updateDiamondDisplays();
 
-            // Mega Gift Animation
+            if (team === 'blue') {
+                blueScore += cost * 10;
+            } else {
+                redScore += cost * 10;
+            }
+            updatePkBattleBar();
+
             const giftAnim = document.getElementById('megaGiftAnim');
             giftAnim.innerText = emoji;
             giftAnim.style.display = 'block';
 
-            // Screen Glow FX
             const fx = document.getElementById('screenFxOverlay');
-            fx.style.background = cost >= 500 ? 'radial-gradient(circle, rgba(245, 158, 11, 0.4) 0%, transparent 80%)' : 'radial-gradient(circle, rgba(236, 72, 153, 0.4) 0%, transparent 80%)';
+            fx.style.background = cost >= 500 ? 'radial-gradient(circle, rgba(255, 177, 0, 0.4) 0%, transparent 80%)' : 'radial-gradient(circle, rgba(0, 242, 254, 0.4) 0%, transparent 80%)';
             fx.style.opacity = '1';
 
             setTimeout(() => {
@@ -1395,12 +1700,25 @@
             const overlay = document.getElementById('liveChatOverlay');
             const newMsg = document.createElement('div');
             newMsg.className = 'chat-bubble-live';
-            newMsg.innerHTML = `<b>You:</b> Sent Mega ${name} ${emoji}! 🌟`;
+            newMsg.innerHTML = `<b>You:</b> Sent ${name} ${emoji} for ${team.toUpperCase()} Team! 🔥`;
             overlay.appendChild(newMsg);
             overlay.scrollTop = overlay.scrollHeight;
+
+            if (Math.random() > 0.6) triggerLevelUpAnim();
         } else {
             alert('পর্যাপ্ত ডায়মন্ড নেই! ওয়ালেট থেকে রিচার্জ করুন।');
         }
+    }
+
+    function updatePkBattleBar() {
+        const total = blueScore + redScore;
+        const bluePct = Math.round((blueScore / total) * 100);
+        const redPct = 100 - bluePct;
+
+        document.getElementById('pkBarBlue').style.width = bluePct + '%';
+        document.getElementById('pkBarRed').style.width = redPct + '%';
+        document.getElementById('blueScoreText').innerText = blueScore.toLocaleString();
+        document.getElementById('redScoreText').innerText = redScore.toLocaleString();
     }
 
     function addDiamonds(amount) {
@@ -1412,22 +1730,6 @@
     function updateDiamondDisplays() {
         document.getElementById('headerDiamonds').innerText = userDiamonds;
         document.getElementById('modalDiamondCount').innerText = userDiamonds;
-    }
-
-    function openLuckyWheelModal() { document.getElementById('luckyWheelModal').style.display = 'flex'; }
-    function spinLuckyWheel() {
-        if (userDiamonds >= 10) {
-            userDiamonds -= 10;
-            updateDiamondDisplays();
-            const rewards = [50, 100, 200, 500];
-            const prize = rewards[Math.floor(Math.random() * rewards.length)];
-            userDiamonds += prize;
-            updateDiamondDisplays();
-            alert(`🎉 অভিনন্দন্‌! আপনি পেয়ে গেছেন ${prize} ডায়মন্ড!`);
-            closeModal('luckyWheelModal');
-        } else {
-            alert('স্পিনের জন্য ন্যূনতম ১০ ডায়মন্ড প্রয়োজন!');
-        }
     }
 
     function triggerFilePick() { document.getElementById('hiddenFileInput').click(); }
@@ -1524,7 +1826,7 @@
             document.getElementById('liveHostAvatar').src = url;
         }
         closeModal('profileEditModal');
-        alert('প্রোফাইল নাম ও ছবি সেভ হয়েছে!');
+        alert('প্রোফাইল তথ্য আপডেট সম্পন্ন হয়েছে!');
     }
 
     function toggleReelLike(el) {
@@ -1533,7 +1835,7 @@
     }
 
     function openCommentDrawer() {
-        alert('কমেন্ট সেকশন সক্রিয় হয়েছে!');
+        alert('কমেন্টবক্স ওপেন হয়েছে!');
     }
 </script>
 </body>
