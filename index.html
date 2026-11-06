@@ -3,21 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Family Connect Live - Ultimate Super App</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>Family Connect Live - WOW 3D Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="manifest" href="manifest.json">
     <style>
         :root {
-            --bg-main: #090c15;
-            --panel-bg: rgba(18, 24, 38, 0.85);
-            --card-bg: rgba(30, 41, 59, 0.75);
-            --accent-primary: #8b5cf6;
-            --accent-pink: #ec4899;
-            --accent-cyan: #06b6d4;
-            --accent-gold: #f59e0b;
+            --bg-main: #05070f;
+            --panel-bg: rgba(13, 18, 30, 0.85);
+            --card-bg: rgba(23, 32, 54, 0.75);
+            --neon-purple: #a855f7;
+            --neon-pink: #ec4899;
+            --neon-cyan: #06b6d4;
+            --neon-gold: #f59e0b;
+            --neon-green: #10b981;
             --text-primary: #f8fafc;
             --text-secondary: #94a3b8;
-            --border-glass: rgba(255, 255, 255, 0.12);
-            --nav-height: 68px;
+            --border-glass: rgba(255, 255, 255, 0.15);
+            --nav-height: 70px;
         }
 
         [dir="rtl"] { direction: rtl; text-align: right; }
@@ -40,33 +42,36 @@
             display: flex;
             flex-direction: column;
             background-image: 
-                radial-gradient(circle at 15% 15%, rgba(139, 92, 246, 0.18) 0%, transparent 45%),
-                radial-gradient(circle at 85% 85%, rgba(236, 72, 153, 0.18) 0%, transparent 45%);
+                radial-gradient(circle at 10% 10%, rgba(168, 85, 247, 0.25) 0%, transparent 40%),
+                radial-gradient(circle at 90% 90%, rgba(236, 72, 153, 0.25) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(6, 182, 212, 0.1) 0%, transparent 60%);
         }
 
-        /* Top Header */
+        /* WOW Header */
         header {
-            height: 60px;
+            height: 62px;
             background: var(--panel-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border-glass);
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 0 16px;
             z-index: 100;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.5);
         }
 
         .brand-logo {
-            font-size: 1.2rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #a78bfa, #f472b6, #38bdf8);
+            font-size: 1.25rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #c084fc, #f472b6, #38bdf8);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             display: flex;
             align-items: center;
             gap: 8px;
+            filter: drop-shadow(0 0 12px rgba(192, 132, 252, 0.6));
         }
 
         .header-actions {
@@ -76,35 +81,35 @@
         }
 
         .wallet-pill {
-            background: linear-gradient(135deg, rgba(245, 158, 11, 0.25), rgba(217, 119, 6, 0.15));
-            border: 1px solid rgba(245, 158, 11, 0.5);
-            color: var(--accent-gold);
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.3), rgba(217, 119, 6, 0.15));
+            border: 1px solid rgba(245, 158, 11, 0.6);
+            color: var(--neon-gold);
             padding: 6px 14px;
             border-radius: 20px;
             font-size: 0.85rem;
-            font-weight: 700;
+            font-weight: 800;
             display: flex;
             align-items: center;
             gap: 6px;
             cursor: pointer;
-            box-shadow: 0 0 12px rgba(245, 158, 11, 0.25);
-            transition: transform 0.2s;
+            box-shadow: 0 0 16px rgba(245, 158, 11, 0.35);
+            transition: all 0.2s ease;
         }
 
-        .wallet-pill:active { transform: scale(0.95); }
+        .wallet-pill:active { transform: scale(0.93); }
 
         .lang-dropdown {
-            background: rgba(15, 23, 42, 0.9);
+            background: rgba(15, 23, 42, 0.95);
             color: var(--text-primary);
             border: 1px solid var(--border-glass);
             padding: 6px 10px;
-            border-radius: 10px;
+            border-radius: 12px;
             font-size: 0.8rem;
             outline: none;
             cursor: pointer;
         }
 
-        /* Main Body Frame */
+        /* App Body Container */
         .app-body {
             flex: 1;
             position: relative;
@@ -126,7 +131,7 @@
             flex-direction: column;
         }
 
-        /* 1. LIVE VIEW */
+        /* 1. 3D WOW LIVE STAGE */
         .live-stage {
             flex: 1;
             background: #000;
@@ -137,7 +142,7 @@
             overflow: hidden;
         }
 
-        video.live-video-stream, canvas.live-video-sim {
+        canvas.live-video-sim, video.live-video-stream {
             width: 100%;
             height: 100%;
             object-fit: cover;
@@ -145,11 +150,68 @@
             top: 0; left: 0;
         }
 
+        /* Fullscreen Screen Glow Effect for Mega Gifts */
+        .screen-fx-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+            z-index: 14;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .mega-gift-anim {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.2);
+            z-index: 25;
+            pointer-events: none;
+            font-size: 7.5rem;
+            display: none;
+            filter: drop-shadow(0 0 40px rgba(236, 72, 153, 0.9));
+            animation: megaGiftFly 1.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes megaGiftFly {
+            0% { opacity: 0; transform: translate(-50%, 60px) scale(0.3) rotate(-15deg); }
+            40% { opacity: 1; transform: translate(-50%, -40px) scale(1.4) rotate(10deg); }
+            80% { opacity: 1; transform: translate(-50%, -60px) scale(1.1) rotate(-5deg); }
+            100% { opacity: 0; transform: translate(-50%, -120px) scale(0.8) rotate(0deg); }
+        }
+
+        /* Floating VIP Entrance Banner */
+        .vip-entrance-banner {
+            position: absolute;
+            top: 75px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-50px);
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.9), rgba(236, 72, 153, 0.9));
+            backdrop-filter: blur(12px);
+            border: 2px solid #fef08a;
+            color: #fff;
+            padding: 8px 24px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 800;
+            box-shadow: 0 0 25px rgba(245, 158, 11, 0.8);
+            z-index: 22;
+            opacity: 0;
+            transition: all 0.5s ease;
+            white-space: nowrap;
+        }
+
+        .vip-entrance-banner.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* Top Host Bar & Leaderboard */
         .live-header-bar {
             position: absolute;
-            top: 16px;
-            left: 16px;
-            right: 16px;
+            top: 14px;
+            left: 14px;
+            right: 14px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -160,76 +222,90 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            background: rgba(0, 0, 0, 0.55);
+            background: rgba(10, 15, 28, 0.7);
             padding: 5px 14px 5px 5px;
             border-radius: 30px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 15px rgba(0,0,0,0.4);
+        }
+
+        .host-avatar-box {
+            position: relative;
+            width: 42px; height: 42px;
         }
 
         .host-avatar {
-            width: 38px;
-            height: 38px;
+            width: 100%; height: 100%;
             border-radius: 50%;
-            border: 2px solid var(--accent-pink);
+            border: 2px solid var(--neon-pink);
             object-fit: cover;
         }
 
-        .live-badge-box {
+        .crown-badge {
+            position: absolute;
+            top: -10px; right: -4px;
+            font-size: 1.1rem;
+            filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.8));
+        }
+
+        .top-donors-row {
             display: flex;
             align-items: center;
-            gap: 8px;
-        }
-
-        .live-badge {
-            background: linear-gradient(135deg, #ef4444, #dc2626);
-            color: #fff;
-            padding: 5px 12px;
-            border-radius: 14px;
-            font-size: 0.75rem;
-            font-weight: 800;
-            box-shadow: 0 0 12px rgba(239, 68, 68, 0.6);
-            animation: pulse 1.5s infinite;
-        }
-
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
-
-        .cam-toggle-btn {
-            background: rgba(139, 92, 246, 0.7);
-            border: 1px solid rgba(255,255,255,0.3);
-            color: #fff;
-            padding: 5px 10px;
-            border-radius: 12px;
-            font-size: 0.75rem;
-            cursor: pointer;
+            gap: 6px;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 4px 10px;
+            border-radius: 20px;
             backdrop-filter: blur(8px);
         }
 
-        .gift-popup-canvas {
+        .donor-micro-avatar {
+            width: 26px; height: 26px;
+            border-radius: 50%;
+            border: 1.5px solid var(--neon-gold);
+            object-fit: cover;
+        }
+
+        .cam-toggle-btn {
+            background: linear-gradient(135deg, var(--neon-purple), var(--neon-pink));
+            border: 1px solid rgba(255,255,255,0.4);
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 14px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 0 12px rgba(168, 85, 247, 0.5);
+        }
+
+        /* Floating Lucky Wheel Widget on Stream */
+        .lucky-wheel-widget {
             position: absolute;
-            top: 40%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 15;
-            pointer-events: none;
-            font-size: 5rem;
-            display: none;
-            filter: drop-shadow(0 0 25px rgba(245, 158, 11, 0.9));
-            animation: giftAnim 1.4s ease forwards;
+            right: 14px;
+            top: 75px;
+            width: 46px; height: 46px;
+            background: linear-gradient(135deg, var(--neon-gold), var(--neon-pink));
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.4rem;
+            border: 2px solid #fff;
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.7);
+            cursor: pointer;
+            z-index: 20;
+            animation: spinWheel 4s linear infinite;
         }
 
-        @keyframes giftAnim {
-            0% { opacity: 0; transform: translate(-50%, 20px) scale(0.4); }
-            50% { opacity: 1; transform: translate(-50%, -40px) scale(1.3); }
-            100% { opacity: 0; transform: translate(-50%, -90px) scale(1); }
-        }
+        @keyframes spinWheel { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
+        /* Floating Live Glassmorphism Chat Overlay */
         .live-chat-overlay {
             position: absolute;
-            bottom: 80px;
-            left: 16px;
+            bottom: 85px;
+            left: 14px;
             width: 75%;
-            max-height: 220px;
+            max-height: 240px;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
@@ -242,23 +318,28 @@
         .live-chat-overlay::-webkit-scrollbar { display: none; }
 
         .chat-bubble-live {
-            background: rgba(15, 23, 42, 0.75);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            padding: 8px 12px;
-            border-radius: 14px;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 8px 14px;
+            border-radius: 16px;
             font-size: 0.85rem;
             color: #fff;
-            animation: slideUp 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            animation: slideUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 
+        /* Neon Gift Action Bar */
         .gift-action-bar {
             position: absolute;
             bottom: 12px;
-            left: 16px;
-            right: 16px;
+            left: 14px;
+            right: 14px;
             display: flex;
             gap: 8px;
             z-index: 20;
@@ -267,12 +348,12 @@
         }
 
         .gift-chip {
-            background: rgba(30, 41, 59, 0.9);
-            backdrop-filter: blur(12px);
+            background: rgba(23, 32, 54, 0.95);
+            backdrop-filter: blur(16px);
             border: 1px solid var(--border-glass);
-            border-radius: 14px;
-            padding: 8px 12px;
-            min-width: 70px;
+            border-radius: 16px;
+            padding: 8px 14px;
+            min-width: 72px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -280,9 +361,11 @@
             font-size: 0.75rem;
             cursor: pointer;
             transition: all 0.2s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
         }
 
-        .gift-chip:active { transform: scale(0.92); border-color: var(--accent-gold); }
+        .gift-chip:active { transform: scale(0.9); border-color: var(--neon-gold); }
+        .gift-icon { font-size: 1.5rem; filter: drop-shadow(0 0 8px rgba(255,255,255,0.4)); }
 
         /* 2. REELS / SHORTS VIEW */
         .reels-container {
@@ -298,7 +381,7 @@
             height: 100%;
             scroll-snap-align: start;
             position: relative;
-            background: #090c15;
+            background: #05070f;
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
@@ -315,14 +398,14 @@
         .reel-overlay-content {
             position: relative;
             z-index: 10;
-            margin-bottom: 70px;
+            margin-bottom: 75px;
             max-width: 80%;
         }
 
         .reel-sidebar-actions {
             position: absolute;
             right: 16px;
-            bottom: 90px;
+            bottom: 95px;
             display: flex;
             flex-direction: column;
             gap: 18px;
@@ -333,26 +416,27 @@
         [dir="rtl"] .reel-sidebar-actions { right: auto; left: 16px; }
 
         .action-icon-btn {
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(8px);
+            background: rgba(10, 15, 28, 0.65);
+            backdrop-filter: blur(12px);
             border: 1px solid var(--border-glass);
-            width: 48px;
-            height: 48px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             cursor: pointer;
             color: #fff;
             transition: transform 0.2s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
         }
 
         .action-icon-btn:active { transform: scale(0.85); }
-        .action-cnt { font-size: 0.65rem; color: #cbd5e1; font-weight: 700; }
+        .action-cnt { font-size: 0.65rem; color: #cbd5e1; font-weight: 700; margin-top: 2px; }
 
-        /* 3. POST CREATOR & FEED VIEW */
+        /* 3. POST CREATOR TAB */
         .post-page-container {
             padding: 16px;
             display: flex;
@@ -364,21 +448,22 @@
         .create-post-box {
             background: var(--panel-bg);
             border: 1px solid var(--border-glass);
-            border-radius: 20px;
-            padding: 16px;
+            border-radius: 22px;
+            padding: 18px;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 14px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
         }
 
         .post-input {
-            background: rgba(15, 23, 42, 0.7);
+            background: rgba(15, 23, 42, 0.8);
             border: 1px solid var(--border-glass);
             border-radius: 14px;
             padding: 14px;
             color: #fff;
             resize: none;
-            height: 90px;
+            height: 95px;
             outline: none;
             font-size: 0.95rem;
             user-select: text;
@@ -386,9 +471,10 @@
 
         .media-preview-box {
             max-height: 180px;
-            border-radius: 12px;
+            border-radius: 14px;
             overflow: hidden;
             display: none;
+            border: 1px solid var(--border-glass);
         }
 
         .media-preview-box img { width: 100%; height: 100%; object-fit: cover; }
@@ -396,18 +482,19 @@
         .btn-action-row { display: flex; gap: 10px; }
 
         .btn-primary {
-            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            background: linear-gradient(135deg, var(--neon-purple), var(--neon-pink));
             color: #fff;
             border: none;
             padding: 12px 18px;
-            border-radius: 12px;
-            font-weight: 700;
+            border-radius: 14px;
+            font-weight: 800;
             cursor: pointer;
             text-align: center;
-            transition: opacity 0.2s;
+            box-shadow: 0 4px 20px rgba(168, 85, 247, 0.4);
+            transition: all 0.2s ease;
         }
 
-        .btn-primary:active { opacity: 0.85; }
+        .btn-primary:active { transform: scale(0.96); opacity: 0.9; }
 
         .posts-feed-list {
             display: flex;
@@ -418,11 +505,12 @@
         .post-card-item {
             background: var(--panel-bg);
             border: 1px solid var(--border-glass);
-            border-radius: 20px;
-            padding: 16px;
+            border-radius: 22px;
+            padding: 18px;
             display: flex;
             flex-direction: column;
             gap: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
         }
 
         .post-author-row {
@@ -432,14 +520,14 @@
         }
 
         .author-avatar {
-            width: 42px;
-            height: 42px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
             object-fit: cover;
-            border: 2px solid var(--accent-pink);
+            border: 2px solid var(--neon-pink);
         }
 
-        /* 4. CHATS VIEW (Telegram Style) */
+        /* 4. CHATS TAB (Telegram Style) */
         .chats-view-container {
             display: flex;
             flex-direction: column;
@@ -447,8 +535,8 @@
         }
 
         .chat-room-header {
-            padding: 12px 16px;
-            background: rgba(15, 23, 42, 0.9);
+            padding: 14px 18px;
+            background: rgba(15, 23, 42, 0.95);
             border-bottom: 1px solid var(--border-glass);
             display: flex;
             align-items: center;
@@ -462,27 +550,28 @@
             display: flex;
             flex-direction: column;
             gap: 12px;
-            padding-bottom: 80px;
+            padding-bottom: 85px;
         }
 
         .chat-bubble {
-            max-width: 80%;
-            padding: 10px 14px;
-            border-radius: 18px;
-            font-size: 0.9rem;
+            max-width: 82%;
+            padding: 12px 16px;
+            border-radius: 20px;
+            font-size: 0.92rem;
             line-height: 1.4;
             user-select: text;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.25);
         }
 
         .chat-bubble.incoming {
-            background: rgba(30, 41, 59, 0.9);
+            background: rgba(23, 32, 54, 0.95);
             border: 1px solid var(--border-glass);
             align-self: flex-start;
             border-bottom-left-radius: 4px;
         }
 
         .chat-bubble.outgoing {
-            background: linear-gradient(135deg, #8b5cf6, #6366f1);
+            background: linear-gradient(135deg, var(--neon-purple), #6366f1);
             color: #fff;
             align-self: flex-end;
             border-bottom-right-radius: 4px;
@@ -490,17 +579,17 @@
 
         .chat-input-bar {
             position: absolute;
-            bottom: 75px;
-            left: 12px; right: 12px;
+            bottom: 78px;
+            left: 14px; right: 14px;
             background: rgba(15, 23, 42, 0.95);
-            backdrop-filter: blur(16px);
+            backdrop-filter: blur(20px);
             border: 1px solid var(--border-glass);
             border-radius: 30px;
-            padding: 6px 12px;
+            padding: 6px 14px;
             display: flex;
             align-items: center;
             gap: 8px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.5);
         }
 
         .chat-input-bar input {
@@ -510,36 +599,37 @@
             color: #fff;
             padding: 8px;
             outline: none;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             user-select: text;
         }
 
-        /* 5. ME / PROFILE VIEW */
+        /* 5. ME / PROFILE TAB (Screenshot Matching Clone) */
         .profile-container {
             padding: 16px;
             display: flex;
             flex-direction: column;
             gap: 16px;
-            padding-bottom: 90px;
+            padding-bottom: 95px;
         }
 
         .profile-header-card {
             background: var(--panel-bg);
-            backdrop-filter: blur(16px);
+            backdrop-filter: blur(20px);
             border: 1px solid var(--border-glass);
-            border-radius: 24px;
-            padding: 20px;
+            border-radius: 26px;
+            padding: 22px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 12px;
+            gap: 14px;
             position: relative;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
         }
 
         .profile-avatar-wrapper {
             position: relative;
-            width: 88px;
-            height: 88px;
+            width: 90px;
+            height: 90px;
         }
 
         .profile-avatar {
@@ -547,15 +637,15 @@
             height: 100%;
             border-radius: 50%;
             object-fit: cover;
-            border: 3px solid var(--accent-pink);
-            box-shadow: 0 0 20px rgba(236, 72, 153, 0.4);
+            border: 3px solid var(--neon-pink);
+            box-shadow: 0 0 25px rgba(236, 72, 153, 0.5);
         }
 
         .edit-avatar-badge {
             position: absolute;
             bottom: 0;
             right: 0;
-            background: var(--accent-primary);
+            background: var(--neon-purple);
             color: #fff;
             width: 28px;
             height: 28px;
@@ -566,10 +656,11 @@
             font-size: 0.85rem;
             cursor: pointer;
             border: 2px solid var(--bg-main);
+            box-shadow: 0 0 10px rgba(168, 85, 247, 0.6);
         }
 
         .profile-name {
-            font-size: 1.25rem;
+            font-size: 1.3rem;
             font-weight: 800;
             color: var(--text-primary);
             display: flex;
@@ -593,7 +684,7 @@
             cursor: pointer;
         }
 
-        .stat-val { font-size: 1.15rem; font-weight: 800; color: #fff; }
+        .stat-val { font-size: 1.2rem; font-weight: 800; color: #fff; }
         .stat-lbl { font-size: 0.75rem; color: var(--text-secondary); }
 
         .feature-cards-grid {
@@ -605,50 +696,52 @@
         .feat-card {
             background: var(--card-bg);
             border: 1px solid var(--border-glass);
-            border-radius: 16px;
+            border-radius: 18px;
             padding: 14px 6px;
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 6px;
             font-size: 0.72rem;
-            font-weight: 600;
+            font-weight: 700;
             text-align: center;
             cursor: pointer;
             transition: transform 0.2s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
 
-        .feat-card:active { transform: scale(0.94); }
-        .feat-icon { font-size: 1.5rem; }
+        .feat-card:active { transform: scale(0.93); }
+        .feat-icon { font-size: 1.55rem; }
 
         .menu-list-group {
             background: var(--panel-bg);
             border: 1px solid var(--border-glass);
-            border-radius: 20px;
+            border-radius: 22px;
             overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
         }
 
         .menu-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 18px;
+            padding: 16px 20px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             cursor: pointer;
-            font-size: 0.9rem;
+            font-size: 0.92rem;
             font-weight: 600;
         }
 
         .menu-row:last-child { border-bottom: none; }
-        .menu-left { display: flex; align-items: center; gap: 12px; }
+        .menu-left { display: flex; align-items: center; gap: 14px; }
 
-        /* Modals */
+        /* Modals & Overlays */
         .modal-overlay {
             display: none;
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(12px);
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(16px);
             z-index: 300;
             justify-content: center;
             align-items: center;
@@ -656,36 +749,36 @@
         }
 
         .modal-card {
-            background: #1e293b;
+            background: #172036;
             border: 1px solid var(--border-glass);
-            border-radius: 24px;
+            border-radius: 26px;
             padding: 24px;
             width: 100%;
             max-width: 400px;
             display: flex;
             flex-direction: column;
             gap: 16px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+            box-shadow: 0 10px 45px rgba(0,0,0,0.7);
         }
 
         .form-input {
             width: 100%;
-            background: #0f172a;
+            background: #0d121e;
             border: 1px solid var(--border-glass);
-            padding: 12px 16px;
-            border-radius: 12px;
+            padding: 14px 16px;
+            border-radius: 14px;
             color: #fff;
             outline: none;
             font-size: 0.95rem;
             user-select: text;
         }
 
-        /* Bottom Nav */
+        /* Bottom Nav Bar */
         nav.bottom-nav {
             height: var(--nav-height);
             background: var(--panel-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
             border-top: 1px solid var(--border-glass);
             display: flex;
             justify-content: space-around;
@@ -701,27 +794,27 @@
             gap: 4px;
             color: var(--text-secondary);
             font-size: 0.75rem;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
             flex: 1;
             transition: all 0.2s ease;
         }
 
-        .nav-btn.active { color: var(--accent-pink); }
-        .nav-icon { font-size: 1.4rem; }
+        .nav-btn.active { color: var(--neon-pink); filter: drop-shadow(0 0 10px rgba(236, 72, 153, 0.6)); }
+        .nav-icon { font-size: 1.45rem; }
 
         .center-action-btn {
-            width: 52px;
-            height: 52px;
-            background: linear-gradient(135deg, #ec4899, #8b5cf6);
+            width: 54px;
+            height: 54px;
+            background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple));
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 1.6rem;
+            font-size: 1.7rem;
             color: #fff;
-            box-shadow: 0 0 20px rgba(236, 72, 153, 0.5);
-            margin-top: -24px;
+            box-shadow: 0 0 25px rgba(236, 72, 153, 0.6);
+            margin-top: -26px;
             border: 3px solid var(--bg-main);
             cursor: pointer;
             transition: transform 0.2s;
@@ -732,7 +825,16 @@
 </head>
 <body>
 
-<!-- Header -->
+<!-- Fullscreen FX Container -->
+<div id="screenFxOverlay" class="screen-fx-overlay"></div>
+<div id="megaGiftAnim" class="mega-gift-anim">🚀</div>
+
+<!-- VIP Entrance Banner -->
+<div id="vipEntranceBanner" class="vip-entrance-banner">
+    👑 VIP সাগর সিস্টেমে প্রবেশ করেছেন!
+</div>
+
+<!-- Header Bar -->
 <header>
     <div class="brand-logo">
         ✨ Family Connect
@@ -753,66 +855,83 @@
     </div>
 </header>
 
-<!-- Main App Viewport -->
+<!-- App Main Body -->
 <div class="app-body">
     
-    <!-- 1. LIVE STREAM TAB -->
+    <!-- 1. WOW 3D LIVE STREAM TAB -->
     <div id="view-live" class="tab-view active">
         <div class="live-stage">
-            <!-- Dynamic Video Stream Simulator -->
+            
+            <!-- Dynamic 3D Neon Canvas Simulation -->
             <canvas id="liveCanvasSim" class="live-video-sim"></canvas>
             <video id="webcamStream" class="live-video-stream" autoplay playsinline muted style="display:none;"></video>
-            
-            <div id="giftPopupCanvas" class="gift-popup-canvas">🎁</div>
 
+            <!-- Floating Lucky Spin Wheel Button -->
+            <div class="lucky-wheel-widget" onclick="openLuckyWheelModal()" title="Spin & Win Diamonds">
+                🎡
+            </div>
+
+            <!-- Header Host Info & Top Donor Leaderboard -->
             <div class="live-header-bar">
                 <div class="host-info">
-                    <img id="liveHostAvatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=60" class="host-avatar" alt="Host">
+                    <div class="host-avatar-box">
+                        <img id="liveHostAvatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=60" class="host-avatar" alt="Host">
+                        <span class="crown-badge">👑</span>
+                    </div>
                     <div>
-                        <div style="font-size: 0.8rem; font-weight: 700;" id="liveHostName">Ayesha Khan</div>
-                        <div style="font-size: 0.65rem; color: #94a3b8;">👁️ <span id="liveViewerCount">1,420</span> Viewers</div>
+                        <div style="font-size: 0.85rem; font-weight: 800;" id="liveHostName">Ayesha Khan</div>
+                        <div style="font-size: 0.65rem; color: #94a3b8;">👁️ <span id="liveViewerCount">2,840</span> Viewers</div>
                     </div>
                 </div>
-                <div class="live-badge-box">
+
+                <div class="top-donors-row">
+                    <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=60&auto=format&fit=crop&q=60" class="donor-micro-avatar" title="Top 1 Donor">
+                    <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=60&auto=format&fit=crop&q=60" class="donor-micro-avatar" title="Top 2 Donor">
                     <button class="cam-toggle-btn" onclick="toggleCameraStream()">📹 Cam</button>
-                    <span class="live-badge">● LIVE</span>
                 </div>
             </div>
 
-            <!-- Live Chat Floating Feed -->
+            <!-- Floating Glassmorphism Chat Overlay -->
             <div class="live-chat-overlay" id="liveChatOverlay">
-                <div class="chat-bubble-live"><b>System:</b> লাইভ স্ট্রিমে স্বাগতম! সবাইকে সম্মানজনক আচরণ করার অনুরোধ রইল। 🌸</div>
-                <div class="chat-bubble-live"><b>Rahim:</b> আসসালামু আলাইকুম! 👋</div>
-                <div class="chat-bubble-live"><b>Sofia:</b> Wow awesome live stream! ❤️</div>
+                <div class="chat-bubble-live">
+                    <span style="color:var(--neon-gold)">👑 VIP Sistem:</span> লাইভ রুমে স্বাগতম! চমৎকার ৩ডি অভিজ্ঞতা উপভোগ করুন। 🎉
+                </div>
+                <div class="chat-bubble-live">
+                    <b>Rahim:</b> আসসালামু আলাইকুম! ওয়াও কি সুন্দর ডিজাইন! 😍
+                </div>
+                <div class="chat-bubble-live">
+                    <b>Sofia:</b> Stunning 3D effects! Love this app! 🔥
+                </div>
             </div>
 
-            <!-- Interactive Gift Bar -->
+            <!-- Gift Bar with Mega Animations -->
             <div class="gift-action-bar">
                 <div class="gift-chip" onclick="sendLiveGift('🌹 Rose', 10, '🌹')">
-                    <span>🌹</span>
-                    <span style="color:var(--accent-gold)">10 💎</span>
+                    <span class="gift-icon">🌹</span>
+                    <span style="color:var(--neon-gold)">10 💎</span>
                 </div>
                 <div class="gift-chip" onclick="sendLiveGift('☕ Coffee', 50, '☕')">
-                    <span>☕</span>
-                    <span style="color:var(--accent-gold)">50 💎</span>
+                    <span class="gift-icon">☕</span>
+                    <span style="color:var(--neon-gold)">50 💎</span>
                 </div>
                 <div class="gift-chip" onclick="sendLiveGift('🚗 Supercar', 200, '🚗')">
-                    <span>🚗</span>
-                    <span style="color:var(--accent-gold)">200 💎</span>
+                    <span class="gift-icon">🚗</span>
+                    <span style="color:var(--neon-gold)">200 💎</span>
                 </div>
-                <div class="gift-chip" onclick="sendLiveGift('👑 Rocket', 500, '👑')">
-                    <span>👑</span>
-                    <span style="color:var(--accent-gold)">500 💎</span>
+                <div class="gift-chip" onclick="sendLiveGift('🚀 Mega Rocket', 500, '🚀')">
+                    <span class="gift-icon">🚀</span>
+                    <span style="color:var(--neon-gold)">500 💎</span>
                 </div>
-                <div class="gift-chip" onclick="sendLiveGift('🏰 Castle', 1000, '🏰')">
-                    <span>🏰</span>
-                    <span style="color:var(--accent-gold)">1000 💎</span>
+                <div class="gift-chip" onclick="sendLiveGift('🏰 Royal Castle', 1000, '🏰')">
+                    <span class="gift-icon">🏰</span>
+                    <span style="color:var(--neon-gold)">1000 💎</span>
                 </div>
             </div>
+
         </div>
     </div>
 
-    <!-- 2. REELS / SHORTS TAB (TikTok Style) -->
+    <!-- 2. REELS / SHORTS TAB -->
     <div id="view-reels" class="tab-view">
         <div class="reels-container" id="reelsContainer">
             
@@ -821,11 +940,11 @@
                 <div class="reel-sidebar-actions">
                     <div class="action-icon-btn" onclick="toggleReelLike(this)">
                         <span class="like-icon">❤️</span>
-                        <span class="action-cnt">12.4k</span>
+                        <span class="action-cnt">18.4k</span>
                     </div>
                     <div class="action-icon-btn" onclick="openCommentDrawer()">
                         <span>💬</span>
-                        <span class="action-cnt">842</span>
+                        <span class="action-cnt">1.4k</span>
                     </div>
                     <div class="action-icon-btn" onclick="sendLiveGift('🎁 Gift', 100, '🎁')">
                         <span>🎁</span>
@@ -834,7 +953,7 @@
                 </div>
                 <div class="reel-overlay-content">
                     <h4 style="color: #fff;">@path_bhola_pathik</h4>
-                    <p style="font-size: 0.85rem; color: #cbd5e1; margin-top: 4px;">নতুন নেওন ভাইব সোশ্যাল অ্যাপ! 🔥 #FamilyConnect #Trending</p>
+                    <p style="font-size: 0.85rem; color: #cbd5e1; margin-top: 4px;">নতুন নেওন ৩ডি ফিউচারিস্টিক সুপার অ্যাপ! 🔥 #FamilyConnect #Trending</p>
                 </div>
             </div>
 
@@ -843,16 +962,16 @@
                 <div class="reel-sidebar-actions">
                     <div class="action-icon-btn" onclick="toggleReelLike(this)">
                         <span class="like-icon">🤍</span>
-                        <span class="action-cnt">45.2k</span>
+                        <span class="action-cnt">62.8k</span>
                     </div>
                     <div class="action-icon-btn" onclick="openCommentDrawer()">
                         <span>💬</span>
-                        <span class="action-cnt">1.2k</span>
+                        <span class="action-cnt">3.1k</span>
                     </div>
                 </div>
                 <div class="reel-overlay-content">
                     <h4 style="color: #fff;">@ayesha_live</h4>
-                    <p style="font-size: 0.85rem; color: #cbd5e1; margin-top: 4px;">Night vibes and aesthetic views ✨</p>
+                    <p style="font-size: 0.85rem; color: #cbd5e1; margin-top: 4px;">Night 3D Party Vibes ✨</p>
                 </div>
             </div>
 
@@ -863,7 +982,7 @@
     <div id="view-create" class="tab-view">
         <div class="post-page-container">
             <div class="create-post-box">
-                <h3 data-i18n="create_post_head">নতুন পোস্ট তৈরি করুন</h3>
+                <h3 data-i18n="create_post_head">নতুন পোস্ট বা ফটো আপলোড করুন</h3>
                 <textarea id="postTextInput" class="post-input" placeholder="আপনার মনে কি আছে? (What's on your mind?)"></textarea>
                 
                 <div id="mediaPreviewBox" class="media-preview-box">
@@ -871,9 +990,9 @@
                 </div>
 
                 <div class="btn-action-row">
-                    <button class="btn-primary" style="flex:1;" onclick="triggerFilePick()" data-i18n="btn_photo">📷 ছবি যুক্ত করুন</button>
+                    <button class="btn-primary" style="flex:1;" onclick="triggerFilePick()" data-i18n="btn_photo">📷 ছবি বেছে নিন</button>
                     <input type="file" id="hiddenFileInput" accept="image/*" style="display:none;" onchange="handleFileSelect(event)">
-                    <button class="btn-primary" style="flex:1; background: linear-gradient(135deg, #06b6d4, #3b82f6);" onclick="publishUserPost()" data-i18n="btn_publish">পোস্ট প্রকাশ করুন</button>
+                    <button class="btn-primary" style="flex:1; background: linear-gradient(135deg, var(--neon-cyan), #3b82f6);" onclick="publishUserPost()" data-i18n="btn_publish">পোস্ট প্রকাশ করুন</button>
                 </div>
             </div>
 
@@ -887,47 +1006,46 @@
                             <div style="font-size: 0.75rem; color: #94a3b8;">১০ মিনিট আগে</div>
                         </div>
                     </div>
-                    <p style="font-size: 0.9rem; color: #e2e8f0; line-height: 1.5;">ফ্যামিলি কানেক্ট অ্যাপের নতুন আপগ্রেড সবাইকে স্বাগতম! চমৎকার অভিজ্ঞতা উপভোগ করুন। 🎉</p>
+                    <p style="font-size: 0.9rem; color: #e2e8f0; line-height: 1.5;">ফ্যামিলি কানেক্ট ৩ডি নেওন এডিশনে সবাইকে স্বাগতম! চমৎকার অভিজ্ঞতা উপভোগ করুন। 🎉</p>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- 4. CHATS TAB (Telegram Style) -->
+    <!-- 4. CHATS TAB -->
     <div id="view-chats" class="tab-view">
         <div class="chats-view-container">
             <div class="chat-room-header">
-                <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&auto=format&fit=crop&q=60" style="width:40px; height:40px; border-radius:50%;" alt="Chat User">
+                <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&auto=format&fit=crop&q=60" style="width:42px; height:42px; border-radius:50%; border:2px solid var(--neon-purple);" alt="Chat User">
                 <div>
-                    <div style="font-weight: 800; font-size: 0.95rem;">Family VIP Main Chat</div>
-                    <div style="font-size: 0.7rem; color: #4ade80;">● 128 Members Online</div>
+                    <div style="font-weight: 800; font-size: 0.95rem;">Family VIP Main Chat Room</div>
+                    <div style="font-size: 0.72rem; color: #4ade80;">● 256 Members Online</div>
                 </div>
             </div>
 
             <div class="messages-scroll-area" id="messagesScrollArea">
                 <div class="chat-bubble incoming">
-                    <b>তানভীর:</b> সবাইকে স্বাগতম আমাদের অফিসিয়াল চ্যাট রুমে! 🚀
+                    <b>তানভীর:</b> সবাইকে স্বাগতম আমাদের অফিসিয়াল ৩ডি চ্যাট রুমে! 🚀
                 </div>
                 <div class="chat-bubble incoming">
-                    <b>সাদিয়া:</b> আসসালামু আলাইকুম, কেমন আছেন সবাই?
+                    <b>সাদিয়া:</b> আসসালামু আলাইকুম, অ্যাপের নতুন থ্রিডি ডিজাইনটা দারুণ হয়েছে! 😍
                 </div>
                 <div class="chat-bubble outgoing">
-                    আমি ভালো আছি! অ্যাপের নতুন ডিজাইনটা দারুণ হয়েছে।
+                    ধন্যবাদ! নতুন ফিচারগুলো সবার পছন্দ হবে আশা করি।
                 </div>
             </div>
 
             <div class="chat-input-bar">
                 <input type="text" id="directChatMessageInput" placeholder="মেসেজ লিখুন..." onkeypress="if(event.key === 'Enter') sendDirectMessage()">
-                <button class="btn-primary" style="padding: 8px 16px; border-radius: 20px;" onclick="sendDirectMessage()">Send</button>
+                <button class="btn-primary" style="padding: 8px 18px; border-radius: 20px;" onclick="sendDirectMessage()">Send</button>
             </div>
         </div>
     </div>
 
-    <!-- 5. ME / PROFILE TAB (Screenshot Exact Layout) -->
+    <!-- 5. ME / PROFILE TAB (Screenshot Clone) -->
     <div id="view-me" class="tab-view">
         <div class="profile-container">
             
-            <!-- Profile Card -->
             <div class="profile-header-card">
                 <div class="profile-avatar-wrapper">
                     <img id="userAvatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop&q=60" class="profile-avatar" alt="Profile">
@@ -953,36 +1071,34 @@
                 </div>
             </div>
 
-            <!-- Feature Pill Cards Grid -->
             <div class="feature-cards-grid">
-                <div class="feat-card" style="background: rgba(6, 182, 212, 0.15); border-color: rgba(6, 182, 212, 0.35);" onclick="alert('আপনার লেভেল: Lv.25 🏆')">
+                <div class="feat-card" style="background: rgba(6, 182, 212, 0.15); border-color: rgba(6, 182, 212, 0.4);" onclick="alert('আপনার লেভেল: Lv.25 🏆')">
                     <span class="feat-icon">💎</span>
                     <span>Lv.25</span>
                 </div>
-                <div class="feat-card" style="background: rgba(245, 158, 11, 0.15); border-color: rgba(245, 158, 11, 0.35);" onclick="openWalletModal()">
+                <div class="feat-card" style="background: rgba(245, 158, 11, 0.15); border-color: rgba(245, 158, 11, 0.4);" onclick="openWalletModal()">
                     <span class="feat-icon">👑</span>
                     <span data-i18n="feat_vip">Purchase VIP</span>
                 </div>
-                <div class="feat-card" style="background: rgba(236, 72, 153, 0.15); border-color: rgba(236, 72, 153, 0.35);" onclick="alert('Family Clan Level 5 Activated!')">
+                <div class="feat-card" style="background: rgba(236, 72, 153, 0.15); border-color: rgba(236, 72, 153, 0.4);" onclick="alert('Family Clan Level 5 Activated!')">
                     <span class="feat-icon">🦁</span>
                     <span data-i18n="feat_family">Family</span>
                 </div>
-                <div class="feat-card" style="background: rgba(139, 92, 246, 0.15); border-color: rgba(139, 92, 246, 0.35);" onclick="openWalletModal()">
+                <div class="feat-card" style="background: rgba(168, 85, 247, 0.15); border-color: rgba(168, 85, 247, 0.4);" onclick="openWalletModal()">
                     <span class="feat-icon">💰</span>
                     <span data-i18n="feat_earn">Earn Money</span>
                 </div>
             </div>
 
-            <!-- Grouped Settings List -->
             <div class="menu-list-group">
-                <div class="menu-row" onclick="alert('Creator Center Dashboard Loaded')">
+                <div class="menu-row" onclick="alert('Creator Center Dashboard')">
                     <div class="menu-left">
                         <span>📈</span>
                         <span data-i18n="menu_creator">Creator Center</span>
                     </div>
                     <span>›</span>
                 </div>
-                <div class="menu-row" onclick="alert('Event Center: Season 4 Live Contest Active!')">
+                <div class="menu-row" onclick="alert('Event Center Contest Active!')">
                     <div class="menu-left">
                         <span>📢</span>
                         <span data-i18n="menu_event">Event Center</span>
@@ -996,7 +1112,7 @@
                     </div>
                     <span>›</span>
                 </div>
-                <div class="menu-row" onclick="alert('Item Bag: 2 Active Frames Available')">
+                <div class="menu-row" onclick="alert('Item Bag: 2 Active Items')">
                     <div class="menu-left">
                         <span>🧰</span>
                         <span data-i18n="menu_bag">Item Bag</span>
@@ -1010,7 +1126,7 @@
                     </div>
                     <span>›</span>
                 </div>
-                <div class="menu-row" onclick="alert('SVIP Status Active')">
+                <div class="menu-row" onclick="alert('SVIP Activated')">
                     <div class="menu-left">
                         <span>👑</span>
                         <span data-i18n="menu_svip">SVIP</span>
@@ -1038,22 +1154,33 @@
 
 </div>
 
+<!-- Lucky Spin Wheel Modal -->
+<div class="modal-overlay" id="luckyWheelModal">
+    <div class="modal-card" style="text-align: center;">
+        <h3 style="color: var(--neon-gold);">🎡 ডায়মন্ড স্পিন হুইল</h3>
+        <p style="font-size: 0.85rem; color: #94a3b8;">ঘুরিয়ে জিতে নিন ৫০০ পর্যন্ত ডায়মন্ড!</p>
+        <div style="font-size: 4.5rem; margin: 10px 0; animation: spinWheel 6s linear infinite;" id="wheelEmoji">🎡</div>
+        <button class="btn-primary" onclick="spinLuckyWheel()">স্পিন করুন (১০ 💎)</button>
+        <button class="btn-primary" style="background: #334155;" onclick="closeModal('luckyWheelModal')">বন্ধ করুন</button>
+    </div>
+</div>
+
 <!-- Wallet Modal -->
 <div class="modal-overlay" id="walletModal">
     <div class="modal-card">
-        <h3 style="color: var(--accent-gold);" data-i18n="wallet_title">💎 ডায়মন্ড ওয়ালেট ও ক্যাশআউট</h3>
-        <p style="font-size: 0.85rem; color: #94a3b8;">বর্তমান ব্যালেন্স: <b id="modalDiamondCount" style="color: var(--accent-gold);">2315</b> Diamonds</p>
+        <h3 style="color: var(--neon-gold);" data-i18n="wallet_title">💎 ডায়মন্ড ওয়ালেট ও ক্যাশআউট</h3>
+        <p style="font-size: 0.85rem; color: #94a3b8;">বর্তমান ব্যালেন্স: <b id="modalDiamondCount" style="color: var(--neon-gold);">2315</b> Diamonds</p>
         
         <div style="display: flex; flex-direction: column; gap: 10px;">
-            <div style="background: rgba(255,255,255,0.05); padding: 12px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center;">
+            <div style="background: rgba(255,255,255,0.05); padding: 12px; border-radius: 14px; display: flex; justify-content: space-between; align-items: center;">
                 <div>💎 100 Diamonds</div>
                 <button class="btn-primary" style="padding: 6px 14px; font-size: 0.8rem;" onclick="addDiamonds(100)">$0.99</button>
             </div>
-            <div style="background: rgba(255,255,255,0.05); padding: 12px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center;">
+            <div style="background: rgba(255,255,255,0.05); padding: 12px; border-radius: 14px; display: flex; justify-content: space-between; align-items: center;">
                 <div>💎 550 Diamonds</div>
                 <button class="btn-primary" style="padding: 6px 14px; font-size: 0.8rem;" onclick="addDiamonds(550)">$4.99</button>
             </div>
-            <div style="background: rgba(255,255,255,0.05); padding: 12px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center;">
+            <div style="background: rgba(255,255,255,0.05); padding: 12px; border-radius: 14px; display: flex; justify-content: space-between; align-items: center;">
                 <div>💎 1200 Diamonds</div>
                 <button class="btn-primary" style="padding: 6px 14px; font-size: 0.8rem;" onclick="addDiamonds(1200)">$9.99</button>
             </div>
@@ -1062,7 +1189,7 @@
     </div>
 </div>
 
-<!-- Edit Profile Modal -->
+<!-- Profile Edit Modal -->
 <div class="modal-overlay" id="profileEditModal">
     <div class="modal-card">
         <h3>প্রোফাইল নাম ও ছবি পরিবর্তন</h3>
@@ -1074,7 +1201,7 @@
     </div>
 </div>
 
-<!-- Email Security Auth Modal -->
+<!-- Email Security Modal -->
 <div class="modal-overlay" id="authModal">
     <div class="modal-card">
         <h3>ইমেইল লগইন ও সিকিউরিটি</h3>
@@ -1111,12 +1238,22 @@
 </nav>
 
 <script>
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js').catch(err => console.log('SW reg failed', err));
+    }
+
     let userDiamonds = 2315;
     let selectedPostImageBase64 = '';
     let selectedProfileImageBase64 = '';
     let isWebcamActive = false;
 
-    // Translations
+    // Trigger VIP entrance banner automatically on load
+    setTimeout(() => {
+        const banner = document.getElementById('vipEntranceBanner');
+        banner.classList.add('show');
+        setTimeout(() => banner.classList.remove('show'), 3500);
+    }, 1500);
+
     const i18n = {
         bn: {
             nav_live: "Live", nav_reels: "Party", nav_chats: "Chats", nav_me: "Me",
@@ -1124,7 +1261,7 @@
             feat_vip: "Purchase VIP", feat_family: "Family", feat_earn: "Earn Money",
             menu_creator: "Creator Center", menu_event: "Event Center", menu_wallet: "Wallet",
             menu_bag: "Item Bag", menu_post: "Post", menu_svip: "SVIP", menu_task: "Task Center", menu_security: "Security",
-            create_post_head: "নতুন পোস্ট তৈরি করুন", btn_photo: "📷 ছবি যুক্ত করুন", btn_publish: "পোস্ট প্রকাশ করুন", recent_feed: "সাম্প্রতিক পোস্ট ফিড", wallet_title: "💎 ডায়মন্ড ওয়ালেট ও ক্যাশআউট"
+            create_post_head: "নতুন পোস্ট তৈরি করুন", btn_photo: "📷 ছবি বেছে নিন", btn_publish: "পোস্ট প্রকাশ করুন", recent_feed: "সাম্প্রতিক পোস্ট ফিড", wallet_title: "💎 ডায়মন্ড ওয়ালেট ও ক্যাশআউট"
         },
         en: {
             nav_live: "Live", nav_reels: "Party", nav_chats: "Chats", nav_me: "Me",
@@ -1132,7 +1269,7 @@
             feat_vip: "Purchase VIP", feat_family: "Family", feat_earn: "Earn Money",
             menu_creator: "Creator Center", menu_event: "Event Center", menu_wallet: "Wallet",
             menu_bag: "Item Bag", menu_post: "Post", menu_svip: "SVIP", menu_task: "Task Center", menu_security: "Security",
-            create_post_head: "Create New Post", btn_photo: "📷 Add Photo", btn_publish: "Publish Post", recent_feed: "Recent Feed", wallet_title: "💎 Diamond Wallet"
+            create_post_head: "Create New Post", btn_photo: "📷 Select Photo", btn_publish: "Publish Post", recent_feed: "Recent Feed", wallet_title: "💎 Diamond Wallet"
         },
         ar: {
             nav_live: "مباشر", nav_reels: "حفلة", nav_chats: "الدردشات", nav_me: "أنا",
@@ -1140,7 +1277,7 @@
             feat_vip: "شراء VIP", feat_family: "العائلة", feat_earn: "كسب المال",
             menu_creator: "مركز المبدعين", menu_event: "مركز الفعاليات", menu_wallet: "المحفظة",
             menu_bag: "حقيبة العناصر", menu_post: "منشور", menu_svip: "SVIP", menu_task: "مركز المهام", menu_security: "الأمان",
-            create_post_head: "إنشاء منشور جديد", btn_photo: "📷 إضافة صورة", btn_publish: "نشر المنشور", recent_feed: "المنشورات الحديثة", wallet_title: "💎 محفظة الألماس"
+            create_post_head: "إنشاء منشور جديد", btn_photo: "📷 اختيار صورة", btn_publish: "نشر المنشور", recent_feed: "المنشورات الحديثة", wallet_title: "💎 محفظة الألماس"
         }
     };
 
@@ -1161,7 +1298,7 @@
         });
     }
 
-    // Dynamic Stream Canvas Background Animation
+    // Advanced 3D Neon Stage Canvas Renderer
     const canvas = document.getElementById('liveCanvasSim');
     const ctx = canvas.getContext('2d');
     function resizeCanvas() {
@@ -1172,30 +1309,47 @@
     resizeCanvas();
 
     let step = 0;
-    function renderStreamSim() {
+    function render3DStage() {
         if (!isWebcamActive && canvas.width > 0) {
-            step += 0.02;
-            const g = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-            g.addColorStop(0, `hsl(${Math.sin(step) * 60 + 240}, 70%, 15%)`);
-            g.addColorStop(1, `hsl(${Math.cos(step) * 60 + 320}, 80%, 10%)`);
+            step += 0.025;
+            const cx = canvas.width / 2;
+            const cy = canvas.height / 2;
+
+            // Deep 3D Radial Background
+            const g = ctx.createRadialGradient(cx, cy, 50, cx, cy, canvas.height);
+            g.addColorStop(0, `hsl(${Math.sin(step) * 50 + 270}, 85%, 22%)`);
+            g.addColorStop(0.5, `hsl(${Math.cos(step * 0.7) * 50 + 320}, 75%, 12%)`);
+            g.addColorStop(1, '#05070f');
             ctx.fillStyle = g;
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // Floating Light Particles
-            ctx.fillStyle = "rgba(255, 255, 255, 0.15)";
-            for (let i = 0; i < 15; i++) {
-                let x = (Math.sin(step + i) * 0.5 + 0.5) * canvas.width;
-                let y = (Math.cos(step * 0.8 + i) * 0.5 + 0.5) * canvas.height;
+            // Glowing 3D Stage Rings
+            ctx.strokeStyle = "rgba(168, 85, 247, 0.25)";
+            ctx.lineWidth = 3;
+            for (let r = 1; r <= 4; r++) {
+                let radius = (Math.sin(step + r) * 20 + r * 60);
                 ctx.beginPath();
-                ctx.arc(x, y, (i % 5) * 4 + 2, 0, Math.PI * 2);
+                ctx.arc(cx, cy - 20, radius, 0, Math.PI * 2);
+                ctx.stroke();
+            }
+
+            // Floating 3D Glowing Particles
+            for (let i = 0; i < 25; i++) {
+                let px = (Math.sin(step * 0.6 + i * 2) * 0.45 + 0.5) * canvas.width;
+                let py = (Math.cos(step * 0.8 + i * 1.5) * 0.45 + 0.5) * canvas.height;
+                let size = (Math.sin(step + i) * 3 + 4);
+                
+                ctx.fillStyle = i % 2 === 0 ? "rgba(236, 72, 153, 0.4)" : "rgba(6, 182, 212, 0.4)";
+                ctx.beginPath();
+                ctx.arc(px, py, size, 0, Math.PI * 2);
                 ctx.fill();
             }
         }
-        requestAnimationFrame(renderStreamSim);
+        requestAnimationFrame(render3DStage);
     }
-    renderStreamSim();
+    render3DStage();
 
-    // Real Webcam Stream Toggle
+    // Webcam toggle
     async function toggleCameraStream() {
         const videoEl = document.getElementById('webcamStream');
         const canvasEl = document.getElementById('liveCanvasSim');
@@ -1206,9 +1360,9 @@
                 videoEl.style.display = 'block';
                 canvasEl.style.display = 'none';
                 isWebcamActive = true;
-                alert('আপনার ফোনের ক্যামেরা সরাসরি লাইভ স্ট্রিমে সংযুক্ত হয়েছে!');
+                alert('আপনার ফোনের ক্যামেরা সরাসরি ৩ডি স্ট্রিমে সক্রিয় হয়েছে!');
             } catch(e) {
-                alert('ক্যামেরা সক্রিয় করা সম্ভব হয়নি। ভার্চুয়াল অ্যানিমেটেড স্ট্রিম চালু রয়েছে।');
+                alert('ক্যামেরা সক্রিয় করা সম্ভব হয়নি। ভার্চুয়াল ৩ডি নিওন স্ট্রিম চালু আছে।');
             }
         } else {
             videoEl.style.display = 'none';
@@ -1217,21 +1371,31 @@
         }
     }
 
-    // Gift Sending with Sound & Animation
+    // 3D Fullscreen Gift Animation & Screen Glow FX
     function sendLiveGift(name, cost, emoji) {
         if (userDiamonds >= cost) {
             userDiamonds -= cost;
             updateDiamondDisplays();
 
-            const popup = document.getElementById('giftPopupCanvas');
-            popup.innerText = emoji;
-            popup.style.display = 'block';
-            setTimeout(() => { popup.style.display = 'none'; }, 1400);
+            // Mega Gift Animation
+            const giftAnim = document.getElementById('megaGiftAnim');
+            giftAnim.innerText = emoji;
+            giftAnim.style.display = 'block';
+
+            // Screen Glow FX
+            const fx = document.getElementById('screenFxOverlay');
+            fx.style.background = cost >= 500 ? 'radial-gradient(circle, rgba(245, 158, 11, 0.4) 0%, transparent 80%)' : 'radial-gradient(circle, rgba(236, 72, 153, 0.4) 0%, transparent 80%)';
+            fx.style.opacity = '1';
+
+            setTimeout(() => {
+                giftAnim.style.display = 'none';
+                fx.style.opacity = '0';
+            }, 1800);
 
             const overlay = document.getElementById('liveChatOverlay');
             const newMsg = document.createElement('div');
             newMsg.className = 'chat-bubble-live';
-            newMsg.innerHTML = `<b>You:</b> Sent ${name} ${emoji}! 🎉`;
+            newMsg.innerHTML = `<b>You:</b> Sent Mega ${name} ${emoji}! 🌟`;
             overlay.appendChild(newMsg);
             overlay.scrollTop = overlay.scrollHeight;
         } else {
@@ -1242,7 +1406,7 @@
     function addDiamonds(amount) {
         userDiamonds += amount;
         updateDiamondDisplays();
-        alert(`সফলভাবে ${amount} ডায়মন্ড যোগ হয়েছে! 💎`);
+        alert(`সফলভাবে ${amount} ডায়মন্ড ওয়ালেটে যোগ হয়েছে! 💎`);
     }
 
     function updateDiamondDisplays() {
@@ -1250,7 +1414,22 @@
         document.getElementById('modalDiamondCount').innerText = userDiamonds;
     }
 
-    // Post Creator logic
+    function openLuckyWheelModal() { document.getElementById('luckyWheelModal').style.display = 'flex'; }
+    function spinLuckyWheel() {
+        if (userDiamonds >= 10) {
+            userDiamonds -= 10;
+            updateDiamondDisplays();
+            const rewards = [50, 100, 200, 500];
+            const prize = rewards[Math.floor(Math.random() * rewards.length)];
+            userDiamonds += prize;
+            updateDiamondDisplays();
+            alert(`🎉 অভিনন্দন্‌! আপনি পেয়ে গেছেন ${prize} ডায়মন্ড!`);
+            closeModal('luckyWheelModal');
+        } else {
+            alert('স্পিনের জন্য ন্যূনতম ১০ ডায়মন্ড প্রয়োজন!');
+        }
+    }
+
     function triggerFilePick() { document.getElementById('hiddenFileInput').click(); }
     function handleFileSelect(e) {
         const file = e.target.files[0];
@@ -1281,7 +1460,7 @@
                 </div>
             </div>
             ${txt ? `<p style="font-size: 0.9rem; color: #e2e8f0; line-height: 1.5;">${txt}</p>` : ''}
-            ${selectedPostImageBase64 ? `<img src="${selectedPostImageBase64}" style="width:100%; border-radius:12px; margin-top:8px;">` : ''}
+            ${selectedPostImageBase64 ? `<img src="${selectedPostImageBase64}" style="width:100%; border-radius:14px; margin-top:8px;">` : ''}
         `;
         feed.prepend(card);
         document.getElementById('postTextInput').value = '';
@@ -1290,7 +1469,6 @@
         alert('আপনার পোস্ট সফলভাবে প্রকাশিত হয়েছে!');
     }
 
-    // Direct Messages
     function sendDirectMessage() {
         const inp = document.getElementById('directChatMessageInput');
         const text = inp.value.trim();
@@ -1305,7 +1483,6 @@
         inp.value = '';
         area.scrollTop = area.scrollHeight;
 
-        // Auto simulated reply
         setTimeout(() => {
             const inc = document.createElement('div');
             inc.className = 'chat-bubble incoming';
@@ -1315,7 +1492,6 @@
         }, 1200);
     }
 
-    // Profile Modals
     function openWalletModal() { document.getElementById('walletModal').style.display = 'flex'; }
     function openProfileEditModal() { document.getElementById('profileEditModal').style.display = 'flex'; }
     function openAuthModal() { document.getElementById('authModal').style.display = 'flex'; }
@@ -1348,7 +1524,7 @@
             document.getElementById('liveHostAvatar').src = url;
         }
         closeModal('profileEditModal');
-        alert('প্রোফাইল আপডেট সম্পন্ন হয়েছে!');
+        alert('প্রোফাইল নাম ও ছবি সেভ হয়েছে!');
     }
 
     function toggleReelLike(el) {
@@ -1357,7 +1533,7 @@
     }
 
     function openCommentDrawer() {
-        alert('কমেন্টবক্স ওপেন হয়েছে! আপনি ভিডিওতে কমেন্ট করতে পারেন।');
+        alert('কমেন্ট সেকশন সক্রিয় হয়েছে!');
     }
 </script>
 </body>
