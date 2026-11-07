@@ -47,7 +47,6 @@
                 radial-gradient(circle at 50% 50%, rgba(127, 0, 255, 0.15) 0%, transparent 60%);
         }
 
-        /* Bigo Live Style Header */
         header {
             height: 62px;
             background: var(--panel-bg);
@@ -109,7 +108,6 @@
             cursor: pointer;
         }
 
-        /* App Body Container */
         .app-body {
             flex: 1;
             position: relative;
@@ -131,7 +129,6 @@
             flex-direction: column;
         }
 
-        /* 1. BIGO STYLE LIVE PK & STAGE VIEW */
         .live-stage {
             flex: 1;
             background: #000;
@@ -143,7 +140,6 @@
             overflow: hidden;
         }
 
-        /* PK Battle Layout Split View */
         .pk-stage-container {
             width: 100%;
             height: 100%;
@@ -167,7 +163,6 @@
             top: 0; left: 0;
         }
 
-        /* PK Battle Progress Bar Header Overlay */
         .pk-battle-bar-box {
             position: absolute;
             top: 70px;
@@ -228,7 +223,6 @@
 
         @keyframes vsPulse { 0% { transform: translateX(-50%) scale(1); } 100% { transform: translateX(-50%) scale(1.15); } }
 
-        /* Fullscreen Screen Glow Effect for Mega Gifts */
         .screen-fx-overlay {
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -258,7 +252,6 @@
             100% { opacity: 0; transform: translate(-50%, -120px) scale(0.8) rotate(0deg); }
         }
 
-        /* Floating VIP Entrance Banner */
         .vip-entrance-banner {
             position: absolute;
             top: 112px;
@@ -284,7 +277,6 @@
             transform: translateX(-50%) translateY(0);
         }
 
-        /* Level Up Alert Banner */
         .level-up-banner {
             position: absolute;
             top: 160px;
@@ -309,7 +301,6 @@
             transform: translateX(-50%) scale(1);
         }
 
-        /* Top Host Bar & Leaderboard */
         .live-header-bar {
             position: absolute;
             top: 12px;
@@ -381,7 +372,6 @@
             box-shadow: 0 0 14px rgba(0, 242, 254, 0.5);
         }
 
-        /* AR Filters Quick Floating Panel */
         .ar-filter-bar {
             position: absolute;
             right: 14px;
@@ -410,7 +400,6 @@
 
         .ar-btn:active { transform: scale(0.85); }
 
-        /* DJ Soundboard Quick Bar */
         .soundboard-drawer {
             position: absolute;
             left: 14px;
@@ -439,7 +428,6 @@
 
         .snd-btn:active { transform: scale(0.92); }
 
-        /* Floating Glassmorphism Chat Overlay */
         .live-chat-overlay {
             position: absolute;
             bottom: 85px;
@@ -474,7 +462,6 @@
 
         @keyframes slideUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Bigo Neon Gift Action Bar */
         .gift-action-bar {
             position: absolute;
             bottom: 12px;
@@ -507,7 +494,6 @@
         .gift-chip:active { transform: scale(0.9); border-color: var(--bigo-gold); }
         .gift-icon { font-size: 1.5rem; filter: drop-shadow(0 0 8px rgba(255,255,255,0.4)); }
 
-        /* 2. MULTI-GUEST PARTY VOICE ROOM TAB */
         .party-room-container {
             flex: 1;
             padding: 16px;
@@ -573,7 +559,6 @@
             font-size: 0.7rem;
         }
 
-        /* 3. REELS / SHORTS VIEW */
         .reels-container {
             flex: 1;
             height: 100%;
@@ -642,7 +627,6 @@
         .action-icon-btn:active { transform: scale(0.85); }
         .action-cnt { font-size: 0.65rem; color: #cbd5e1; font-weight: 700; margin-top: 2px; }
 
-        /* 4. POST CREATOR TAB */
         .post-page-container {
             padding: 16px;
             display: flex;
@@ -733,7 +717,6 @@
             border: 2px solid var(--bigo-pink);
         }
 
-        /* 5. CHATS TAB */
         .chats-view-container {
             display: flex;
             flex-direction: column;
@@ -809,7 +792,6 @@
             user-select: text;
         }
 
-        /* 6. ME / PROFILE TAB (Screenshot Clone) */
         .profile-container {
             padding: 16px;
             display: flex;
@@ -941,7 +923,6 @@
         .menu-row:last-child { border-bottom: none; }
         .menu-left { display: flex; align-items: center; gap: 14px; }
 
-        /* Modals & Overlays */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -979,7 +960,6 @@
             user-select: text;
         }
 
-        /* Bottom Nav Bar */
         nav.bottom-nav {
             height: var(--nav-height);
             background: var(--panel-bg);
@@ -1031,21 +1011,17 @@
 </head>
 <body>
 
-<!-- Fullscreen FX Container -->
 <div id="screenFxOverlay" class="screen-fx-overlay"></div>
 <div id="megaGiftAnim" class="mega-gift-anim">🚀</div>
 
-<!-- VIP Entrance Banner -->
 <div id="vipEntranceBanner" class="vip-entrance-banner">
     👑 VIP সাগর সিস্টেমে প্রবেশ করেছেন!
 </div>
 
-<!-- Level Up Alert Banner -->
 <div id="levelUpBanner" class="level-up-banner">
     🎉 Level Up! You are now Lv.26!
 </div>
 
-<!-- Header Bar -->
 <header>
     <div class="brand-logo">
         ✨ Bigo Family Live
@@ -1066,14 +1042,9 @@
     </div>
 </header>
 
-<!-- App Main Body -->
 <div class="app-body">
-    
-    <!-- 1. BIGO STYLE LIVE PK BATTLE STAGE -->
     <div id="view-live" class="tab-view active">
         <div class="live-stage">
-            
-            <!-- PK Battle Split Screen -->
             <div class="pk-stage-container">
                 <div class="pk-screen-left">
                     <canvas id="liveCanvasSimLeft" class="live-video-sim"></canvas>
@@ -1091,7 +1062,6 @@
                 </div>
             </div>
 
-            <!-- PK Battle Progress Bar Header Overlay -->
             <div class="pk-battle-bar-box">
                 <div class="pk-bar-blue" id="pkBarBlue" style="width: 55%;">
                     <span id="blueScoreText">14,250</span>
@@ -1102,7 +1072,6 @@
                 </div>
             </div>
 
-            <!-- AR Filters Quick Floating Panel -->
             <div class="ar-filter-bar">
                 <div class="ar-btn" onclick="applyArFilter('👑')" title="Crown Filter">👑</div>
                 <div class="ar-btn" onclick="applyArFilter('🐱')" title="Cat Ears Filter">🐱</div>
@@ -1110,14 +1079,12 @@
                 <div class="ar-btn" onclick="applyArFilter('🕶️')" title="Cool Glasses">🕶️</div>
             </div>
 
-            <!-- DJ Soundboard Drawer -->
             <div class="soundboard-drawer">
                 <div class="snd-btn" onclick="playEffectSound('👏 Applause')">👏 Clap</div>
                 <div class="snd-btn" onclick="playEffectSound('🎉 Cheers')">🎉 Cheer</div>
                 <div class="snd-btn" onclick="playEffectSound('🥁 Drum Roll')">🥁 Drum</div>
             </div>
 
-            <!-- Header Host Info & Top Donor Leaderboard -->
             <div class="live-header-bar">
                 <div class="host-info">
                     <div class="host-avatar-box">
@@ -1137,7 +1104,6 @@
                 </div>
             </div>
 
-            <!-- Floating Glassmorphism Chat Overlay -->
             <div class="live-chat-overlay" id="liveChatOverlay">
                 <div class="chat-bubble-live">
                     <span style="color:var(--bigo-cyan)">⚡ PK Live:</span> বিগো স্টাইলের PK ব্যাটল শুরু হয়েছে! আপনার প্রিয় টিমকে সাপোর্ট করুন! 🔥
@@ -1150,7 +1116,6 @@
                 </div>
             </div>
 
-            <!-- Bigo Style Gift Bar -->
             <div class="gift-action-bar">
                 <div class="gift-chip" onclick="sendLiveGift('🌹 Rose', 10, '🌹', 'blue')">
                     <span class="gift-icon">🌹</span>
@@ -1173,11 +1138,9 @@
                     <span style="color:var(--bigo-cyan)">Blue +1000</span>
                 </div>
             </div>
-
         </div>
     </div>
 
-    <!-- 2. MULTI-GUEST PARTY VOICE ROOM TAB -->
     <div id="view-party" class="tab-view">
         <div class="party-room-container">
             <div class="party-room-header-card">
@@ -1199,103 +1162,57 @@
                     <span style="font-size: 0.75rem; font-weight: 800;">Sagar VIP</span>
                     <span class="mic-badge">🎙️ On</span>
                 </div>
-                <div class="seat-card" onclick="claimSeat(3)">
-                    <span style="font-size: 1.8rem; color: var(--bigo-cyan);">+</span>
-                    <span style="font-size: 0.72rem; color: #94a3b8;">Seat 3</span>
-                </div>
-                <div class="seat-card" onclick="claimSeat(4)">
-                    <span style="font-size: 1.8rem; color: var(--bigo-cyan);">+</span>
-                    <span style="font-size: 0.72rem; color: #94a3b8;">Seat 4</span>
-                </div>
-                <div class="seat-card" onclick="claimSeat(5)">
-                    <span style="font-size: 1.8rem; color: var(--bigo-cyan);">+</span>
-                    <span style="font-size: 0.72rem; color: #94a3b8;">Seat 5</span>
-                </div>
-                <div class="seat-card" onclick="claimSeat(6)">
-                    <span style="font-size: 1.8rem; color: var(--bigo-cyan);">+</span>
-                    <span style="font-size: 0.72rem; color: #94a3b8;">Seat 6</span>
-                </div>
-                <div class="seat-card" onclick="claimSeat(7)">
-                    <span style="font-size: 1.8rem; color: var(--bigo-cyan);">+</span>
-                    <span style="font-size: 0.72rem; color: #94a3b8;">Seat 7</span>
-                </div>
-                <div class="seat-card" onclick="claimSeat(8)">
-                    <span style="font-size: 1.8rem; color: var(--bigo-cyan);">+</span>
-                    <span style="font-size: 0.72rem; color: #94a3b8;">Seat 8</span>
-                </div>
-                <div class="seat-card" onclick="claimSeat(9)">
-                    <span style="font-size: 1.8rem; color: var(--bigo-cyan);">+</span>
-                    <span style="font-size: 0.72rem; color: #94a3b8;">Seat 9</span>
-                </div>
+                <div class="seat-card" onclick="claimSeat(3)"><span style="font-size: 1.8rem; color: var(--bigo-cyan);">+</span><span style="font-size: 0.72rem; color: #94a3b8;">Seat 3</span></div>
+                <div class="seat-card" onclick="claimSeat(4)"><span style="font-size: 1.8rem; color: var(--bigo-cyan);">+</span><span style="font-size: 0.72rem; color: #94a3b8;">Seat 4</span></div>
+                <div class="seat-card" onclick="claimSeat(5)"><span style="font-size: 1.8rem; color: var(--bigo-cyan);">+</span><span style="font-size: 0.72rem; color: #94a3b8;">Seat 5</span></div>
+                <div class="seat-card" onclick="claimSeat(6)"><span style="font-size: 1.8rem; color: var(--bigo-cyan);">+</span><span style="font-size: 0.72rem; color: #94a3b8;">Seat 6</span></div>
+                <div class="seat-card" onclick="claimSeat(7)"><span style="font-size: 1.8rem; color: var(--bigo-cyan);">+</span><span style="font-size: 0.72rem; color: #94a3b8;">Seat 7</span></div>
+                <div class="seat-card" onclick="claimSeat(8)"><span style="font-size: 1.8rem; color: var(--bigo-cyan);">+</span><span style="font-size: 0.72rem; color: #94a3b8;">Seat 8</span></div>
+                <div class="seat-card" onclick="claimSeat(9)"><span style="font-size: 1.8rem; color: var(--bigo-cyan);">+</span><span style="font-size: 0.72rem; color: #94a3b8;">Seat 9</span></div>
             </div>
         </div>
     </div>
 
-    <!-- 3. REELS / SHORTS TAB -->
     <div id="view-reels" class="tab-view">
         <div class="reels-container" id="reelsContainer">
-            
             <div class="reel-card">
                 <video class="reel-video-element" loop muted autoplay src="https://assets.mixkit.co/videos/preview/mixkit-girl-in-neon-sign-lighting-1232-large.mp4"></video>
                 <div class="reel-sidebar-actions">
-                    <div class="action-icon-btn" onclick="toggleReelLike(this)">
-                        <span class="like-icon">❤️</span>
-                        <span class="action-cnt">24.8k</span>
-                    </div>
-                    <div class="action-icon-btn" onclick="openCommentDrawer()">
-                        <span>💬</span>
-                        <span class="action-cnt">2.1k</span>
-                    </div>
-                    <div class="action-icon-btn" onclick="sendLiveGift('🎁 Gift', 100, '🎁', 'blue')">
-                        <span>🎁</span>
-                        <span class="action-cnt">Gift</span>
-                    </div>
+                    <div class="action-icon-btn" onclick="toggleReelLike(this)"><span class="like-icon">❤️</span><span class="action-cnt">24.8k</span></div>
+                    <div class="action-icon-btn" onclick="openCommentDrawer()"><span>💬</span><span class="action-cnt">2.1k</span></div>
+                    <div class="action-icon-btn" onclick="sendLiveGift('🎁 Gift', 100, '🎁', 'blue')"><span>🎁</span><span class="action-cnt">Gift</span></div>
                 </div>
                 <div class="reel-overlay-content">
                     <h4 style="color: #fff;">@path_bhola_pathik</h4>
                     <p style="font-size: 0.85rem; color: #cbd5e1; margin-top: 4px;">বিগো লাইভ স্টাইলের আল্ট্রা ফিচারস সোশ্যাল অ্যাপ! 🔥 #FamilyConnect #BigoLive</p>
                 </div>
             </div>
-
             <div class="reel-card">
                 <video class="reel-video-element" loop muted autoplay src="https://assets.mixkit.co/videos/preview/mixkit-night-sky-with-stars-and-a-nebula-42795-large.mp4"></video>
                 <div class="reel-sidebar-actions">
-                    <div class="action-icon-btn" onclick="toggleReelLike(this)">
-                        <span class="like-icon">🤍</span>
-                        <span class="action-cnt">84.2k</span>
-                    </div>
-                    <div class="action-icon-btn" onclick="openCommentDrawer()">
-                        <span>💬</span>
-                        <span class="action-cnt">4.9k</span>
-                    </div>
+                    <div class="action-icon-btn" onclick="toggleReelLike(this)"><span class="like-icon">🤍</span><span class="action-cnt">84.2k</span></div>
+                    <div class="action-icon-btn" onclick="openCommentDrawer()"><span>💬</span><span class="action-cnt">4.9k</span></div>
                 </div>
                 <div class="reel-overlay-content">
                     <h4 style="color: #fff;">@ayesha_live</h4>
                     <p style="font-size: 0.85rem; color: #cbd5e1; margin-top: 4px;">Bigo Style PK Battle Party ✨</p>
                 </div>
             </div>
-
         </div>
     </div>
 
-    <!-- 4. POST CREATOR TAB -->
     <div id="view-create" class="tab-view">
         <div class="post-page-container">
             <div class="create-post-box">
                 <h3 data-i18n="create_post_head">নতুন পোস্ট বা ফটো আপলোড করুন</h3>
                 <textarea id="postTextInput" class="post-input" placeholder="আপনার মনে কি আছে? (What's on your mind?)"></textarea>
-                
-                <div id="mediaPreviewBox" class="media-preview-box">
-                    <img id="mediaPreviewImg" src="" alt="Preview">
-                </div>
-
+                <div id="mediaPreviewBox" class="media-preview-box"><img id="mediaPreviewImg" src="" alt="Preview"></div>
                 <div class="btn-action-row">
                     <button class="btn-primary" style="flex:1;" onclick="triggerFilePick()" data-i18n="btn_photo">📷 ছবি বেছে নিন</button>
                     <input type="file" id="hiddenFileInput" accept="image/*" style="display:none;" onchange="handleFileSelect(event)">
                     <button class="btn-primary" style="flex:1; background: linear-gradient(135deg, var(--bigo-cyan), #3b82f6);" onclick="publishUserPost()" data-i18n="btn_publish">পোস্ট প্রকাশ করুন</button>
                 </div>
             </div>
-
             <h4 style="color: var(--text-secondary); margin-top: 10px;" data-i18n="recent_feed">সাম্প্রতিক পোস্ট ফিড</h4>
             <div class="posts-feed-list" id="postsFeedList">
                 <div class="post-card-item">
@@ -1312,7 +1229,6 @@
         </div>
     </div>
 
-    <!-- 5. CHATS TAB -->
     <div id="view-chats" class="tab-view">
         <div class="chats-view-container">
             <div class="chat-room-header">
@@ -1322,19 +1238,11 @@
                     <div style="font-size: 0.72rem; color: #4ade80;">● 512 Members Online</div>
                 </div>
             </div>
-
             <div class="messages-scroll-area" id="messagesScrollArea">
-                <div class="chat-bubble incoming">
-                    <b>তানভীর:</b> সবাইকে স্বাগতম আমাদের নতুন বিগো স্টাইলের প্রজেক্টে! 🚀
-                </div>
-                <div class="chat-bubble incoming">
-                    <b>সাদিয়া:</b> আসসালামু আলাইকুম, PK Battle ফিচারটা জটিল হয়েছে! 😍
-                </div>
-                <div class="chat-bubble outgoing">
-                    ধন্যবাদ! অ্যাপটির সব ফিচার দারুণভাবে কাজ করছে।
-                </div>
+                <div class="chat-bubble incoming"><b>তানভীর:</b> সবাইকে স্বাগতম আমাদের নতুন বিগো স্টাইলের প্রজেক্টে! 🚀</div>
+                <div class="chat-bubble incoming"><b>সাদিয়া:</b> আসসালামু আলাইকুম, PK Battle ফিচারটা জটিল হয়েছে! 😍</div>
+                <div class="chat-bubble outgoing">ধন্যবাদ! অ্যাপটির সব ফিচার দারুণভাবে কাজ করছে।</div>
             </div>
-
             <div class="chat-input-bar">
                 <input type="text" id="directChatMessageInput" placeholder="মেসেজ লিখুন..." onkeypress="if(event.key === 'Enter') sendDirectMessage()">
                 <button class="btn-primary" style="padding: 8px 18px; border-radius: 20px;" onclick="sendDirectMessage()">Send</button>
@@ -1342,143 +1250,59 @@
         </div>
     </div>
 
-    <!-- 6. ME / PROFILE TAB (Screenshot Clone) -->
     <div id="view-me" class="tab-view">
         <div class="profile-container">
-            
             <div class="profile-header-card">
                 <div class="profile-avatar-wrapper">
                     <img id="userAvatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop&q=60" class="profile-avatar" alt="Profile">
                     <div class="edit-avatar-badge" onclick="openProfileEditModal()">✏️</div>
                 </div>
-                <div class="profile-name">
-                    <span id="userNameDisplay">🎭 পথ ভোলা পথিক 🎭</span>
-                </div>
-
+                <div class="profile-name"><span id="userNameDisplay">🎭 পথ ভোলা পথিক 🎭</span></div>
                 <div class="stats-row">
-                    <div class="stat-item" onclick="alert('Friends list')">
-                        <span class="stat-val">49</span>
-                        <span class="stat-lbl" data-i18n="stat_friends">Friends</span>
-                    </div>
-                    <div class="stat-item" onclick="alert('Following list')">
-                        <span class="stat-val">49</span>
-                        <span class="stat-lbl" data-i18n="stat_following">Following</span>
-                    </div>
-                    <div class="stat-item" onclick="alert('Fans count')">
-                        <span class="stat-val">2315</span>
-                        <span class="stat-lbl" data-i18n="stat_fans">Fans</span>
-                    </div>
+                    <div class="stat-item" onclick="alert('Friends list')"><span class="stat-val">49</span><span class="stat-lbl" data-i18n="stat_friends">Friends</span></div>
+                    <div class="stat-item" onclick="alert('Following list')"><span class="stat-val">49</span><span class="stat-lbl" data-i18n="stat_following">Following</span></div>
+                    <div class="stat-item" onclick="alert('Fans count')"><span class="stat-val">2315</span><span class="stat-lbl" data-i18n="stat_fans">Fans</span></div>
                 </div>
             </div>
-
             <div class="feature-cards-grid">
-                <div class="feat-card" style="background: rgba(0, 242, 254, 0.15); border-color: rgba(0, 242, 254, 0.4);" onclick="triggerLevelUpAnim()">
-                    <span class="feat-icon">💎</span>
-                    <span>Lv.26</span>
-                </div>
-                <div class="feat-card" style="background: rgba(255, 177, 0, 0.15); border-color: rgba(255, 177, 0, 0.4);" onclick="openWalletModal()">
-                    <span class="feat-icon">👑</span>
-                    <span data-i18n="feat_vip">Purchase VIP</span>
-                </div>
-                <div class="feat-card" style="background: rgba(255, 8, 68, 0.15); border-color: rgba(255, 8, 68, 0.4);" onclick="alert('Family Clan Level 5 Active!')">
-                    <span class="feat-icon">🦁</span>
-                    <span data-i18n="feat_family">Family</span>
-                </div>
-                <div class="feat-card" style="background: rgba(127, 0, 255, 0.15); border-color: rgba(127, 0, 255, 0.4);" onclick="openWalletModal()">
-                    <span class="feat-icon">💰</span>
-                    <span data-i18n="feat_earn">Earn Money</span>
-                </div>
+                <div class="feat-card" style="background: rgba(0, 242, 254, 0.15); border-color: rgba(0, 242, 254, 0.4);" onclick="triggerLevelUpAnim()"><span class="feat-icon">💎</span><span>Lv.26</span></div>
+                <div class="feat-card" style="background: rgba(255, 177, 0, 0.15); border-color: rgba(255, 177, 0, 0.4);" onclick="openWalletModal()"><span class="feat-icon">👑</span><span data-i18n="feat_vip">Purchase VIP</span></div>
+                <div class="feat-card" style="background: rgba(255, 8, 68, 0.15); border-color: rgba(255, 8, 68, 0.4);" onclick="alert('Family Clan Level 5 Active!')"><span class="feat-icon">🦁</span><span data-i18n="feat_family">Family</span></div>
+                <div class="feat-card" style="background: rgba(127, 0, 255, 0.15); border-color: rgba(127, 0, 255, 0.4);" onclick="openWalletModal()"><span class="feat-icon">💰</span><span data-i18n="feat_earn">Earn Money</span></div>
             </div>
-
             <div class="menu-list-group">
-                <div class="menu-row" onclick="alert('Creator Center Dashboard')">
-                    <div class="menu-left">
-                        <span>📈</span>
-                        <span data-i18n="menu_creator">Creator Center</span>
-                    </div>
-                    <span>›</span>
-                </div>
-                <div class="menu-row" onclick="alert('Event Center Contest Active!')">
-                    <div class="menu-left">
-                        <span>📢</span>
-                        <span data-i18n="menu_event">Event Center</span>
-                    </div>
-                    <span>›</span>
-                </div>
-                <div class="menu-row" onclick="openWalletModal()">
-                    <div class="menu-left">
-                        <span>💰</span>
-                        <span data-i18n="menu_wallet">Wallet</span>
-                    </div>
-                    <span>›</span>
-                </div>
-                <div class="menu-row" onclick="alert('Item Bag: 2 Active Items')">
-                    <div class="menu-left">
-                        <span>🧰</span>
-                        <span data-i18n="menu_bag">Item Bag</span>
-                    </div>
-                    <span style="color: var(--text-secondary); font-size: 0.8rem;">2 ›</span>
-                </div>
-                <div class="menu-row" onclick="switchNav('create', document.querySelectorAll('.nav-btn')[3])">
-                    <div class="menu-left">
-                        <span>📝</span>
-                        <span data-i18n="menu_post">Post</span>
-                    </div>
-                    <span>›</span>
-                </div>
-                <div class="menu-row" onclick="alert('SVIP Activated')">
-                    <div class="menu-left">
-                        <span>👑</span>
-                        <span data-i18n="menu_svip">SVIP</span>
-                    </div>
-                    <span>›</span>
-                </div>
-                <div class="menu-row" onclick="alert('Daily Tasks Completed: 3/5')">
-                    <div class="menu-left">
-                        <span>📋</span>
-                        <span data-i18n="menu_task">Task Center</span>
-                    </div>
-                    <span>›</span>
-                </div>
-                <div class="menu-row" onclick="openAuthModal()">
-                    <div class="menu-left">
-                        <span>🔒</span>
-                        <span data-i18n="menu_security">Email Login / Security</span>
-                    </div>
-                    <span>›</span>
-                </div>
+                <div class="menu-row" onclick="alert('Creator Center Dashboard')"><div class="menu-left"><span>📈</span><span data-i18n="menu_creator">Creator Center</span></div><span>›</span></div>
+                <div class="menu-row" onclick="alert('Event Center Contest Active!')"><div class="menu-left"><span>📢</span><span data-i18n="menu_event">Event Center</span></div><span>›</span></div>
+                <div class="menu-row" onclick="openWalletModal()"><div class="menu-left"><span>💰</span><span data-i18n="menu_wallet">Wallet</span></div><span>›</span></div>
+                <div class="menu-row" onclick="alert('Item Bag: 2 Active Items')"><div class="menu-left"><span>🧰</span><span data-i18n="menu_bag">Item Bag</span></div><span style="color: var(--text-secondary); font-size: 0.8rem;">2 ›</span></div>
+                <div class="menu-row" onclick="switchNav('create', document.querySelectorAll('.nav-btn')[3])"><div class="menu-left"><span>📝</span><span data-i18n="menu_post">Post</span></div><span>›</span></div>
+                <div class="menu-row" onclick="alert('SVIP Activated')"><div class="menu-left"><span>👑</span><span data-i18n="menu_svip">SVIP</span></div><span>›</span></div>
+                <div class="menu-row" onclick="alert('Daily Tasks Completed: 3/5')"><div class="menu-left"><span>📋</span><span data-i18n="menu_task">Task Center</span></div><span>›</span></div>
+                <div class="menu-row" onclick="openAuthModal()"><div class="menu-left"><span>🔒</span><span data-i18n="menu_security">Email Login / Security</span></div><span>›</span></div>
             </div>
-
         </div>
     </div>
-
 </div>
 
-<!-- Wallet Modal -->
 <div class="modal-overlay" id="walletModal">
     <div class="modal-card">
         <h3 style="color: var(--bigo-gold);" data-i18n="wallet_title">💎 ডায়মন্ড ওয়ালেট ও ক্যাশআউট</h3>
         <p style="font-size: 0.85rem; color: #94a3b8;">বর্তমান ব্যালেন্স: <b id="modalDiamondCount" style="color: var(--bigo-gold);">2315</b> Diamonds</p>
-        
         <div style="display: flex; flex-direction: column; gap: 10px;">
             <div style="background: rgba(255,255,255,0.05); padding: 12px; border-radius: 14px; display: flex; justify-content: space-between; align-items: center;">
-                <div>💎 100 Diamonds</div>
-                <button class="btn-primary" style="padding: 6px 14px; font-size: 0.8rem;" onclick="addDiamonds(100)">$0.99</button>
+                <div>💎 100 Diamonds</div><button class="btn-primary" style="padding: 6px 14px; font-size: 0.8rem;" onclick="addDiamonds(100)">$0.99</button>
             </div>
             <div style="background: rgba(255,255,255,0.05); padding: 12px; border-radius: 14px; display: flex; justify-content: space-between; align-items: center;">
-                <div>💎 550 Diamonds</div>
-                <button class="btn-primary" style="padding: 6px 14px; font-size: 0.8rem;" onclick="addDiamonds(550)">$4.99</button>
+                <div>💎 550 Diamonds</div><button class="btn-primary" style="padding: 6px 14px; font-size: 0.8rem;" onclick="addDiamonds(550)">$4.99</button>
             </div>
             <div style="background: rgba(255,255,255,0.05); padding: 12px; border-radius: 14px; display: flex; justify-content: space-between; align-items: center;">
-                <div>💎 1200 Diamonds</div>
-                <button class="btn-primary" style="padding: 6px 14px; font-size: 0.8rem;" onclick="addDiamonds(1200)">$9.99</button>
+                <div>💎 1200 Diamonds</div><button class="btn-primary" style="padding: 6px 14px; font-size: 0.8rem;" onclick="addDiamonds(1200)">$9.99</button>
             </div>
         </div>
         <button class="btn-primary" style="background: #334155;" onclick="closeModal('walletModal')">বন্ধ করুন</button>
     </div>
 </div>
 
-<!-- Profile Edit Modal -->
 <div class="modal-overlay" id="profileEditModal">
     <div class="modal-card">
         <h3>প্রোফাইল নাম ও ছবি পরিবর্তন</h3>
@@ -1490,7 +1314,6 @@
     </div>
 </div>
 
-<!-- Email Security Modal -->
 <div class="modal-overlay" id="authModal">
     <div class="modal-card">
         <h3>ইমেইল লগইন ও সিকিউরিটি</h3>
@@ -1501,33 +1324,13 @@
     </div>
 </div>
 
-<!-- Bottom Navigation Bar -->
 <nav class="bottom-nav">
-    <div class="nav-btn active" onclick="switchNav('live', this)">
-        <span class="nav-icon">📺</span>
-        <span data-i18n="nav_live">Live PK</span>
-    </div>
-    <div class="nav-btn" onclick="switchNav('party', this)">
-        <span class="nav-icon">🎙️</span>
-        <span data-i18n="nav_party">Party</span>
-    </div>
-    <div class="nav-btn" onclick="switchNav('reels', this)">
-        <span class="nav-icon">🎬</span>
-        <span data-i18n="nav_reels">Video</span>
-    </div>
-    
-    <div class="center-action-btn" onclick="switchNav('create', this)">
-        +
-    </div>
-
-    <div class="nav-btn" onclick="switchNav('chats', this)">
-        <span class="nav-icon">💬</span>
-        <span data-i18n="nav_chats">Chats</span>
-    </div>
-    <div class="nav-btn" onclick="switchNav('me', this)">
-        <span class="nav-icon">👤</span>
-        <span data-i18n="nav_me">Me</span>
-    </div>
+    <div class="nav-btn active" onclick="switchNav('live', this)"><span class="nav-icon">📺</span><span data-i18n="nav_live">Live PK</span></div>
+    <div class="nav-btn" onclick="switchNav('party', this)"><span class="nav-icon">🎙️</span><span data-i18n="nav_party">Party</span></div>
+    <div class="nav-btn" onclick="switchNav('reels', this)"><span class="nav-icon">🎬</span><span data-i18n="nav_reels">Video</span></div>
+    <div class="center-action-btn" onclick="switchNav('create', this)">+</div>
+    <div class="nav-btn" onclick="switchNav('chats', this)"><span class="nav-icon">💬</span><span data-i18n="nav_chats">Chats</span></div>
+    <div class="nav-btn" onclick="switchNav('me', this)"><span class="nav-icon">👤</span><span data-i18n="nav_me">Me</span></div>
 </nav>
 
 <script>
@@ -1542,7 +1345,6 @@
     let blueScore = 14250;
     let redScore = 11800;
 
-    // Trigger VIP entrance banner automatically on load
     setTimeout(() => {
         const banner = document.getElementById('vipEntranceBanner');
         banner.classList.add('show');
@@ -1579,7 +1381,6 @@
     function switchNav(tabId, el) {
         document.querySelectorAll('.tab-view').forEach(tab => tab.classList.remove('active'));
         document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-        
         document.getElementById('view-' + tabId).classList.add('active');
         if (el && el.classList) el.classList.add('active');
     }
@@ -1593,7 +1394,6 @@
         });
     }
 
-    // Canvas Renderers for Split Screen PK Stage
     function setupPkCanvas(id, hueOffset) {
         const c = document.getElementById(id);
         const cx = c.getContext('2d');
@@ -1624,32 +1424,20 @@
         }
         render();
     }
-    setupPkCanvas('liveCanvasSimLeft', 200); // Blue side
-    setupPkCanvas('liveCanvasSimRight', 340); // Red side
+    setupPkCanvas('liveCanvasSimLeft', 200);
+    setupPkCanvas('liveCanvasSimRight', 340);
 
-    // AR Filters Application
-    function applyArFilter(filterEmoji) {
-        alert(`AR Filter Applied: ${filterEmoji}! ক্যামেরা ও সেশনে ফিল্টার যোগ হয়েছে।`);
-    }
+    function applyArFilter(filterEmoji) { alert(`AR Filter Applied: ${filterEmoji}!`); }
+    function playEffectSound(soundName) { alert(`Sound Effect Played: ${soundName} 🔊`); }
 
-    // Soundboard
-    function playEffectSound(soundName) {
-        alert(`Sound Effect Played: ${soundName} 🔊`);
-    }
-
-    // Level Up Alert trigger
     function triggerLevelUpAnim() {
         const lvl = document.getElementById('levelUpBanner');
         lvl.classList.add('show');
         setTimeout(() => lvl.classList.remove('show'), 3000);
     }
 
-    // Multi-Guest seat claim
-    function claimSeat(seatNo) {
-        alert(`আপনি Seat #${seatNo}-এ যুক্ত হয়েছেন! মাইক ও ভয়েস চালু আছে।`);
-    }
+    function claimSeat(seatNo) { alert(`আপনি Seat #${seatNo}-এ যুক্ত হয়েছেন!`); }
 
-    // Webcam toggle
     async function toggleCameraStream() {
         const videoEl = document.getElementById('webcamStream');
         const canvasEl = document.getElementById('liveCanvasSimLeft');
@@ -1671,17 +1459,11 @@
         }
     }
 
-    // Send Gift with PK Progress Bar Updates
     function sendLiveGift(name, cost, emoji, team) {
         if (userDiamonds >= cost) {
             userDiamonds -= cost;
             updateDiamondDisplays();
-
-            if (team === 'blue') {
-                blueScore += cost * 10;
-            } else {
-                redScore += cost * 10;
-            }
+            if (team === 'blue') { blueScore += cost * 10; } else { redScore += cost * 10; }
             updatePkBattleBar();
 
             const giftAnim = document.getElementById('megaGiftAnim');
@@ -1692,10 +1474,7 @@
             fx.style.background = cost >= 500 ? 'radial-gradient(circle, rgba(255, 177, 0, 0.4) 0%, transparent 80%)' : 'radial-gradient(circle, rgba(0, 242, 254, 0.4) 0%, transparent 80%)';
             fx.style.opacity = '1';
 
-            setTimeout(() => {
-                giftAnim.style.display = 'none';
-                fx.style.opacity = '0';
-            }, 1800);
+            setTimeout(() => { giftAnim.style.display = 'none'; fx.style.opacity = '0'; }, 1800);
 
             const overlay = document.getElementById('liveChatOverlay');
             const newMsg = document.createElement('div');
@@ -1714,7 +1493,6 @@
         const total = blueScore + redScore;
         const bluePct = Math.round((blueScore / total) * 100);
         const redPct = 100 - bluePct;
-
         document.getElementById('pkBarBlue').style.width = bluePct + '%';
         document.getElementById('pkBarRed').style.width = redPct + '%';
         document.getElementById('blueScoreText').innerText = blueScore.toLocaleString();
@@ -1749,7 +1527,6 @@
     function publishUserPost() {
         const txt = document.getElementById('postTextInput').value;
         if (!txt && !selectedPostImageBase64) return alert('পোস্টের জন্য কিছু লিখুন বা ছবি বেছে নিন!');
-
         const feed = document.getElementById('postsFeedList');
         const card = document.createElement('div');
         card.className = 'post-card-item';
@@ -1775,16 +1552,13 @@
         const inp = document.getElementById('directChatMessageInput');
         const text = inp.value.trim();
         if (!text) return;
-
         const area = document.getElementById('messagesScrollArea');
         const out = document.createElement('div');
         out.className = 'chat-bubble outgoing';
         out.innerText = text;
         area.appendChild(out);
-
         inp.value = '';
         area.scrollTop = area.scrollHeight;
-
         setTimeout(() => {
             const inc = document.createElement('div');
             inc.className = 'chat-bubble incoming';
@@ -1803,9 +1577,7 @@
         const file = e.target.files[0];
         if (file) {
             const reader = new FileReader();
-            reader.onload = function(evt) {
-                selectedProfileImageBase64 = evt.target.result;
-            };
+            reader.onload = function(evt) { selectedProfileImageBase64 = evt.target.result; };
             reader.readAsDataURL(file);
         }
     }
@@ -1813,7 +1585,6 @@
     function saveProfileChanges() {
         const name = document.getElementById('editNameInput').value;
         const url = document.getElementById('editAvatarUrlInput').value;
-
         if (name) {
             document.getElementById('userNameDisplay').innerText = name;
             document.getElementById('liveHostName').innerText = name;
@@ -1834,9 +1605,7 @@
         icon.innerText = icon.innerText === '❤️' ? '🤍' : '❤️';
     }
 
-    function openCommentDrawer() {
-        alert('কমেন্টবক্স ওপেন হয়েছে!');
-    }
+    function openCommentDrawer() { alert('কমেন্টবক্স ওপেন হয়েছে!'); }
 </script>
 </body>
 </html>
